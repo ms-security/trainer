@@ -225,3 +225,6 @@ sketch
 *.sqlite3
 *.db-shm
 *.db-wal
+
+### VisualParadigm ###
+*.vpp.bak
