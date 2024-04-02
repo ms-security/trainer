@@ -29,10 +29,12 @@ function HomePage() {
             </div>
             <div className="content">
                 <h2>Seleziona una analisi o aggiungine una</h2>
-                <button onClick={handleUploadButtonClick}>
+                <button onClick={() => setIsUploadVisible(true)}>
                     Nuova analisi
                 </button>
-                {isUploadVisible && <Upload />}
+                {isUploadVisible && (
+                    <Upload onClose={() => setIsUploadVisible(false)} />
+                )}
             </div>
         </div>
     );

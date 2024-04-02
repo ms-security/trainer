@@ -35,7 +35,12 @@
 
 .content {
     flex-grow: 1;
-    transition: margin-left 0.5s; /* animazione per il contenuto principale */
+    padding: 20px; /* Aggiungi padding se necessario */
+    transition: margin-left 0.5s; /* Transizione per il margin-left, se necessario */
+    display: flex;
+    flex-direction: column; /* Organizza i figli in colonna */
+    align-items: center; /* Centra gli elementi orizzontalmente */
+    justify-content: center; /* Centra gli elementi verticalmente */
 }
 
 /* quando la sidebar è nascosta, il contenuto principale deve espandersi */

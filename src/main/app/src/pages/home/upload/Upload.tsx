@@ -1,42 +1,76 @@
-// FileUpload.tsx
-import React, { useState } from 'react';
-import './Upload.css'; // Crea e importa il tuo CSS qui
+// Upload.tsx
 
-const FileUpload: React.FC = () => {
+import React, {useRef, useState} from 'react';
+import './Upload.css';
+
+interface UploadProps {
+    onClose: () => void; // Aggiungi la prop 'onClose'
+}
+
+const Upload: React.FC<UploadProps> = ({ onClose }) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [isFilePicked, setIsFilePicked] = useState(false);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
+        if (event.target.files?.[0]) {
             setSelectedFile(event.target.files[0]);
+            setIsFilePicked(true);
         }
     };
 
-    const handleFileDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        if (event.dataTransfer.files) {
-            setSelectedFile(event.dataTransfer.files[0]);
-        }
+    };
+
+    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        const file = event.dataTransfer.files[0];
+        setSelectedFile(file);
+        setIsFilePicked(true);
+    };
+
+    const handleSubmission = () => {
+        // Logica di invio del file
+    };
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFileButtonClick = () => {
+        fileInputRef.current?.click();
     };
 
     return (
-        <div
-            onDrop={handleFileDrop}
-            onDragOver={(event) => event.preventDefault()}
-            className="file-drop-area"
-        >
-            <input
-                type="file"
-                onChange={handleFileChange}
-                accept=".txt"
-                style={{ display: 'none' }}
-                id="file-input"
-            />
-            <label htmlFor="file-input" className="upload-label">
-                Trascina qui il tuo file .txt o clicca per selezionarlo
-            </label>
-            {selectedFile && <div>File selezionato: {selectedFile.name}</div>}
+        <div className="modal-overlay active">
+            <div className="upload-modal active" onClick={(e) => e.stopPropagation()}>
+                <div className="upload-header">
+                    <button className="close-button" onClick={onClose}>x</button>
+                </div>
+                <div className="upload-content"
+                     onDrop={handleDrop}
+                     onDragOver={handleDragOver}>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        onChange={handleFileChange}
+                        accept=".txt"
+                        id="file-input"
+                        style={{ display: 'none' }}
+                    />
+                    <div className="file-drop-label" onClick={handleFileButtonClick}>
+                        Trascina qui il tuo file .txt o clicca per selezionarlo
+                    </div>
+                    {selectedFile && <div className="file-info">File selezionato: {selectedFile.name}</div>}
+                    <button
+                        onClick={handleSubmission}
+                        disabled={!isFilePicked}
+                        className={`confirm-button ${!isFilePicked ? 'disabled' : ''}`}
+                    >
+                        Conferma
+                    </button>
+                </div>
+            </div>
         </div>
     );
-}
+};
 
-export default FileUpload;
+export default Upload;
