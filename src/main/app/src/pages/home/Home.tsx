@@ -2,9 +2,16 @@
 import React, { useState } from 'react';
 import TopBar from './topBar/TopBar';
 import './Home.css'; // Assicurati di creare questo file CSS
+import './upload/Upload';
+import Upload from "./upload/Upload";
 
 function HomePage() {
     const [sidebarVisible, setSidebarVisible] = useState(true);
+    const [isUploadVisible, setIsUploadVisible] = useState(false);
+
+    const handleUploadButtonClick = () => {
+        setIsUploadVisible(!isUploadVisible);
+    };
 
     const toggleSidebar = () => {
         setSidebarVisible(!sidebarVisible);
@@ -21,7 +28,11 @@ function HomePage() {
                 </button>
             </div>
             <div className="content">
-                {/* Il resto del tuo contenuto principale qui */}
+                <h2>Seleziona una analisi o aggiungine una</h2>
+                <button onClick={handleUploadButtonClick}>
+                    Nuova analisi
+                </button>
+                {isUploadVisible && <Upload />}
             </div>
         </div>
     );
