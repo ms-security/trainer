@@ -64,6 +64,7 @@ const Upload: React.FC<UploadProps> = ({ onClose }) => {
 
                     if (response.ok) {
                         console.log('File inviato correttamente');
+                        console.log("Contenuto del file:", text);
                         onClose(); // Chiude il componente di upload dopo l'invio
                     } else {
                         console.error('Errore nell\'invio del file');
