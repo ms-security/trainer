@@ -12,9 +12,9 @@ const Upload: React.FC<UploadProps> = ({ onClose }) => {
     const [isFilePicked, setIsFilePicked] = useState(false);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files?.[0]) {
-            setSelectedFile(event.target.files[0]);
-            setIsFilePicked(true);
+        const files = event.target.files;
+        if (files) {
+            handleFileValidation(files[0]);
         }
     };
 
@@ -22,16 +22,60 @@ const Upload: React.FC<UploadProps> = ({ onClose }) => {
         event.preventDefault();
     };
 
+    const handleFileValidation = (file: File) => {
+        // Controlla l'estensione del file
+        const validExtensions = ['.txt'];
+        const fileExtension = file.name.split('.').pop();
+
+        if (fileExtension && validExtensions.includes('.' + fileExtension.toLowerCase())) {
+            setSelectedFile(file);
+            setIsFilePicked(true);
+        } else {
+            // Se il file non è un .txt, mostriamo un messaggio di errore
+            alert("Sono permessi solo file .txt!");
+            setIsFilePicked(false);
+        }
+    };
+
+
+
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        const file = event.dataTransfer.files[0];
-        setSelectedFile(file);
-        setIsFilePicked(true);
+        const files = event.dataTransfer.files;
+        if (files && files.length > 0) {
+            handleFileValidation(files[0]);
+        }
     };
 
     const handleSubmission = () => {
-        // Logica di invio del file
+        if (selectedFile) {
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const text = e.target?.result;
+
+                try {
+                    const response = await fetch('/analysis', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ content: text }),
+                    });
+
+                    if (response.ok) {
+                        console.log('File inviato correttamente');
+                        onClose(); // Chiude il componente di upload dopo l'invio
+                    } else {
+                        console.error('Errore nell\'invio del file');
+                    }
+                } catch (error) {
+                    console.error('Errore di rete o nel server:', error);
+                }
+            };
+            reader.readAsText(selectedFile);
+        }
     };
+
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
