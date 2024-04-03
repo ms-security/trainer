@@ -1,74 +1,25 @@
-/* HomePage.css */
 .home-container {
     display: flex;
     margin-top: 66px;
-}
-
-.sidebar-wrapper {
-    position: fixed;
-    top: 66px;
-    left: 0;
-    height: calc(100vh - 66px); /* Sottrae l'altezza della topbar */
-    width: 250px; /* Larghezza della sidebar */
-    background-color: #c4f1dd;
-    border-right: 1px solid darkgreen; /* Confine tra sidebar e contenuto */
-    box-sizing: border-box;
-    transition: transform 0.5s ease-in-out;
-    z-index: 1000;
-}
-
-.sidebar {
-    height: 100%;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 0 30px 30px 0; /* Curvatura sul bordo destro della sidebar */
-    transition: all 0.5s ease-in-out;
-    position: relative;
-
-}
-
-.sidebar.hidden {
-    transform: translateX(-250px); /* Nasconde la sidebar */
-    border-radius: 0 0 0 0; /* Rimuove la curvatura quando la sidebar è nascosta */
+    flex-direction: row;
 }
 
 .content {
     flex-grow: 1;
-    padding: 20px; /* Aggiungi padding se necessario */
-    transition: margin-left 0.5s; /* Transizione per il margin-left, se necessario */
     display: flex;
-    flex-direction: column; /* Organizza i figli in colonna */
-    align-items: center; /* Centra gli elementi orizzontalmente */
-    justify-content: center; /* Centra gli elementi verticalmente */
+    flex-direction: column;
+    width: calc(100vw - 350px); /* Larghezza del contenuto */
+    padding: 20px;
+    transition: margin-left 0.5s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 350px; /* La larghezza della tua sidebar per mantenere il contenuto al centro */
 }
 
-/* quando la sidebar è nascosta, il contenuto principale deve espandersi */
-.home-container .sidebar.hidden + .content {
-    margin-left: 0;
-}
-
-.toggle-button {
-    position: absolute; /* Rispetto alla sidebar */
-    top: 50%; /* Centrato verticalmente rispetto alla sidebar */
-    right: -25px; /* Sporge fuori dal lato destro della sidebar */
-    width: 40px; /* Larghezza del bottone */
-    height: 80px; /* Altezza del bottone */
-    border-radius: 50%; /* Rendi il bottone circolare */
-    border: hidden;
-    background-color: gray; /* Sfondo bianco o altro colore a scelta */
-    transform: translateY(-50%) rotate(180deg); /* Imposta l'orientamento di default della freccia */
-    transition:right 0.5s ease-in-out; /* Transizione per rotazione e spostamento */
-}
-
-.toggle-button:hover {
-    background-color: grey;
-}
-
-.sidebar-wrapper.hidden .toggle-button {
-    transform: translateY(-50%) rotate(0deg);
-}
-
-.sidebar-wrapper.hidden {
-    transform: translateX(-100%); /* Nasconde la sidebar */
+/* Aggiungi questa classe per gestire quando la sidebar è nascosta */
+.sidebar-hidden .content {
+    margin-left: 0; /* nessun margine quando la sidebar è nascosta */
+    width: 100vw; /* usa l'intera larghezza della vista */
 }

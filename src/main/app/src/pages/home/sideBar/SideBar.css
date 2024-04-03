@@ -1,0 +1,48 @@
+.sidebar-wrapper {
+    position: fixed;
+    top: 66px;
+    left: 0;
+    height: calc(100vh - 66px); /* Sottrae l'altezza della topbar */
+    width: 350px; /* Larghezza della sidebar */
+    background-color: #c4f1dd;
+    box-sizing: border-box;
+    transition: transform 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+.sidebar {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0 30px 30px 0; /* Curvatura sul bordo destro della sidebar */
+    transition: all 0.5s ease-in-out;
+    position: relative;
+}
+
+.sidebar-wrapper.hidden{
+    transform: translateX(-350px); /* Nasconde la sidebar */
+    border-radius: 0 0 0 0; /* Rimuove la curvatura quando la sidebar è nascosta */
+}
+
+.toggle-button {
+    position: absolute; /* Rispetto alla sidebar */
+    top: 50%; /* Centrato verticalmente rispetto alla sidebar */
+    right: -25px; /* Sporge fuori dal lato destro della sidebar */
+    width: 40px; /* Larghezza del bottone */
+    padding-left: 20px;
+    height: 150px; /* Altezza del bottone */
+    border-radius: 50%; /* Rendi il bottone circolare */
+    border: none;
+    background-color: #c4f1dd; /* Sfondo bianco o altro colore a scelta */
+    color: #333; /* Colore del testo o dell'icona del bottone */
+    transform: translateY(-50%) rotate(180deg); /* Imposta l'orientamento di default della freccia */
+    box-shadow: none;
+}
+
+.toggle-button:hover {
+    background-color: #bde0cc;
+}
+
+.sidebar-wrapper.hidden .toggle-button {
+    transform: translateY(-50%) rotate(0deg); /* Orienta la freccia nella direzione opposta */
+}

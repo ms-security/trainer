@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './TopBar.css'; // Assicurati di creare questo file CSS
-import logoImage from './SSV_Cropped.png';
+import logoImage from './SSV_logo.png';
 
 const TopBar: React.FC = () => {
     return (

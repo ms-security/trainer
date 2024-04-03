@@ -1,8 +1,7 @@
-// HomePage.tsx
 import React, { useState } from 'react';
 import TopBar from './topBar/TopBar';
-import './Home.css'; // Assicurati di creare questo file CSS
-import './upload/Upload';
+import Sidebar from './sideBar/SideBar'; // Assicurati di avere il percorso corretto
+import './Home.css';
 import Upload from "./upload/Upload";
 
 function HomePage() {
@@ -13,27 +12,17 @@ function HomePage() {
         setIsUploadVisible(!isUploadVisible);
     };
 
-    const toggleSidebar = () => {
-        setSidebarVisible(!sidebarVisible);
-    };
     return (
-        <div className="home-container">
+        <div className={`home-container ${!sidebarVisible ? 'sidebar-hidden' : ''}`}>
             <TopBar />
-            <div className={`sidebar-wrapper ${!sidebarVisible ? 'hidden' : ''}`}>
-                <div className="sidebar">
-                    {/* Contenuti della sidebar */}
-                </div>
-                <button onClick={toggleSidebar} className="toggle-button">
-                    &gt;
-                </button>
-            </div>
+            <Sidebar isVisible={sidebarVisible} toggleSidebar={() => setSidebarVisible(!sidebarVisible)} />
             <div className="content">
                 <h2>Seleziona una analisi o aggiungine una</h2>
-                <button onClick={() => setIsUploadVisible(true)}>
+                <button onClick={handleUploadButtonClick}>
                     Nuova analisi
                 </button>
                 {isUploadVisible && (
-                    <Upload onClose={() => setIsUploadVisible(false)} />
+                    <Upload onClose={() => setIsUploadVisible(false)}/>
                 )}
             </div>
         </div>
