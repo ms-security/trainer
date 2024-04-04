@@ -4,36 +4,53 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
 public class Analysis {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private List<Smell> smell;
+    private List<Smell> smells;
     private int id;
+
 
     public Analysis(String analysis) throws Exception {
         id = 1;
-        smell = new java.util.ArrayList<Smell>();
-        List<String> smellS = parseContent(analysis);
-        for (String s : smellS) {
-            Smell smellObj = Smell.builder().smellName(s).build();
-            smell.add(smellObj);
-        }
+        smells = new ArrayList<>();
+        parseContent(analysis); // Modificato per aggiornare direttamente la lista degli smells
     }
 
-    public static List<String> parseContent(String jsonContent) throws Exception {
+    private void parseContent(String jsonContent) throws Exception {
         jsonContent = extractContent(jsonContent);
+        // Crea un pattern che identifica le righe con {}
+        Pattern pattern = Pattern.compile(".*\\{.+\\}.*");
+        String[] lines = jsonContent.split("\n");
+        jsonContent = jsonContent.replaceAll("^Analysis results:\\s*\n", "");
+        String currentName = null;
+        StringBuilder descriptionBuilder = new StringBuilder();
 
-        String[] parts = jsonContent.split("\\n\\n");
-
-        for (int i = 0; i < parts.length; i++) {
-            parts[i] = parts[i].trim();
+        for (String line : lines) {
+            if (pattern.matcher(line).find()) {
+                // Quando trova una nuova linea smell, aggiunge il precedente (se esiste) alla lista
+                if (currentName != null) {
+                    smells.add(new Smell(currentName, descriptionBuilder.toString().trim()));
+                    descriptionBuilder = new StringBuilder();
+                }
+                // Estrae il nome dello smell dalle parentesi graffe
+                currentName = line.substring(line.indexOf("{") + 1, line.indexOf("}"));
+            } else {
+                if (descriptionBuilder.length() > 0) descriptionBuilder.append("\n");
+                descriptionBuilder.append(line.trim());
+            }
         }
 
-        return List.of(parts);
+        // Aggiunge l'ultimo smell rilevato alla lista
+        if (currentName != null && descriptionBuilder.length() > 0) {
+            smells.add(new Smell(currentName, descriptionBuilder.toString().trim()));
+        }
     }
 
     public static String extractContent(String jsonInput) throws Exception {
@@ -43,7 +60,7 @@ public class Analysis {
     }
 
     public String toString() {
-        return "Analysis{ " + smell + '}';
+        return "Analysis{ " + smells + '}';
     }
 
 }

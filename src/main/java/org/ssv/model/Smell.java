@@ -7,9 +7,10 @@ import lombok.Data;
 @Builder
 public class Smell {
 
-    private String smellName;
+    private String name;
+    private String description;
 
     public String toString() {
-        return "Smell-------{" + smellName +"}-------";
+        return "Smell-------{" + description +"}-------";
     }
 }

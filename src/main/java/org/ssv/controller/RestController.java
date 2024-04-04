@@ -14,7 +14,7 @@ public class RestController {
 
         Analysis analysisObj = new Analysis(analysis);
 
-        System.out.println("Smells: " + analysisObj.getSmell());
+        System.out.println("Smells: " + analysisObj.getSmells());
 
         return ResponseEntity.ok().body(analysisObj);
     }
