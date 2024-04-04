@@ -15,11 +15,12 @@ public class Analysis {
 
     private String name;
     private List<Smell> smells;
+    private static int lastId = 0;
     private int id;
 
 
     public Analysis(String analysis) throws Exception {
-        id = 1;
+        id = lastId++;
         smells = new ArrayList<>();
         AnalysisParser analysisParser = AnalysisParser.builder().jsonContent(analysis).build(); //initialize the parser
         smells = analysisParser.parseContent(analysis); //initialize the list of smells

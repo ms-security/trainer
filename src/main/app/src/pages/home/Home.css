@@ -15,11 +15,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-left: 350px; /* La larghezza della tua sidebar per mantenere il contenuto al centro */
+    margin-left: 360px; /* La larghezza della tua sidebar per mantenere il contenuto al centro */
 }
 
 /* Aggiungi questa classe per gestire quando la sidebar è nascosta */
 .sidebar-hidden .content {
-    margin-left: 0; /* nessun margine quando la sidebar è nascosta */
+    margin-left: 10px; /* nessun margine quando la sidebar è nascosta */
     width: 100vw; /* usa l'intera larghezza della vista */
 }

@@ -4,6 +4,7 @@ import Sidebar from './sideBar/SideBar'; // Assicurati di avere il percorso corr
 import './Home.css';
 import Upload from "./upload/Upload";
 import {Analysis} from "../../interfaces/Analysis";
+import SmellCard from "./components/SmellCard";
 
 function HomePage() {
     const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -39,19 +40,22 @@ function HomePage() {
                 onSelectAnalysis={handleAnalysisSelection}
             />
             <div className="content">
-                <h2>Seleziona una analisi o aggiungine una</h2>
-                <button onClick={handleUploadButtonClick}>
-                    Nuova analisi
-                </button>
                 {isUploadVisible && (
                     <Upload onClose={() => setIsUploadVisible(false)} onNewAnalysis={handleNewAnalysis}/>
                 )}
-                {selectedAnalysis && (
+                {selectedAnalysis ? (
                     <div>
                         {selectedAnalysis.smells.map((smell, index) => (
-                            <div key={index}>{smell.description}</div>
+                            <SmellCard key={index} name={smell.name} description={smell.description} />
                         ))}
                     </div>
+                ) : (
+                    <>
+                        <h2>Seleziona una analisi o aggiungine una</h2>
+                        <button onClick={handleUploadButtonClick}>
+                            Nuova analisi
+                        </button>
+                    </>
                 )}
             </div>
         </div>

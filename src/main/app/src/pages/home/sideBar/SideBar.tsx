@@ -1,6 +1,8 @@
 import React from 'react';
 import './SideBar.css';
 import {Analysis} from "../../../interfaces/Analysis";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 
 interface SidebarProps {
     isVisible: boolean;
@@ -20,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, toggleSidebar, analysisLis
                 ))}
             </div>
             <button onClick={toggleSidebar} className="toggle-button">
-                &gt;
+                <FontAwesomeIcon icon={faArrowLeft}  className={`arrow-icon ${!isVisible ? 'flipped' : ''}`}/>
             </button>
         </div>
     );

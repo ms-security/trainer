@@ -3,6 +3,8 @@
     import React, {useRef, useState} from 'react';
     import './Upload.css';
     import {Analysis} from "../../../interfaces/Analysis";
+    import {faFolderOpen} from "@fortawesome/free-solid-svg-icons";
+    import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
     interface UploadProps {
         onClose: () => void; // Aggiungi la prop 'onClose'
@@ -12,6 +14,7 @@
     const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
         const [selectedFile, setSelectedFile] = useState<File | null>(null);
         const [isFilePicked, setIsFilePicked] = useState(false);
+        const [analysisName, setAnalysisName] = useState('');
 
         const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             const files = event.target.files;
@@ -32,6 +35,7 @@
             if (fileExtension && validExtensions.includes('.' + fileExtension.toLowerCase())) {
                 setSelectedFile(file);
                 setIsFilePicked(true);
+                setAnalysisName(file.name.replace(/\.[^/.]+$/, ""));
             } else {
                 // Se il file non è un .txt, mostriamo un messaggio di errore
                 alert("Sono permessi solo file .txt!");
@@ -95,9 +99,15 @@
                     <div className="upload-header">
                         <button className="close-button" onClick={onClose}>x</button>
                     </div>
+
+                    <button onClick={handleFileButtonClick} className="upload-button">
+                        <FontAwesomeIcon icon={faFolderOpen} /> Upload from files
+                    </button>
+
                     <div className="upload-content"
                          onDrop={handleDrop}
                          onDragOver={handleDragOver}>
+                        Drag and drop your file here or use the button above to select a file.
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -106,18 +116,25 @@
                             id="file-input"
                             style={{ display: 'none' }}
                         />
-                        <div className="file-drop-label" onClick={handleFileButtonClick}>
-                            Trascina qui il tuo file .txt o clicca per selezionarlo
-                        </div>
                         {selectedFile && <div className="file-info">File selezionato: {selectedFile.name}</div>}
-                        <button
-                            onClick={handleSubmission}
-                            disabled={!isFilePicked}
-                            className={`confirm-button ${!isFilePicked ? 'disabled' : ''}`}
-                        >
-                            Conferma
-                        </button>
+
                     </div>
+                    <input
+                        type="text"
+                        value={analysisName}
+                        onChange={(e) => setAnalysisName(e.target.value)}
+                        placeholder="Insert analysis name"
+                        disabled={!isFilePicked}
+                        className="analysis-name-input"
+                    />
+                    <button
+                        onClick={handleSubmission}
+                        disabled={!isFilePicked}
+                        className={`confirm-button ${!isFilePicked ? 'disabled' : ''}`}
+                    >
+                        Confirm
+                    </button>
+
                 </div>
             </div>
         );

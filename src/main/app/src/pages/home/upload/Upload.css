@@ -47,7 +47,8 @@
     padding: 20px;
     text-align: center;
     position: relative;
-    margin: 20px 0;
+    margin: 20px;
+    margin-bottom: 10px;
 }
 
 /* ... */
@@ -100,13 +101,33 @@
     border-radius: 5px;
     margin-top: 10px;
     cursor: pointer;
+    align-self: flex-end; /* Align the button to the right */
 }
 
 .confirm-button.disabled {
     background-color: #cccccc; /* Grigio quando disabilitato */
     cursor: not-allowed;
+
 }
 
-.close-modal {
-    /* Stili per il bottone di chiusura */
+.upload-button {
+    /* Style your upload button here */
+    cursor: pointer;
+    align-self: start;
+}
+
+
+.analysis-name-input {
+    width: 100%; /* Full width of the modal */
+    padding: 10px;
+    margin-top: 20px; /* Space above the input field */
+    border: 1px solid #ccc; /* Border to match other inputs */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center;
+    box-sizing: border-box; /* Border box for proper width calculation */
+}
+
+.analysis-name-input:disabled {
+    background: #e9e9e9; /* Light gray background to indicate disabled state */
+    cursor: not-allowed; /* Cursor to indicate input is not interactive */
 }
