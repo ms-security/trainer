@@ -11,6 +11,6 @@ public class Smell {
     private String description;
 
     public String toString() {
-        return "Smell-------{" + description +"}-------";
+        return "\nSmell-------{" + name + " --" + description +"}-------";
     }
 }
