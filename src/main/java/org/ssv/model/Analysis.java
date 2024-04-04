@@ -8,26 +8,26 @@ import org.ssv.service.AnalysisParser;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@SuperBuilder
-@NoArgsConstructor
-public class Analysis {
+    @Data
+    @SuperBuilder
+    @NoArgsConstructor
+    public class Analysis {
 
-    private String name;
-    private List<Smell> smells;
-    private static int lastId = 0;
-    private int id;
+        private String name;
+        private List<Smell> smells;
+        private static int lastId = 0;
+        private int id;
 
 
-    public Analysis(String analysis) throws Exception {
-        id = lastId++;
-        smells = new ArrayList<>();
-        AnalysisParser analysisParser = AnalysisParser.builder().jsonContent(analysis).build(); //initialize the parser
-        smells = analysisParser.parseContent(analysis); //initialize the list of smells
-        name = analysisParser.extractName(analysis); //initialize the name of the analysis
+        public Analysis(String analysis) throws Exception {
+            id = lastId++;
+            smells = new ArrayList<>();
+            AnalysisParser analysisParser = AnalysisParser.builder().jsonContent(analysis).build(); //initialize the parser
+            smells = analysisParser.parseContent(analysis); //initialize the list of smells
+            name = analysisParser.extractName(analysis); //initialize the name of the analysis
+        }
+
+        public String toString() {
+            return "Analysis{ " + smells + '}';
+        }
     }
-
-    public String toString() {
-        return "Analysis{ " + smells + '}';
-    }
-}

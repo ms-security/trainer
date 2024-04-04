@@ -65,7 +65,7 @@
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ content: text }),
+                            body: JSON.stringify({ content: text, name: analysisName }),
                         });
 
                         if (response.ok) {
@@ -76,7 +76,14 @@
                             onNewAnalysis(analysis);
                             onClose(); // Chiude il componente di upload dopo l'invio
                         } else {
-                            console.error('Errore nell\'invio del file');
+                            const errorData = await response.json();
+                            if (errorData.id === -1) {
+                                alert("Il file è vuoto!");
+                            } else if (errorData.id === -2) {
+                                alert("Il contenuto del file non è valido!");
+                            } else {
+                                alert("Si è verificato un errore sconosciuto.");
+                            }
                         }
                     } catch (error) {
                         console.error('Errore di rete o nel server:', error);

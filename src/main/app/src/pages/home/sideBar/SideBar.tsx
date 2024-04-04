@@ -17,7 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, toggleSidebar, analysisLis
             <div className="sidebar">
                 {analysisList.map((analysis, index) => (
                     <div key={index} onClick={() => onSelectAnalysis(analysis.id)} className="analisi-item">
-                        Analisi {index + 1}
+                        {analysis.name}
                     </div>
                 ))}
             </div>
