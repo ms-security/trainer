@@ -1,0 +1,10 @@
+.content {
+    /* Styles when the sidebar is open and .content should be shrinked */
+    transition: margin-left 0.5s ease; /* Smooth transition for the margin */
+    margin-left: 400px; /* Same width as the sidebar */
+}
+
+/* When the sidebar is closed, .content should expand */
+.sidebar-closed{
+    margin-left: 50px; /* Content takes full width */
+}

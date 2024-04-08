@@ -65,3 +65,14 @@
     align-items: start; /* Align items to the start of the grid area */
 }
 
+.center-content {
+    display: flex; /* Use flexbox to center children */
+    justify-content: center; /* Center children vertically in the container */
+    align-items: center; /* Center children horizontally in the container */
+    height: calc(100vh - 350px); /* Adjust the height as needed */
+}
+
+.no-analysis-message {
+    font-size: 1.5em; /* Adjust the font size as necessary */
+    color: #666; /* Set the color as you prefer */
+}

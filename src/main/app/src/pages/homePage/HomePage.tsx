@@ -52,7 +52,7 @@ function HomePage() {
             {isUploadVisible && (
                 <Upload onClose={() => setIsUploadVisible(false)} onNewAnalysis={handleNewAnalysis}/>
             )}
-            <div className="analysis-grid">
+            <div className={`analysis-grid ${analysisList.length === 0 ? 'center-content' : ''}`}>
                 {analysisList.length > 0 ? (
                     analysisList.map((analysis, index) => (
                         <AnalysisCard
@@ -65,7 +65,7 @@ function HomePage() {
                         />
                     ))
                 ) : (
-                    <p>No analysis uploaded. Upload an analysis to start.</p>
+                        <p className="no-analysis-message">No analysis uploaded. Upload an analysis to start.</p>
                 )}
             </div>
         </div>

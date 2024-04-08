@@ -18,7 +18,7 @@ const AnalysisPage = () => {
         <div className="analysis-page-container">
             <TopBar />
             <Sidebar isVisible={isSidebarVisible} toggleSidebar={() => setIsSidebarVisible(!isSidebarVisible)} />
-            <div className={`content ${isSidebarVisible ? '' : 'full-width'}`}>
+            <div className={`content ${isSidebarVisible ? '' : 'sidebar-closed'}`}>
                 <h1>Dettagli Analisi: {analysis.name}</h1>
                 <div className="smells-list">
                     {analysis.smells.map((smell, index) => (
