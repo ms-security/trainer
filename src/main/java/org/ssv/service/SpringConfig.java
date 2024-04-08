@@ -20,7 +20,7 @@ public class SpringConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         String urls = env.getProperty("cors.urls");
         if (urls != null) {
-            CorsRegistration reg = registry.addMapping("/*");
+            CorsRegistration reg = registry.addMapping("/**");
             for (String url : urls.split(",")) {
                 reg.allowedOrigins(url).allowedMethods("*");
             }

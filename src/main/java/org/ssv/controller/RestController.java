@@ -12,9 +12,10 @@ public class RestController {
 
     @PostMapping("/analysis")
     public ResponseEntity<Analysis> analysis(@RequestBody String jsonAnalysis) {
+        System.out.println("Received analysis: " + jsonAnalysis);
         try{
             Analysis analysis = new Analysis(jsonAnalysis); //initialize the analysis
-            return ResponseEntity.ok().body(analysis); //return the analysis with list of smells
+            return ResponseEntity.ok().body(analysis); //return the analysis with list of smell
         }
         catch(EmptyContentException e){
             return ResponseEntity.badRequest().body(Analysis.builder().id(-1).build());

@@ -1,0 +1,67 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 66px;
+    width: 100%;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* This will align the title and the buttons on opposite ends */
+    width: calc(100% - 40px);
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;/* This stacks the title and subtitle */
+}
+
+.main-title {
+    font-size: 2em;
+    margin: 0 0 0.25em 0; /* Adjust the bottom margin to space title from subtitle */
+    color: #333;
+}
+
+.subtitle {
+    font-size: 1em;
+    color: grey;
+    margin: 0; /* No bottom margin needed */
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    align-self: flex-start; /* Aligns the buttons at the top */
+    margin-right: 20px;
+}
+.action-btn {
+    border: none;
+    background-color: transparent; /* Change to desired button background */
+    color: #4CAF50; /* Icon color */
+    padding: 15px 25px;
+    display: inline-flex; /* Use inline-flex for better icon alignment */
+    align-items: center; /* Vertically center the icon */
+    justify-content: center; /* Horizontally center the icon */
+    font-size: 50px; /* Adjust icon size */
+    border-radius: 5px;;
+    cursor: pointer;
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.action-btn:hover {
+    color: #369C3B; /* Darker shade when hovered */
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates 2 columns */
+    gap: 30px;
+    justify-items: center; /* Center the items on the grid */
+    align-items: start; /* Align items to the start of the grid area */
+}
+

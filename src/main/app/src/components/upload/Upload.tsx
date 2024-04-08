@@ -2,7 +2,7 @@
 
     import React, {useRef, useState} from 'react';
     import './Upload.css';
-    import {Analysis} from "../../../interfaces/Analysis";
+    import {Analysis} from "../../interfaces/Analysis";
     import {faFolderOpen} from "@fortawesome/free-solid-svg-icons";
     import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -60,7 +60,7 @@
                     const text = e.target?.result;
 
                     try {
-                        const response = await fetch('/analysis', {
+                        const response = await fetch('http://localhost:8080/analysis', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

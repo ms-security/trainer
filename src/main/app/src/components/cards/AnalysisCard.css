@@ -1,0 +1,111 @@
+.analysis-card {
+    background: lightgrey;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    padding: 10px;
+    position: relative;
+    width: 600px;
+    margin-top: 30px;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;/* Change to column to stack the elements */
+}
+
+.parent_name_favorite {
+    display: flex;
+    margin-top: 0;
+    width: auto;
+}
+/*
+.favorite-checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 0;
+
+}*/
+
+.star-label {
+    cursor: pointer;
+    font-size: 40px;
+    padding: 0;
+    margin: 0;
+}
+
+/*
+.favorite-checkbox:checked + .star-label {
+    color: gold;
+}*/
+
+.analysis-name {
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.parent_date_favorite {
+    display: flex;
+    flex-direction: column; /*mette in colonna i figli*/
+align-items: flex-start; /*allinea a sinistra*/
+}
+
+.analysis-date {
+    margin-top: 0;
+
+}
+
+.smells {
+    display: flex;
+    justify-content: center; /* Center the smells */
+
+}
+
+.smell {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-left: 5px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.red-smell {
+    background-color: #ff5f56;
+    margin-right: 25px;
+}
+
+.orange-smell {
+    background-color: #ffbd2e;
+    margin-right: 25px;}
+
+.yellow-smell {
+    background-color: #fffc35;
+    margin-right: 25px;}
+
+.green-smell {
+    background-color: #27c93f;
+    margin-right: 25px;}
+
+.lightblue-smell {
+    background-color: #2ab2e2;
+    margin-right: 25px;}
+
+.blue-smell {
+    background-color: #5956ff;
+}
+
+
+.delete-icon {
+    position: absolute; /* Position it absolutely relative to the card */
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    cursor: pointer;
+    font-size: 25px;
+}

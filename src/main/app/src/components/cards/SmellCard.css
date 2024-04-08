@@ -1,0 +1,93 @@
+.smell-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures the header and footer are spaced out */
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    margin: 10px;
+    position: relative;
+    height: 130px; /* Fixed height */
+    width: 800px;
+    overflow: hidden; /* Ensures the content does not overflow the card */
+}
+
+.smellName{
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    text-align: left;
+}
+
+.smell-header {
+    overflow: hidden; /* Prevents the content from overflowing */
+}
+
+.smell-description {
+    text-align: left;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* Number of lines you want to display */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 36px; /* Adjust as necessary */
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
+
+.smell-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.importance-status {
+    display: flex;
+    align-items: center;
+}
+
+.importance-indicator {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.importance-indicator.low {
+    background-color: #90EE90; /* Light green for low importance */
+}
+
+.importance-indicator.medium {
+    background-color: #FFD700; /* Yellow for medium importance */
+}
+
+.importance-indicator.high {
+    background-color: #FF4500; /* Red for high importance */
+}
+
+.smell-content h3 {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.smell-content p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.status-dropdown select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-left: 10px; /* Space before the checkbox */
+}
