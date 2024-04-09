@@ -57,6 +57,10 @@
     margin-right: 10px;
 }
 
+.importance-indicator.none {
+    background-color: grey; /* Grey for no importance */
+}
+
 .importance-indicator.low {
     background-color: #90EE90; /* Light green for low importance */
 }

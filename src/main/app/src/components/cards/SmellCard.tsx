@@ -4,7 +4,7 @@ import './SmellCard.css';
 interface SmellCardProps {
     smellName: string;
     smellDescription: string;
-    importance: 'low' | 'medium' | 'high';
+    importance: 'none' | 'low' | 'medium' | 'high';
 }
 
 const SmellCard: React.FC<SmellCardProps> = ({
