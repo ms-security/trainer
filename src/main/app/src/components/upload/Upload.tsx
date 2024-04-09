@@ -7,6 +7,7 @@ import { Analysis } from "../../interfaces/Analysis";
 // Import icons from Font Awesome for UI elements
 import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import WebController from "../../application/WebController";
 
 // Define the properties expected by the Upload component
 interface UploadProps {
@@ -67,39 +68,21 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
         if (selectedFile) {
             const reader = new FileReader();
             reader.onload = async (e) => {
-                const text = e.target?.result;
+                const text = e.target?.result || '';
 
                 try {
-                    const response = await fetch('http://localhost:8080/analysis', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ content: text, name: analysisName }),
-                    });
-
-                    if (response.ok) {
-                        console.log('File sent successfully');
-                        const analysis = await response.json();
-                        onNewAnalysis(analysis); // Pass the analysis back to the parent component
-                        onClose(); // Close the upload modal after submission
-                    } else {
-                        // Handle different errors based on the response
-                        const errorData = await response.json();
-                        switch (errorData.id) {
-                            case -1:
-                                alert("The file is empty!");
-                                break;
-                            case -2:
-                                alert("The file content is not valid!");
-                                break;
-                            default:
-                                alert("An unknown error occurred.");
-                                break;
-                        }
-                    }
+                    // Use the newAnalysis method from WebController to submit the file
+                    const analysis = await WebController.newAnalysis(text.toString(), analysisName);
+                    onNewAnalysis(analysis); // Pass the analysis back to the parent component
+                    onClose(); // Close the upload modal after submission
                 } catch (error) {
-                    console.error('Network or server error:', error);
+                    // Check if the error is an instance of Error and access its message property
+                    if (error instanceof Error) {
+                        alert(error.message);
+                    } else {
+                        // If it's not an Error instance, or doesn't have a message, show a generic message
+                        alert('An error occurred while uploading the file.');
+                    }
                 }
             };
             reader.readAsText(selectedFile); // Read the file content as text
