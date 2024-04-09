@@ -2,6 +2,7 @@ package org.ssv.database;
 
 import org.ssv.model.Analysis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AnalysisDatabase {
@@ -31,7 +32,7 @@ public class AnalysisDatabase {
         analysisHashMap.remove(id);
     }
 
-    public HashMap<Integer, Analysis> getAllAnalyses() {
-        return analysisHashMap;
+    public ArrayList<Analysis> getAllAnalyses() {
+        return new ArrayList<>(analysisHashMap.values());
     }
 }

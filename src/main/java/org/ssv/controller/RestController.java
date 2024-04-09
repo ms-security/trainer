@@ -9,6 +9,7 @@ import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @org.springframework.web.bind.annotation.RestController
@@ -33,7 +34,7 @@ public class RestController {
     }
 
     @GetMapping("/analysis")
-    public ResponseEntity<HashMap<Integer, Analysis>> analysis() {
+    public ResponseEntity<ArrayList<Analysis>> analysis() {
         return ResponseEntity.ok().body(AnalysisDatabase.getInstance().getAllAnalyses());
     }
 

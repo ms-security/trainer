@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import './HomePage.css';
@@ -7,6 +7,7 @@ import { Analysis } from "../../interfaces/Analysis";
 import AnalysisCard from "../../components/cards/AnalysisCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faFilter } from "@fortawesome/free-solid-svg-icons";
+import WebController from "../../application/WebController";
 
 function HomePage() {
     // State for managing the visibility of the upload component
@@ -14,6 +15,19 @@ function HomePage() {
     // State for storing the list of analyses
     const [analysisList, setAnalysisList] = useState<Analysis[]>([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchAnalyses = async () => {
+            try {
+                const analyses = await WebController.fetchAllAnalyses();
+                setAnalysisList(analyses); // Update the state with the fetched analyses
+            } catch (error) {
+                console.error('Failed to fetch analyses:', error);
+                // Optionally, handle the error e.g., show an error message to the user
+            }
+        };
+        fetchAnalyses();
+    }, []); // The empty dependency array ensures this effect runs only once on mount
 
     // Function to toggle the visibility of the upload component
     const handleUploadButtonClick = () => {
