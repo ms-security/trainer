@@ -1,35 +1,38 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Assicurati di avere react-router-dom
+import { useNavigate } from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import './HomePage.css';
 import Upload from "../../components/upload/Upload";
-import {Analysis} from "../../interfaces/Analysis";
+import { Analysis } from "../../interfaces/Analysis";
 import AnalysisCard from "../../components/cards/AnalysisCard";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCirclePlus} from "@fortawesome/free-solid-svg-icons";
-import {faFilter} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus, faFilter } from "@fortawesome/free-solid-svg-icons";
 
 function HomePage() {
+    // State for managing the visibility of the upload component
     const [isUploadVisible, setIsUploadVisible] = useState(false);
+    // State for storing the list of analyses
     const [analysisList, setAnalysisList] = useState<Analysis[]>([]);
     const navigate = useNavigate();
 
+    // Function to toggle the visibility of the upload component
     const handleUploadButtonClick = () => {
         setIsUploadVisible(!isUploadVisible);
     };
 
+    // Function to handle a new analysis added by the upload component
     const handleNewAnalysis = (newAnalysis: Analysis) => {
         setAnalysisList(prev => [...prev, newAnalysis]);
-        setIsUploadVisible(false); // Chiudi il componente di upload dopo aver ricevuto i dati
     };
 
-    // Funzione per gestire il click su una card di analisi
+    // Function for handling click events on an analysis card
     const handleAnalysisClick = (analysis: Analysis) => {
         navigate(`/analysis/${analysis.id}`, { state: { analysis } });
     };
 
+    // Placeholder function to handle changes in analysis favorite status
     const handleFavoriteChange = (isFavourite: boolean) => {
-
+        // Future implementation for handling favorite status change
     }
 
     return (
@@ -42,30 +45,32 @@ function HomePage() {
                 </div>
                 <div className="buttons-container">
                     <button onClick={handleUploadButtonClick} className="action-btn upload-btn">
-                        <FontAwesomeIcon icon = {faCirclePlus} />
+                        <FontAwesomeIcon icon={faCirclePlus} />
                     </button>
                     <button className="action-btn filter-btn">
-                        <FontAwesomeIcon icon = {faFilter} />
+                        <FontAwesomeIcon icon={faFilter} />
                     </button>
                 </div>
             </div>
+            {/* Conditionally render the Upload component based on its visibility state */}
             {isUploadVisible && (
-                <Upload onClose={() => setIsUploadVisible(false)} onNewAnalysis={handleNewAnalysis}/>
+                <Upload onClose={() => setIsUploadVisible(false)} onNewAnalysis={handleNewAnalysis} />
             )}
+            {/* Grid container for analysis cards. If there are no analyses, show a message. */}
             <div className={`analysis-grid ${analysisList.length === 0 ? 'center-content' : ''}`}>
                 {analysisList.length > 0 ? (
                     analysisList.map((analysis, index) => (
                         <AnalysisCard
                             key={index}
                             name={analysis.name}
-                            date={analysis.name} // Utilizza la descrizione corretta qui
+                            date={analysis.name}
                             isFavorite={false}
                             onFavoriteChange={() => handleFavoriteChange(true)}
                             onClick={() => handleAnalysisClick(analysis)}
                         />
                     ))
                 ) : (
-                        <p className="no-analysis-message">No analysis uploaded. Upload an analysis to start.</p>
+                    <p className="no-analysis-message">No analysis uploaded. Upload an analysis to start.</p>
                 )}
             </div>
         </div>

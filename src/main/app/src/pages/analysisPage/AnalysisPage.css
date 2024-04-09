@@ -2,9 +2,17 @@
     /* Styles when the sidebar is open and .content should be shrinked */
     transition: margin-left 0.5s ease; /* Smooth transition for the margin */
     margin-left: 400px; /* Same width as the sidebar */
+    margin-top: 66px; /* Same height as the topbar */
 }
 
 /* When the sidebar is closed, .content should expand */
 .sidebar-closed{
     margin-left: 50px; /* Content takes full width */
+}
+
+.smells-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
 }

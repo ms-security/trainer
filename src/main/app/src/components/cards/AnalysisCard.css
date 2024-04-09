@@ -48,8 +48,8 @@
 
 .parent_date_favorite {
     display: flex;
-    flex-direction: column; /*mette in colonna i figli*/
-align-items: flex-start; /*allinea a sinistra*/
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .analysis-date {
@@ -105,7 +105,7 @@ align-items: flex-start; /*allinea a sinistra*/
 .delete-icon {
     position: absolute; /* Position it absolutely relative to the card */
     top: 10px; /* Adjust as needed */
-    right: 10px; /* Adjust as needed */
+    right: 10px;
     cursor: pointer;
     font-size: 25px;
 }

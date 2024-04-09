@@ -53,24 +53,3 @@
     transform: translateY(-50%) rotate(0deg); /* Orienta la freccia nella direzione opposta */
 }
 
-/* SideBar.css */
-.analisi-item {
-    padding: 10px;
-    margin: 5px 0;
-    background-color: #f3f3f3;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-
-    /* Aggiunto per evidenziare l'elemento selezionato */
-    border-left: 4px solid transparent;
-}
-
-.analisi-item:hover {
-    background-color: #e1e1e1;
-}
-
-.analisi-item.selected {
-    background-color: #ddd;
-    border-left-color: #337ab7; /* Colore per indicare selezione */
-}
