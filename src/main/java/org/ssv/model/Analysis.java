@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.ssv.database.AnalysisDatabase;
 import org.ssv.service.AnalysisParser;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,13 @@ import java.util.List;
 
 
         public Analysis(String analysis) throws Exception {
-            id = lastId++;
-            smells = new ArrayList<>();
             AnalysisParser analysisParser = AnalysisParser.builder().jsonContent(analysis).build(); //initialize the parser
-            smells = analysisParser.parseContent(analysis); //initialize the list of smells
+            id = lastId++;
             name = analysisParser.extractName(analysis); //initialize the name of the analysis
+            smells = new ArrayList<>();
+            smells = analysisParser.parseContent(analysis); //initialize the list of smells
+
+            AnalysisDatabase.getInstance().addAnalysis(this); //add the analysis to the database
         }
 
         public String toString() {
