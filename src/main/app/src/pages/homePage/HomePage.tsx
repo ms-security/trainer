@@ -10,25 +10,27 @@ import { faCirclePlus, faFilter } from "@fortawesome/free-solid-svg-icons";
 import WebController from "../../application/WebController";
 
 function HomePage() {
+
     // State for managing the visibility of the upload component
     const [isUploadVisible, setIsUploadVisible] = useState(false);
     // State for storing the list of analyses
     const [analysisList, setAnalysisList] = useState<Analysis[]>([]);
     const navigate = useNavigate();
+    const [updatedFavoriteId, setUpdatedFavoriteId] = useState(0);
 
     useEffect(() => {
-        const fetchAnalyses = async () => {
-            try {
-                const analyses = await WebController.fetchAllAnalyses();
-                setAnalysisList(analyses); // Update the state with the fetched analyses
-            } catch (error) {
-                console.error('Failed to fetch analyses:', error);
-                // Optionally, handle the error e.g., show an error message to the user
-            }
-        };
-        fetchAnalyses();
-    }, []); // The empty dependency array ensures this effect runs only once on mount
+       fetchAnalyses().then(r => console.log("Analyses fetched"));
+    }, []);  // The empty dependency array ensures this effect runs only once on mount
 
+    const fetchAnalyses = async () => {
+        try {
+            const analyses = await WebController.fetchAllAnalyses();
+            setAnalysisList(analyses); // Update the state with the fetched analyses
+        } catch (error) {
+            console.error('Failed to fetch analyses:', error);
+            // Optionally, handle the error e.g., show an error message to the user
+        }
+    };
     // Function to toggle the visibility of the upload component
     const handleUploadButtonClick = () => {
         setIsUploadVisible(!isUploadVisible);
@@ -45,9 +47,29 @@ function HomePage() {
     };
 
     // Placeholder function to handle changes in analysis favorite status
-    const handleFavoriteChange = (isFavourite: boolean) => {
-        // Future implementation for handling favorite status change
-    }
+    const handleFavoriteChange = async (analysisId: number) => {
+        try {
+            await WebController.toggleFavoriteStatus(analysisId);
+            await fetchAnalyses();
+        } catch (error) {
+            console.error('Failed to update favorite status:', error);
+        }
+    };
+
+    const handleDeleteAnalysis = async (analysisId: number) => {
+        // Confirm deletion
+        const isConfirmed = window.confirm("Are you sure you want to delete this analysis?");
+        if (isConfirmed) {
+            try {
+                await WebController.deleteAnalysis(analysisId); // Assume you have this method in your WebController
+                // Filter out the deleted analysis from your list
+                setAnalysisList(currentList => currentList.filter(analysis => analysis.id !== analysisId));
+            } catch (error) {
+                console.error('Failed to delete analysis:', error);
+                // Optionally, handle the error e.g., show an error message to the user
+            }
+        }
+    };
 
     return (
         <div className="home-container">
@@ -74,13 +96,15 @@ function HomePage() {
             <div className={`analysis-grid ${analysisList.length === 0 ? 'center-content' : ''}`}>
                 {analysisList.length > 0 ? (
                     analysisList.map((analysis, index) => (
+                        console.log(analysis),
                         <AnalysisCard
                             key={index}
                             name={analysis.name}
                             date={analysis.name}
-                            isFavorite={false}
-                            onFavoriteChange={() => handleFavoriteChange(true)}
+                            isFavorite={analysis.isFavorite}
+                            onFavoriteChange={() => handleFavoriteChange(analysis.id)}
                             onClick={() => handleAnalysisClick(analysis)}
+                            onDelete={() => handleDeleteAnalysis(analysis.id)}
                         />
                     ))
                 ) : (

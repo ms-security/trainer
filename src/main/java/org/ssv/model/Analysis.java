@@ -1,5 +1,6 @@
 package org.ssv.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ import java.util.List;
         private List<Smell> smells;
         private static int lastId = 0;
         private int id;
+        @JsonProperty("isFavorite")
+        private boolean isFavorite;
 
 
         public Analysis(String analysis) throws Exception {
@@ -26,7 +29,7 @@ import java.util.List;
             name = analysisParser.extractName(analysis); //initialize the name of the analysis
             smells = new ArrayList<>();
             smells = analysisParser.parseContent(analysis); //initialize the list of smells
-
+            isFavorite = false;
             AnalysisDatabase.getInstance().addAnalysis(this); //add the analysis to the database
         }
 

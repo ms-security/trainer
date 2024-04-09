@@ -35,10 +35,9 @@
     margin: 0;
 }
 
-/*
-.favorite-checkbox:checked + .star-label {
-    color: gold;
-}*/
+.star-favorite {
+    color: gold; /* O il colore che preferisci */
+}
 
 .analysis-name {
     margin-left: 20px;

@@ -24,12 +24,12 @@ public class AnalysisDatabase {
         analysisHashMap.put(analysis.getId(), analysis);
     }
 
-    public Analysis getAnalysis(String id) {
+    public Analysis getAnalysis(int id) {
         return analysisHashMap.get(id);
     }
 
-    public void removeAnalysis(String id) {
-        analysisHashMap.remove(id);
+    public boolean removeAnalysis(int id) {
+        return analysisHashMap.remove(id) != null;
     }
 
     public ArrayList<Analysis> getAllAnalyses() {

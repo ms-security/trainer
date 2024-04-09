@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import './AnalysisCard.css';
+import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Define the prop types for the AnalysisCard component
 interface AnalysisCardProps {
     name: string;
     date: string;
     isFavorite: boolean;
-    onFavoriteChange: (isFavorite: boolean) => void;
+    onFavoriteChange: () => void;
     onClick: () => void;
+    onDelete: () => void;
 }
 
 // The AnalysisCard component displays information about an analysis
@@ -16,16 +20,11 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                                                        date,
                                                        isFavorite,
                                                        onFavoriteChange,
-                                                       onClick
+                                                       onClick,
+                                                       onDelete
                                                    }) => {
-    // State to track the favorite status
-    const [favorite, setFavorite] = useState(isFavorite);
 
-    // Handler to update the favorite status
-    const handleFavoriteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFavorite(e.target.checked);
-        onFavoriteChange(e.target.checked);
-    };
+    console.log("AnalysisCard props:", { name, date, isFavorite }); // Aggiungi questo
 
     // Render the analysis card
     return (
@@ -42,12 +41,15 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
             /> */}
             <div className="parent_date_favorite">
                 <div className="parent_name_favorite">
-                    {/* Static placeholder for favorite indicator */}
-                    <label htmlFor="favorite-checkbox" className="star-label">★</label>
-                    {/* Display the name of the analysis */}
+                    <div className="favorite-icon" onClick={(e) => {
+                        e.stopPropagation();
+                        onFavoriteChange();
+                    }}>
+                        <FontAwesomeIcon icon={isFavorite ? faStarSolid : faStarRegular} className={`star ${isFavorite ? "star-favorite" : ""}`} />
+                    </div>
                     <h2 className="analysis-name">{name}</h2>
                     {/* Delete icon */}
-                    <div className="delete-icon">🗑️</div>
+                    <div className="delete-icon" onClick={(e) => {e.stopPropagation(); onDelete();}}>🗑️</div>
                 </div>
 
                 {/* Display the date of the analysis */}

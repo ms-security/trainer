@@ -1,9 +1,7 @@
 package org.ssv.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.ssv.database.AnalysisDatabase;
 import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
@@ -36,6 +34,28 @@ public class RestController {
     @GetMapping("/analysis")
     public ResponseEntity<ArrayList<Analysis>> analysis() {
         return ResponseEntity.ok().body(AnalysisDatabase.getInstance().getAllAnalyses());
+    }
+
+    @DeleteMapping("/analysis/{analysisId}")
+    public ResponseEntity<Void> deleteAnalysis(@PathVariable int analysisId) {
+        boolean isRemoved = AnalysisDatabase.getInstance().removeAnalysis(analysisId);
+        if(isRemoved) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/analysis/{analysisId}/favorite")
+    public ResponseEntity<Analysis> favoriteAnalysis(@PathVariable int analysisId) {
+        System.out.println("Favorite analysis: " + analysisId);
+        Analysis analysis = AnalysisDatabase.getInstance().getAnalysis(analysisId);
+        if(analysis != null) {
+            analysis.setFavorite(!analysis.isFavorite());
+            return ResponseEntity.ok().body(analysis);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

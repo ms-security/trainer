@@ -46,4 +46,25 @@ export default class WebController{
         console.log('Analyses fetched successfully:', analyses);
         return analyses;
     }
+
+    static async deleteAnalysis(analysisId: number) {
+        const response = await fetch(`http://localhost:8080/analysis/${analysisId}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            // Handle failure
+            throw new Error('Failed to delete analysis');
+        }
+    }
+
+    static async toggleFavoriteStatus(analysisId: number): Promise<void> {
+        const response = await fetch(`http://localhost:8080/analysis/${analysisId}/favorite`, {
+            method: 'PUT'
+        });
+        console.log('Favorite status updated');
+        if (!response.ok) {
+            throw new Error('Failed to update favorite status');
+        }
+    }
 }
