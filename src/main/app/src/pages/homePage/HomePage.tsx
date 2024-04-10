@@ -101,6 +101,7 @@ function HomePage() {
                             name={analysis.name}
                             date={analysis.date}
                             isFavorite={analysis.isFavorite}
+                            isTriageValid={analysis.isTriageValid}
                             onFavoriteChange={() => handleFavoriteChange(analysis.id)}
                             onClick={() => handleAnalysisClick(analysis)}
                             onDelete={() => handleDeleteAnalysis(analysis.id)}

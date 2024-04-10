@@ -16,3 +16,11 @@
     justify-content: center;
     margin-top: 20px;
 }
+/* Adjust the content's top margin when triage banner is visible */
+.content.with-banner {
+    margin-top: 106px; /* Height of the top bar plus the banner */
+    padding-top: 0; /* No padding needed, banner is absolutely positioned */
+}
+
+
+

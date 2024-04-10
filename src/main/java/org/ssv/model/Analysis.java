@@ -23,6 +23,8 @@ import java.util.List;
         private int id;
         @JsonProperty("isFavorite")
         private boolean isFavorite;
+        @JsonProperty("isTriageValid")
+        private boolean isTriageValid;
 
         private LocalDateTime date;
 
@@ -33,6 +35,7 @@ import java.util.List;
             smells = new ArrayList<>();
             smells = analysisParser.parseContent(analysis); //initialize the list of smells
             isFavorite = false;
+            isTriageValid = false;
             AnalysisDatabase.getInstance().addAnalysis(this); //add the analysis to the database
             date = analysisParser.extractUploadDate(analysis); //initialize the upload date
         }
