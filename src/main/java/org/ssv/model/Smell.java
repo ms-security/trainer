@@ -9,8 +9,9 @@ public class Smell {
 
     private String name;
     private String description;
+    private int id;
 
     public String toString() {
-        return "\nSmell-------{" + name + " --" + description +"}-------";
+        return "\nSmell-------{" + id + " --" + name + " --" + description +"}-------";
     }
 }

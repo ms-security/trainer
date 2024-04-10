@@ -1,0 +1,34 @@
+.container-smell-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 66px;
+    width: 100%;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.smell-container {
+    width: 48%; /* Ogni card occupa circa la metà dello spazio disponibile */
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.refactoring-section {
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.sidebar-closed {
+    margin-left: 0; /* Assicurati che questo valore sia sincronizzato con lo stile del tuo sidebar quando è chiuso */
+}

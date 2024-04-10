@@ -8,7 +8,6 @@ import lombok.Data;
 import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Smell;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -22,7 +21,6 @@ import java.util.regex.Pattern;
 public class AnalysisParser {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private String jsonContent;
 
     public List<Smell> parseContent(String jsonContent) throws Exception {
 
@@ -30,10 +28,11 @@ public class AnalysisParser {
         List<Smell> smells = new ArrayList<>();
         String[] smellsToParse = jsonContent.split("\\n\\n"); //split the analysis into smells
 
+        int i = 0;
         for (String smell : smellsToParse){
             String name = smell.substring(smell.indexOf("{") + 1, smell.indexOf("}")); //extracts the name of the smell
             String description = smell.substring(smell.indexOf('\t') + 1); //extracts the description of the smell
-            Smell newSmell = Smell.builder().name(name).description(description).build();
+            Smell newSmell = Smell.builder().name(name).description(description).id(++i).build();
             smells.add(newSmell);
         }
         return smells;

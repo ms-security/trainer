@@ -1,6 +1,5 @@
 // TopBar.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './TopBar.css'; // Assicurati di creare questo file CSS
 import logoImage from './SSV_logo.png';
 

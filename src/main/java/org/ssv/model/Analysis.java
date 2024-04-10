@@ -29,18 +29,18 @@ import java.util.List;
         private LocalDateTime date;
 
         public Analysis(String analysis) throws Exception {
-            AnalysisParser analysisParser = AnalysisParser.builder().jsonContent(analysis).build(); //initialize the parser
+            AnalysisParser analysisParser = AnalysisParser.builder().build(); //initialize the parser
             id = lastId++;
             name = analysisParser.extractName(analysis); //initialize the name of the analysis
             smells = new ArrayList<>();
             smells = analysisParser.parseContent(analysis); //initialize the list of smells
             isFavorite = false;
             isTriageValid = false;
-            AnalysisDatabase.getInstance().addAnalysis(this); //add the analysis to the database
             date = analysisParser.extractUploadDate(analysis); //initialize the upload date
+            AnalysisDatabase.getInstance().addAnalysis(this); //add the analysis to the database
         }
 
         public String toString() {
-            return "Analysis{ " + smells + '}';
+            return "Analysis{ " + smells + + id + " --" + name + " --" + date + " --" + isFavorite +'}';
         }
     }

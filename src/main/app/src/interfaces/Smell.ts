@@ -1,4 +1,5 @@
 export interface Smell {
+    id: number,
     name: string,
     description: string;
     importance: 'none' | 'low' | 'medium' | 'high';

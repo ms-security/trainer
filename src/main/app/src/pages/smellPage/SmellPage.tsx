@@ -1,16 +1,30 @@
-// AnalysisPage.js
-import React from 'react';
+// SmellPage.js
+import React, { useState } from 'react';
 import TopBar from '../../components/topBar/TopBar';
-import Sidebar from '../../components/sideBar/SideBar';
-import SmellCard from '../../components/cards/SmellCard'; // Assicurati che il percorso sia corretto
-import { Analysis } from "../../interfaces/Analysis";
+import './SmellPage.css'; // Assicurati di avere questo file CSS
 
 const SmellPage = () => {
-    // Assumendo che `analysis` sia l'oggetto dell'analisi passato come prop,
-    // che include `id`, `name`, e un array di `smells`
 
     return (
-        <div></div>
+        <>
+            <TopBar />
+            <div className="container-smell-page">
+                <div className="card-container">
+                    <div className="smell-card">
+                        <h2>Nome Esteso-UPM</h2>
+                        <p>Description</p>
+                    </div>
+                    <div className="smell-container">
+                        <h2>What smell is it?</h2>
+                        <p>Description</p>
+                    </div>
+                </div>
+                <div className="refactoring-section">
+                    <h2>Refactoring</h2>
+                    {/* Il contenuto per la sezione refactoring può essere aggiunto qui */}
+                </div>
+            </div>
+        </>
     );
 };
 

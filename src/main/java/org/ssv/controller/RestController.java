@@ -6,20 +6,16 @@ import org.ssv.database.AnalysisDatabase;
 import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
     @PostMapping("/analysis")
     public ResponseEntity<Analysis> analysis(@RequestBody String jsonAnalysis) {
-        System.out.println("Received analysis: " + jsonAnalysis);
         try{
             Analysis analysis = new Analysis(jsonAnalysis); //initialize the analysis
             AnalysisDatabase.getInstance().addAnalysis(analysis); //add the analysis to the database
-            System.out.println("date: " + analysis.getDate());
             return ResponseEntity.ok().body(analysis); //return the analysis with list of smell
         }
         catch(EmptyContentException e){
@@ -29,14 +25,13 @@ public class RestController {
             return ResponseEntity.badRequest().body(Analysis.builder().id(-2).build());
         }
         catch (Exception e){
-            System.out.println("" + e.getMessage());
             return ResponseEntity.badRequest().body(Analysis.builder().id(-3).build());
         }
     }
 
     @GetMapping("/analysis")
     public ResponseEntity<ArrayList<Analysis>> analysis() {
-        return ResponseEntity.ok().body(AnalysisDatabase.getInstance().getAllAnalyses());
+        return ResponseEntity.ok().body((ArrayList<Analysis>) AnalysisDatabase.getInstance().getAllAnalyses());
     }
 
     @DeleteMapping("/analysis/{analysisId}")
@@ -51,7 +46,6 @@ public class RestController {
 
     @PutMapping("/analysis/{analysisId}/favorite")
     public ResponseEntity<Analysis> favoriteAnalysis(@PathVariable int analysisId) {
-        System.out.println("Favorite analysis: " + analysisId);
         Analysis analysis = AnalysisDatabase.getInstance().getAnalysis(analysisId);
         if(analysis != null) {
             analysis.setFavorite(!analysis.isFavorite());

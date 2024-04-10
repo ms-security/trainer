@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './AnalysisCard.css';
 import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
@@ -34,16 +34,6 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
     // Render the analysis card
     return (
         <div className="analysis-card" onClick={onClick}>
-            {/* Checkbox for favorite toggling is commented out for now */}
-            {/* <input
-                type="checkbox"
-                id="favorite-checkbox"
-                checked={favorite}
-                className="favorite-checkbox"
-                onChange={handleFavoriteChange}
-                // Prevent the checkbox click from triggering the card click event
-                onClick={(e) => e.stopPropagation()}
-            /> */}
             <div className="parent_date_favorite">
                 <div className="parent_name_favorite">
                     <div className="favorite-icon" onClick={(e) => {

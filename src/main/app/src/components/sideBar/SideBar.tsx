@@ -1,6 +1,5 @@
 import React from 'react';
 import './SideBar.css';
-import {Analysis} from "../../interfaces/Analysis";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 

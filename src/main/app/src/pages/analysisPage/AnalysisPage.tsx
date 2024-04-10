@@ -1,10 +1,12 @@
 // Importa useLocation da react-router-dom per accedere allo stato passato attraverso il routing
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import Sidebar from '../../components/sideBar/SideBar';
 import SmellCard from '../../components/cards/SmellCard';
 import { Analysis } from "../../interfaces/Analysis";
+import './AnalysisPage.css';
+import {Smell} from "../../interfaces/Smell"; // Assicurati di creare questo file CSS e di importarlo
 import TriageBanner from '../../components/triageBanner/TriageBanner';
 import './AnalysisPage.css';
 import MicroserviceForm from "../../components/inputForm/MicroserviceForm";
@@ -25,11 +27,18 @@ const style = {
 const AnalysisPage = () => {
     // Use useLocation to access the state passed from the HomePage
     const location = useLocation();
+
+    const navigate = useNavigate();
+
     // Extract the 'analysis' data from the location state
     const { analysis } = location.state as { analysis: Analysis };
 
     // State to control the visibility of the sidebar
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
+    const handleSmellClick = (analysis: Analysis, smell: Smell) => {
+        navigate(`/analysis/${analysis.id}/smell/${smell.id}`, { state: { analysis , smell} });
+    };
 
     const [showModal, setShowModal] = useState(false);
 
@@ -58,8 +67,13 @@ const AnalysisPage = () => {
                     </Box>
                 </Modal>
                 <div className="smells-list">
-                    {analysis.smells.map((smell, index) => (
-                        <SmellCard key={index} smellName={smell.name} smellDescription={smell.description} importance={"low"}/>
+                    {analysis.smells.map((smell) => (
+                        <SmellCard
+                            smellName={smell.name}
+                            smellDescription={smell.description}
+                            importance={"low"}
+                            onClick={() => handleSmellClick(analysis, smell)}
+                        />
                     ))}
                 </div>
             </div>

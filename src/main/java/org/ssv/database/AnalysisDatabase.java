@@ -4,6 +4,7 @@ import org.ssv.model.Analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AnalysisDatabase {
     private static AnalysisDatabase instance;
@@ -32,7 +33,7 @@ public class AnalysisDatabase {
         return analysisHashMap.remove(id) != null;
     }
 
-    public ArrayList<Analysis> getAllAnalyses() {
+    public List<Analysis> getAllAnalyses() {
         return new ArrayList<>(analysisHashMap.values());
     }
 }

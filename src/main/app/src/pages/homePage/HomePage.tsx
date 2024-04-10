@@ -94,10 +94,8 @@ function HomePage() {
             {/* Grid container for analysis cards. If there are no analyses, show a message. */}
             <div className={`analysis-grid ${analysisList.length === 0 ? 'center-content' : ''}`}>
                 {analysisList.length > 0 ? (
-                    analysisList.map((analysis, index) => (
-                        console.log(analysis),
+                    analysisList.map((analysis) => (
                         <AnalysisCard
-                            key={index}
                             name={analysis.name}
                             date={analysis.date}
                             isFavorite={analysis.isFavorite}

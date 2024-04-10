@@ -48,7 +48,7 @@
     align-items: center; /* Vertically center the icon */
     justify-content: center; /* Horizontally center the icon */
     font-size: 50px; /* Adjust icon size */
-    border-radius: 5px;;
+    border-radius: 5px;
     cursor: pointer;
     transition: color 0.3s; /* Smooth color transition */
 }

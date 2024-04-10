@@ -5,13 +5,15 @@ interface SmellCardProps {
     smellName: string;
     smellDescription: string;
     importance: 'none' | 'low' | 'medium' | 'high';
+    onClick: () => void;
 }
 
 const SmellCard: React.FC<SmellCardProps> = ({
                                                  smellName,
                                                  smellDescription,
-                                                 importance
-                                             }) => {
+                                                 importance,
+                                                 onClick
+                                                }) => {
     const [status, setStatus] = useState('unfixed');
 
     const handleStatusChange = (newStatus: string) => {
@@ -19,7 +21,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
     };
 
     return (
-        <div className="smell-card">
+        <div className="smell-card" onClick={onClick}>
             <div className="smell-header">
                 <h3 className="smellName">{smellName}</h3>
                 <p className="smell-description">{smellDescription}</p>
@@ -28,7 +30,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
                 <div className="importance-status">
                     <div className={`importance-indicator ${importance}`}></div>
                     <div className="status-dropdown">
-                        <select value={status} onChange={(e) => handleStatusChange(e.target.value)}>
+                        <select value={status} onClick={(e) => {e.stopPropagation();}} onChange={(e) => {handleStatusChange(e.target.value)}}>
                             <option value="unfixed">Unfixed</option>
                             <option value="fixed">Mark as fixed</option>
                             <option value="false_positive">Mark as false positive</option>
@@ -36,7 +38,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
                         </select>
                     </div>
                 </div>
-                <div className="checkbox-container">
+                <div className="checkbox-container" onClick={(e) => {e.stopPropagation();}}>
                     <input type="checkbox"/>
                 </div>
             </div>

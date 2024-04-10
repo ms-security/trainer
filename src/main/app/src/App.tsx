@@ -12,7 +12,7 @@ function App() {
           <Routes>
               <Route path="/" element={<HomePage/>}/>
               <Route path="/analysis/:id" element={<AnalysisPage/>}/> // Pagina dettaglio per una singola analisi
-              <Route path="/smell/:id" element={<SmellPage/>}/> // Pagina dettaglio per un singolo smell
+              <Route path="/analysis/:id/smell/:id" element={<SmellPage/>}/> // Pagina dettaglio per un singolo smell
           </Routes>
       </BrowserRouter>
     </div>
