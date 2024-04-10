@@ -1,7 +1,7 @@
 import {Analysis} from "../interfaces/Analysis";
 
 export default class WebController{
-    static async newAnalysis(content: string, name: string): Promise<Analysis> {
+    static async newAnalysis(content: string, name: string, date:string): Promise<Analysis> {
         const response = await fetch('http://localhost:8080/analysis', {
             method: 'POST',
             headers: {

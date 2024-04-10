@@ -16,7 +16,6 @@ function HomePage() {
     // State for storing the list of analyses
     const [analysisList, setAnalysisList] = useState<Analysis[]>([]);
     const navigate = useNavigate();
-    const [updatedFavoriteId, setUpdatedFavoriteId] = useState(0);
 
     useEffect(() => {
        fetchAnalyses().then(r => console.log("Analyses fetched"));
@@ -100,7 +99,7 @@ function HomePage() {
                         <AnalysisCard
                             key={index}
                             name={analysis.name}
-                            date={analysis.name}
+                            date={analysis.date}
                             isFavorite={analysis.isFavorite}
                             onFavoriteChange={() => handleFavoriteChange(analysis.id)}
                             onClick={() => handleAnalysisClick(analysis)}
