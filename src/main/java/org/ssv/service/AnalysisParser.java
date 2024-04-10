@@ -8,6 +8,10 @@ import lombok.Data;
 import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Smell;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -54,5 +58,12 @@ public class AnalysisParser {
         JsonNode rootNode = objectMapper.readTree(jsonInput); //extracts the root node of the json
         JsonNode nameNode = rootNode.path("name"); //extracts the name node of the json
         return nameNode.asText(); //converts the name a string
+    }
+
+    public LocalDateTime extractUploadDate(String jsonInput) throws JsonProcessingException {
+        JsonNode rootNode = objectMapper.readTree(jsonInput); //extracts the root node of the json
+        JsonNode uploadDateNode = rootNode.path("date"); //extracts the uploadDate node of the json
+        Instant instant = Instant.parse(uploadDateNode.asText()); //parse the date as an Instant
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()); //convert the Instant to a LocalDateTime
     }
 }

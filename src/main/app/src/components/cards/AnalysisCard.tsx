@@ -26,6 +26,8 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
 
     console.log("AnalysisCard props:", { name, date, isFavorite }); // Aggiungi questo
 
+    const formattedDate = date.slice(0, 10);
+
     // Render the analysis card
     return (
         <div className="analysis-card" onClick={onClick}>
@@ -53,7 +55,7 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                 </div>
 
                 {/* Display the date of the analysis */}
-                <h4 className="analysis-date">{date}</h4>
+                <h4 className="analysis-date">{formattedDate}</h4>
                 {/* Container for the colored 'smell' indicators */}
                 <div className="smells">
                     {/* Static placeholders for smell indicators */}

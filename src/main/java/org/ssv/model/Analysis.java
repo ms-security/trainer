@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.ssv.database.AnalysisDatabase;
 import org.ssv.service.AnalysisParser;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import java.util.List;
         @JsonProperty("isFavorite")
         private boolean isFavorite;
 
+        private LocalDateTime date;
 
         public Analysis(String analysis) throws Exception {
             AnalysisParser analysisParser = AnalysisParser.builder().jsonContent(analysis).build(); //initialize the parser
@@ -31,6 +34,7 @@ import java.util.List;
             smells = analysisParser.parseContent(analysis); //initialize the list of smells
             isFavorite = false;
             AnalysisDatabase.getInstance().addAnalysis(this); //add the analysis to the database
+            date = analysisParser.extractUploadDate(analysis); //initialize the upload date
         }
 
         public String toString() {

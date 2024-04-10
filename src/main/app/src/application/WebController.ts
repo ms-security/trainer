@@ -7,7 +7,7 @@ export default class WebController{
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ content, name }),
+            body: JSON.stringify({ content, name, date }),
         });
         if (response.ok) {
             const analysis: Analysis = await response.json();
@@ -24,7 +24,7 @@ export default class WebController{
                     case -2:
                         throw new Error("The file content is not valid!");
                         break;
-                        default:
+                    default:
                         throw new Error("An unknown error occurred.");
                         break;
                 }

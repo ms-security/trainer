@@ -18,6 +18,8 @@ public class RestController {
         System.out.println("Received analysis: " + jsonAnalysis);
         try{
             Analysis analysis = new Analysis(jsonAnalysis); //initialize the analysis
+            AnalysisDatabase.getInstance().addAnalysis(analysis); //add the analysis to the database
+            System.out.println("date: " + analysis.getDate());
             return ResponseEntity.ok().body(analysis); //return the analysis with list of smell
         }
         catch(EmptyContentException e){
@@ -27,6 +29,7 @@ public class RestController {
             return ResponseEntity.badRequest().body(Analysis.builder().id(-2).build());
         }
         catch (Exception e){
+            System.out.println("" + e.getMessage());
             return ResponseEntity.badRequest().body(Analysis.builder().id(-3).build());
         }
     }

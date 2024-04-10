@@ -69,10 +69,11 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
             const reader = new FileReader();
             reader.onload = async (e) => {
                 const text = e.target?.result || '';
+                const currentDate = new Date().toISOString(); // Get the current date
 
                 try {
                     // Use the newAnalysis method from WebController to submit the file
-                    const analysis = await WebController.newAnalysis(text.toString(), analysisName);
+                    const analysis = await WebController.newAnalysis(text.toString(), analysisName, currentDate);
                     onNewAnalysis(analysis); // Pass the analysis back to the parent component
                     onClose(); // Close the upload modal after submission
                 } catch (error) {
