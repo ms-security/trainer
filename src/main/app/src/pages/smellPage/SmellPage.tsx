@@ -1,5 +1,5 @@
 // SmellPage.js
-import React, { useState } from 'react';
+import React from 'react';
 import TopBar from '../../components/topBar/TopBar';
 import './SmellPage.css'; // Assicurati di avere questo file CSS
 

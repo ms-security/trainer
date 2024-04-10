@@ -8,7 +8,6 @@ import { Analysis } from "../../interfaces/Analysis";
 import './AnalysisPage.css';
 import {Smell} from "../../interfaces/Smell"; // Assicurati di creare questo file CSS e di importarlo
 import TriageBanner from '../../components/triageBanner/TriageBanner';
-import './AnalysisPage.css';
 import MicroserviceForm from "../../components/inputForm/MicroserviceForm";
 import {Box, Modal} from "@mui/material"; // Assicurati di creare questo file CSS e di importarlo
 
@@ -69,6 +68,7 @@ const AnalysisPage = () => {
                 <div className="smells-list">
                     {analysis.smells.map((smell) => (
                         <SmellCard
+                            key={smell.id}
                             smellName={smell.name}
                             smellDescription={smell.description}
                             importance={"low"}

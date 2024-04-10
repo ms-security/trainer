@@ -96,6 +96,7 @@ function HomePage() {
                 {analysisList.length > 0 ? (
                     analysisList.map((analysis) => (
                         <AnalysisCard
+                            key={analysis.id}
                             name={analysis.name}
                             date={analysis.date}
                             isFavorite={analysis.isFavorite}

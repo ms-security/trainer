@@ -68,7 +68,7 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
         if (selectedFile) {
             const reader = new FileReader();
             reader.onload = async (e) => {
-                const text = e.target?.result || '';
+                const text = e.target?.result ?? '';
                 const currentDate = new Date().toISOString(); // Get the current date
 
                 try {
