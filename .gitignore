@@ -226,5 +226,5 @@ sketch
 *.db-shm
 *.db-wal
 
-### Visual Paradigm ###
-*.vpp.bak
+### SonarQube ###
+.scannerwork
