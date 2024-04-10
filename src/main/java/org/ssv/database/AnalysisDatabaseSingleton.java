@@ -6,17 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AnalysisDatabase {
-    private static AnalysisDatabase instance;
-    private final HashMap<Integer, Analysis> analysisHashMap;
+public class AnalysisDatabaseSingleton {
+    private static AnalysisDatabaseSingleton instance;
+    private final HashMap<Integer, Analysis> analysisHashMap = new HashMap<>();
 
-    private AnalysisDatabase() {
-        analysisHashMap = new HashMap<>();
+    private AnalysisDatabaseSingleton() {
     }
 
-    public static synchronized AnalysisDatabase getInstance() {
+    public static synchronized AnalysisDatabaseSingleton getInstance() {
         if (instance == null) {
-            instance = new AnalysisDatabase();
+            instance = new AnalysisDatabaseSingleton();
         }
         return instance;
     }

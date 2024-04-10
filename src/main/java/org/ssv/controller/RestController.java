@@ -2,7 +2,7 @@ package org.ssv.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.ssv.database.AnalysisDatabase;
+import org.ssv.database.AnalysisDatabaseSingleton;
 import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
@@ -15,7 +15,7 @@ public class RestController {
     public ResponseEntity<Analysis> analysis(@RequestBody String jsonAnalysis) {
         try{
             Analysis analysis = new Analysis(jsonAnalysis); //initialize the analysis
-            AnalysisDatabase.getInstance().addAnalysis(analysis); //add the analysis to the database
+            AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //add the analysis to the database
             return ResponseEntity.ok().body(analysis); //return the analysis with list of smell
         }
         catch(EmptyContentException e){
@@ -31,12 +31,12 @@ public class RestController {
 
     @GetMapping("/analysis")
     public ResponseEntity<ArrayList<Analysis>> analysis() {
-        return ResponseEntity.ok().body((ArrayList<Analysis>) AnalysisDatabase.getInstance().getAllAnalyses());
+        return ResponseEntity.ok().body((ArrayList<Analysis>) AnalysisDatabaseSingleton.getInstance().getAllAnalyses());
     }
 
     @DeleteMapping("/analysis/{analysisId}")
     public ResponseEntity<Void> deleteAnalysis(@PathVariable int analysisId) {
-        boolean isRemoved = AnalysisDatabase.getInstance().removeAnalysis(analysisId);
+        boolean isRemoved = AnalysisDatabaseSingleton.getInstance().removeAnalysis(analysisId);
         if(isRemoved) {
             return ResponseEntity.ok().build();
         } else {
@@ -46,7 +46,7 @@ public class RestController {
 
     @PutMapping("/analysis/{analysisId}/favorite")
     public ResponseEntity<Analysis> favoriteAnalysis(@PathVariable int analysisId) {
-        Analysis analysis = AnalysisDatabase.getInstance().getAnalysis(analysisId);
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
         if(analysis != null) {
             analysis.setFavorite(!analysis.isFavorite());
             return ResponseEntity.ok().body(analysis);

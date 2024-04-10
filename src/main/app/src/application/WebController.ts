@@ -20,13 +20,10 @@ export default class WebController{
             switch (errorData.id) {
                 case -1:
                     throw new Error("The file is empty!");
-                    break;
                     case -2:
                         throw new Error("The file content is not valid!");
-                        break;
                     default:
                         throw new Error("An unknown error occurred.");
-                        break;
                 }
         }
     }

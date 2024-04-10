@@ -1,10 +1,9 @@
 import React from 'react';
 import './AnalysisCard.css';
-import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tooltip from '@mui/material/Tooltip';
-import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle, faStar as faStarRegular , faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
+
 
 // Define the prop types for the AnalysisCard component
 interface AnalysisCardProps {

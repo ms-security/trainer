@@ -1,11 +1,10 @@
 package org.ssv.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.ssv.database.AnalysisDatabase;
+import org.ssv.database.AnalysisDatabaseSingleton;
 import org.ssv.service.AnalysisParser;
 
 import java.time.LocalDateTime;
@@ -37,7 +36,7 @@ import java.util.List;
             isFavorite = false;
             isTriageValid = false;
             date = analysisParser.extractUploadDate(analysis); //initialize the upload date
-            AnalysisDatabase.getInstance().addAnalysis(this); //add the analysis to the database
+            AnalysisDatabaseSingleton.getInstance().addAnalysis(this); //add the analysis to the database
         }
 
         public String toString() {
