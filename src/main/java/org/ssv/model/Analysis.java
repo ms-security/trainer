@@ -27,16 +27,13 @@ import java.util.List;
 
         private LocalDateTime date;
 
-        public Analysis(String analysis) throws Exception {
-            AnalysisParser analysisParser = AnalysisParser.builder().build(); //initialize the parser
+        public Analysis(String name, List<Smell> smells, LocalDateTime date) throws Exception {
             id = lastId++;
-            name = analysisParser.extractName(analysis); //initialize the name of the analysis
-            smells = new ArrayList<>();
-            smells = analysisParser.parseContent(analysis); //initialize the list of smells
+            this.name = name;
+            this.smells = smells;
+            this.date = date;
             isFavorite = false;
             isTriageValid = false;
-            date = analysisParser.extractUploadDate(analysis); //initialize the upload date
-            AnalysisDatabaseSingleton.getInstance().addAnalysis(this); //add the analysis to the database
         }
 
         public String toString() {

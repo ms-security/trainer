@@ -1,13 +1,14 @@
 import {Analysis} from "../interfaces/Analysis";
 
 export default class WebController{
-    static async newAnalysis(content: string, name: string, date:string): Promise<Analysis> {
+    static async newAnalysis(file: File, name: string, date: string): Promise<Analysis> {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("name", name);
+        formData.append("date", date);
         const response = await fetch('http://localhost:8080/analysis', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ content, name, date }),
+            body: formData
         });
         if (response.ok) {
             const analysis: Analysis = await response.json();
