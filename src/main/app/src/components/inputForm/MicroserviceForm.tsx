@@ -1,53 +1,84 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { Microservice} from "../../interfaces/Microservice";
+import {Category, QualityAttribute, Relevance} from "../../interfaces/QualityAttribute";
 
-type QualityAttributes = {
-    [key: string]: string;
-};
-
-interface Microservice {
-    name: string;
-    importance: string;
-    qualities: QualityAttributes;
+interface MicroserviceFormProps {
+    onAddMicroservice: (microservice: Microservice) => void;
 }
 
-const importanceLevels = ['High', 'Medium', 'Low', 'None'];
-const qualityAttributes = [
-    'confidentiality', 'integrity', 'authenticity',
-    'independent deployability', 'horizontal scalability', 'failure isolation', 'decentralization',
-    'resource utilization', 'time behaviour', 'capacity',
-    'modularity', 'reusability', 'analysability', 'modifiability', 'testability'
+const qualityAttributes: QualityAttribute[] = [
+    { name: 'confidentiality', relevance: Relevance.NONE, category: Category.SECURITY },
+    { name: 'integrity', relevance: Relevance.NONE, category: Category.SECURITY },
+    { name: 'authenticity', relevance: Relevance.NONE, category: Category.SECURITY },
+    { name: 'resource utilization', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
+    { name: 'time behaviour', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
+    { name: 'capacity', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
+    { name: 'modularity', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
+    { name: 'reusability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
+    { name: 'analysability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
+    { name: 'modifiability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
+    { name: 'testability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY }
 ];
 
-const MicroserviceForm: React.FC = () => {
-    const [microservices, setMicroservices] = useState<Microservice[]>([]);
+const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice }) => {
     const [newMicroservice, setNewMicroservice] = useState<Microservice>({
         name: '',
-        importance: 'None',
-        qualities: {}
+        relevance: Relevance.NONE,
+        qualityAttributes: [...qualityAttributes]
     });
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setNewMicroservice(prevState => ({
-            ...prevState,
+        setNewMicroservice(prev => ({
+            ...prev,
             [name]: value
         }));
     };
 
-    const handleQualityChange = (quality: string, importance: string) => {
-        setNewMicroservice(prevState => ({
-            ...prevState,
-            qualities: {
-                ...prevState.qualities,
-                [quality]: importance
-            }
+    const handleQualityChange = (name: string, value: Relevance) => {
+        const updatedQualityAttributes = newMicroservice.qualityAttributes.map(attr =>
+            attr.name === name ? { ...attr, relevance: value } : attr
+        );
+        setNewMicroservice(prev => ({
+            ...prev,
+            qualityAttributes: updatedQualityAttributes
         }));
     };
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        setMicroservices(prevMicroservices => [...prevMicroservices, newMicroservice]);
-        setNewMicroservice({ name: '', importance: 'None', qualities: {} }); // Reset form
+        onAddMicroservice({
+            ...newMicroservice,
+            qualityAttributes: newMicroservice.qualityAttributes.filter(attr => attr.relevance !== Relevance.NONE)
+        });
+        setNewMicroservice({
+            name: '',
+            relevance: Relevance.NONE,
+            qualityAttributes: [...qualityAttributes]
+        });
+    };
+
+    const renderCategoryGroup = (category: Category) => {
+        const filteredAttributes = newMicroservice.qualityAttributes.filter(attr => attr.category === category);
+        return (
+            <fieldset>
+                <legend>{category}</legend>
+                {filteredAttributes.map((attr, index) => (
+                    <div key={index}>
+                        <label htmlFor={`quality-${attr.name}`}>{attr.name}:</label>
+                        <select
+                            id={`quality-${attr.name}`}
+                            value={attr.relevance}
+                            onChange={(e) => handleQualityChange(attr.name, e.target.value as Relevance)}
+                        >
+                            {Object.values(Relevance).map(level => (
+                                <option key={level} value={level}>{level}</option>
+                            ))}
+                        </select>
+                    </div>
+                ))}
+            </fieldset>
+        );
     };
 
     return (
@@ -62,50 +93,24 @@ const MicroserviceForm: React.FC = () => {
                     onChange={handleInputChange}
                 />
 
-                <label htmlFor="importance">Importance:</label>
+                <label htmlFor="relevance">Relevance:</label>
                 <select
-                    id="importance"
-                    name="importance"
-                    value={newMicroservice.importance}
+                    id="relevance"
+                    name="relevance"
+                    value={newMicroservice.relevance}
                     onChange={handleInputChange}
                 >
-                    {importanceLevels.map(level => (
+                    {Object.values(Relevance).map(level => (
                         <option key={level} value={level}>{level}</option>
                     ))}
                 </select>
 
-                <fieldset>
-                    <legend>Quality Attributes:</legend>
-                    {qualityAttributes.map(quality => (
-                        <div key={quality}>
-                            <label htmlFor={`quality-${quality}`}>{quality}:</label>
-                            <select
-                                id={`quality-${quality}`}
-                                value={newMicroservice.qualities[quality] || 'None'}
-                                onChange={(e) => handleQualityChange(quality, e.target.value)}
-                            >
-                                {importanceLevels.map(level => (
-                                    <option key={level} value={level}>{level}</option>
-                                ))}
-                            </select>
-                        </div>
-                    ))}
-                </fieldset>
+                {renderCategoryGroup(Category.SECURITY)}
+                {renderCategoryGroup(Category.PERFORMANCE_EFFICIENCY)}
+                {renderCategoryGroup(Category.MAINTAINABILITY)}
 
                 <button type="submit">Add Microservice</button>
             </form>
-
-            <h2>Microservices List:</h2>
-            {microservices.map((ms, index) => (
-                <div key={index}>
-                    <h3>{ms.name} ({ms.importance})</h3>
-                    <ul>
-                        {Object.entries(ms.qualities).map(([quality, importance]) => (
-                            <li key={quality}>{quality}: {importance}</li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
         </div>
     );
 };

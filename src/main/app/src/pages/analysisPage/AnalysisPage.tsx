@@ -9,7 +9,8 @@ import './AnalysisPage.css';
 import {Smell} from "../../interfaces/Smell"; // Assicurati di creare questo file CSS e di importarlo
 import TriageBanner from '../../components/triageBanner/TriageBanner';
 import MicroserviceForm from "../../components/inputForm/MicroserviceForm";
-import {Box, Modal} from "@mui/material"; // Assicurati di creare questo file CSS e di importarlo
+import {Box, Modal} from "@mui/material";
+import {Microservice} from "../../interfaces/Microservice"; // Assicurati di creare questo file CSS e di importarlo
 
 const style = {
     position: 'absolute',
@@ -45,11 +46,21 @@ const AnalysisPage = () => {
         setShowModal(!showModal);
     };
 
+    const handleAddMicroservice = (newMicroservice: Microservice) => {
+        analysis.microservices.push(newMicroservice);
+        setShowModal(!showModal);
+    };
+
     // Render the analysis page container
     return (
         <div className="analysis-page-container">
             <TopBar />
-            <Sidebar isVisible={isSidebarVisible} toggleSidebar={() => setIsSidebarVisible(!isSidebarVisible)} />
+            <Sidebar
+                isVisible={isSidebarVisible}
+                toggleSidebar={() => setIsSidebarVisible(!isSidebarVisible)}
+                microservices={analysis.microservices}
+                onClickModal={toggleModal}
+            />
             {/* Main content area, its margin adjusts based on the sidebar visibility */}
             <div className={`content ${isSidebarVisible ? '' : 'sidebar-closed'} ${!analysis.isTriageValid ? 'with-banner' : ''}`}>
                 {!analysis.isTriageValid && (
@@ -62,7 +73,7 @@ const AnalysisPage = () => {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        <MicroserviceForm />
+                        <MicroserviceForm onAddMicroservice={handleAddMicroservice} />
                     </Box>
                 </Modal>
                 <div className="smells-list">

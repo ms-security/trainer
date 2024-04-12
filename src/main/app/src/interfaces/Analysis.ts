@@ -1,4 +1,5 @@
 import {Smell} from "./Smell";
+import {Microservice} from "./Microservice";
 
 export interface Analysis {
     id: number;
@@ -6,5 +7,6 @@ export interface Analysis {
     name: string;
     isFavorite: boolean;
     isTriageValid: boolean;
-    date: string;
+    date: string
+    microservices: Microservice[];
 }

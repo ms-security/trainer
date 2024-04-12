@@ -53,3 +53,53 @@
     transform: translateY(-50%) rotate(0deg); /* Orienta la freccia nella direzione opposta */
 }
 
+.accordion {
+    margin: 20px;
+}
+
+.accordion-item {
+    background-color: #fff;
+    color: #333;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.accordion-title {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-title:hover {
+    background-color: #e3e3e3;
+}
+
+.accordion-content {
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    display: block; /* you can use this if you want to animate the accordion */
+}
+
+.microservice {
+    padding: 10px;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.microservice-name,
+.microservice-relevance,
+.quality-attribute-name,
+.quality-attribute-relevance {
+    margin: 5px 0;
+}
+
+.quality-attributes {
+    margin-top: 10px;
+    padding-left: 20px;
+    border-left: 2px solid #d0d0d0;
+}
+

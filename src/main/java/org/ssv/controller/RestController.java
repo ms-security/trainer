@@ -20,21 +20,16 @@ public class RestController {
                                              @RequestParam("name") String name,
                                              @RequestParam("date") String date) {
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Analysis.builder().id(-1).build());
         }
         try{
             String content = new String(file.getBytes(), StandardCharsets.UTF_8);
             Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(content, name, date);
             AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //add the analysis to the database
             return ResponseEntity.ok().body(analysis);   //return the analysis with list of smell
-        }
-        catch(EmptyContentException e){
-            return ResponseEntity.badRequest().body(Analysis.builder().id(-1).build());
-        }
-        catch (InvalidContentException e){
+        } catch (InvalidContentException e){
             return ResponseEntity.badRequest().body(Analysis.builder().id(-2).build());
-        }
-        catch (Exception e){
+        } catch (Exception e){
             return ResponseEntity.badRequest().body(Analysis.builder().id(-3).build());
         }
     }

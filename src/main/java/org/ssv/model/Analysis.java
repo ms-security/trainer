@@ -24,14 +24,15 @@ import java.util.List;
         private boolean isFavorite;
         @JsonProperty("isTriageValid")
         private boolean isTriageValid;
-
         private LocalDateTime date;
+        private List<Microservice> microservices;
 
         public Analysis(String name, List<Smell> smells, LocalDateTime date) throws Exception {
             id = lastId++;
             this.name = name;
             this.smells = smells;
             this.date = date;
+            this.microservices = new ArrayList<>();
             isFavorite = false;
             isTriageValid = false;
         }
