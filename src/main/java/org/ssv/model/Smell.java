@@ -10,6 +10,7 @@ public class Smell {
     private String name;
     private String description;
     private int id;
+    private Refactoring refactoring;
 
     public String toString() {
         return "\nSmell-------{" + id + " --" + name + " --" + description +"}-------";
