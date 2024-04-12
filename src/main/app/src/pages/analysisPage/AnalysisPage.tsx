@@ -6,10 +6,10 @@ import Sidebar from '../../components/sideBar/SideBar';
 import SmellCard from '../../components/cards/SmellCard';
 import { Analysis } from "../../interfaces/Analysis";
 import './AnalysisPage.css';
-import {Smell} from "../../interfaces/Smell"; // Assicurati di creare questo file CSS e di importarlo
+import {Smell} from "../../interfaces/Smell";
 import TriageBanner from '../../components/triageBanner/TriageBanner';
 import MicroserviceForm from "../../components/inputForm/MicroserviceForm";
-import {Box, Modal} from "@mui/material"; // Assicurati di creare questo file CSS e di importarlo
+import {Box, Modal} from "@mui/material";
 
 const style = {
     position: 'absolute',
