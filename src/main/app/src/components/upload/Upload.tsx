@@ -64,31 +64,25 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
     };
 
     // Handles file upload submission
-    const handleSubmission = () => {
-        if (selectedFile) {
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const text = e.target?.result ?? '';
-                const currentDate = new Date().toISOString(); // Get the current date
+    // Handles file upload submission
+    const handleSubmission = async () => {
+        if (selectedFile && analysisName) {
+            const currentDate = new Date().toISOString(); // Get the current date
 
-                try {
-                    // Use the newAnalysis method from WebController to submit the file
-                    const analysis = await WebController.newAnalysis(text.toString(), analysisName, currentDate);
-                    onNewAnalysis(analysis); // Pass the analysis back to the parent component
-                    onClose(); // Close the upload modal after submission
-                } catch (error) {
-                    // Check if the error is an instance of Error and access its message property
-                    if (error instanceof Error) {
-                        alert(error.message);
-                    } else {
-                        // If it's not an Error instance, or doesn't have a message, show a generic message
-                        alert('An error occurred while uploading the file.');
-                    }
-                }
-            };
-            reader.readAsText(selectedFile); // Read the file content as text
+            try {
+                // Use the newAnalysis method from WebController to submit the file
+                const analysis = await WebController.newAnalysis(selectedFile, analysisName, currentDate);
+                onNewAnalysis(analysis); // Pass the analysis back to the parent component
+                onClose(); // Close the upload modal after submission
+            } catch (error) {
+                if(error instanceof Error)
+                    alert(error.message || 'An error occurred while uploading the file.');
+            }
+        } else {
+            alert('Please select a file and enter a name for the analysis.');
         }
     };
+
 
     // Ref for the file input, used to trigger it programmatically
     const fileInputRef = useRef<HTMLInputElement>(null);

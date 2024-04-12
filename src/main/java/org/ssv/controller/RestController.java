@@ -2,21 +2,31 @@ package org.ssv.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.ssv.database.AnalysisDatabaseSingleton;
 import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
+import org.ssv.service.FactoryAnalysis;
+
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
     @PostMapping("/analysis")
-    public ResponseEntity<Analysis> analysis(@RequestBody String jsonAnalysis) {
+    public ResponseEntity<Analysis> analysis(@RequestParam("file") MultipartFile file,
+                                             @RequestParam("name") String name,
+                                             @RequestParam("date") String date) {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         try{
-            Analysis analysis = new Analysis(jsonAnalysis); //initialize the analysis
+            String content = new String(file.getBytes(), StandardCharsets.UTF_8);
+            Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(content, name, date);
             AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //add the analysis to the database
-            return ResponseEntity.ok().body(analysis); //return the analysis with list of smell
+            return ResponseEntity.ok().body(analysis);   //return the analysis with list of smell
         }
         catch(EmptyContentException e){
             return ResponseEntity.badRequest().body(Analysis.builder().id(-1).build());
