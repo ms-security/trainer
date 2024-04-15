@@ -7,7 +7,9 @@ import org.ssv.database.AnalysisDatabaseSingleton;
 import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
+import org.ssv.service.util.ContentParser;
 import org.ssv.service.FactoryAnalysis;
+import org.ssv.service.util.TxtContentParser;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -24,8 +26,10 @@ public class RestController {
         }
         try{
             String content = new String(file.getBytes(), StandardCharsets.UTF_8);
-            Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(content, name, date);
+            ContentParser parser = new TxtContentParser();
+            Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(parser, content, name, date);
             AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //add the analysis to the database
+            System.out.println(analysis.getSmells());
             return ResponseEntity.ok().body(analysis);   //return the analysis with list of smell
         } catch (InvalidContentException e){
             return ResponseEntity.badRequest().body(Analysis.builder().id(-2).build());

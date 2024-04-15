@@ -38,6 +38,7 @@ const AnalysisPage = () => {
 
     const handleSmellClick = (analysis: Analysis, smell: Smell) => {
         navigate(`/analysis/${analysis.id}/smell/${smell.id}`, { state: { analysis , smell} });
+        console.log("Smell clicked    " + smell.description);
     };
 
     const [showModal, setShowModal] = useState(false);

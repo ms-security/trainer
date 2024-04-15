@@ -1,25 +1,50 @@
 .container-smell-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 66px;
+    margin-top: 76px;
     width: 100%;
 }
 
 .card-container {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    margin-left: 20px;
+    overflow: visible;
+    height: fit-content;
 }
 
 .smell-container {
-    width: 48%; /* Ogni card occupa circa la metà dello spazio disponibile */
-    padding: 20px;
+    /*width: 48%; /* Ogni card occupa circa la metà dello spazio disponibile */
+    padding: 5px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
     box-sizing: border-box;
+    height: auto; /* Rimuove l'altezza fissa se presente */
 }
+
+.smell-name-description{
+    width: 500px;
+    padding: 5px;
+    background: gray;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    white-space: pre-wrap; /* rispetta le interruzioni di riga e gli spazi nel contenuto */
+}
+
+.smell-name {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.smell-description-page {
+    margin: 0;
+    font-size: 14px;
+    text-align: left;
+}
+
 
 .refactoring-section {
     padding: 20px;

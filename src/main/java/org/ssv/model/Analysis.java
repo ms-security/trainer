@@ -4,11 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.ssv.database.AnalysisDatabaseSingleton;
-import org.ssv.service.AnalysisParser;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
     @Data
