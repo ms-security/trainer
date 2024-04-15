@@ -1,0 +1,37 @@
+  [
+    {
+      "code": "UPM",
+      "extendedName": "Unnecessary Privileges to Microservices",
+      "smellTypeDescription": "The Unnecessary Privileges to Microservices smell occurs ...",
+      "propertiesAffected": [
+        {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
+        {"category": "SECURITY", "name": "Integrity", "impactsPositively": 0}
+      ],
+      "refactoring": {
+        "name": "Apply Least Privilege Principle",
+        "refactor": "The Least Privilege Principle recommends that accounts and services should ...",
+        "propertiesAffected": [
+          {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
+          {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1}
+        ]
+      }
+    },
+    {
+      "code": "IAC, CA",
+      "extendedName": "Insufficient Access Control",
+      "smellTypeDescription": "Description...",
+      "propertiesAffected": [
+        {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
+        {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1}
+      ],
+      "refactoring": {
+        "name": "Apply Least Privilege Principle",
+        "refactor": "The Least Privilege Principle recommends that accounts and services should ...",
+        "propertiesAffected": [
+          {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
+          {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1}
+        ]
+      }
+    }
+  ]
+

@@ -2,25 +2,25 @@ package org.ssv.model;
 
 import lombok.Builder;
 import lombok.Data;
+import java.util.List;
 
 @Data
 @Builder
 public class Smell {
 
-    private String name;
-    private String description;
-    private String typeDescription;
-    private UrgencyCode urgencyCode;
-    private int id;
-    private Refactoring refactoring;
-    private SmellStatus smellStatus;
-    private  boolean isChecked;
-    private Microservice microservice;
-    //private String extendedName;
-    // private String code;
-    //private int effortTime;
+    private String code; // analysis kubehound
+    private String description; // analysis kubehound
+    private int id; // parser
 
-    public String toString() {
-        return "\nSmell-------{" + id + " --" + name + " --" + description +"}-------";
-    }
+    private String extendedName; // file json
+    private String smellTypeDescription; // file json
+    private Refactoring refactoring; // parser - from json
+    private List<QualityAttribute> propertiesAffected; // file json
+    private UrgencyCode urgencyCode; // triage
+    private SmellStatus smellStatus; // frontend
+    private  boolean isChecked; // frontend
+    private Microservice microservice; // frontend
+    private int effortTime; // frontend
+
+
 }
