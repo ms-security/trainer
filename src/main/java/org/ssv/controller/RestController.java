@@ -29,6 +29,7 @@ public class RestController {
             ContentParser parser = new TxtContentParser();
             Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(parser, content, name, date);
             AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //add the analysis to the database
+            System.out.println(analysis.getSmells());
             return ResponseEntity.ok().body(analysis);   //return the analysis with list of smell
         }
         catch(EmptyContentException e){
