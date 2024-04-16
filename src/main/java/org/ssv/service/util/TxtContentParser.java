@@ -2,7 +2,8 @@ package org.ssv.service.util;
 
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Smell;
-
+import org.ssv.service.FactoryAnalysis;
+import org.ssv.service.SmellDetail;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,17 +24,24 @@ public class TxtContentParser implements ContentParser {
 
         int i = 0;
         while (matcher.find()) {
-            String codes = matcher.group(1).trim();  // Capture all codes within the braces
-            String description = matcher.group(2).trim();  // Capture the description following the code
+            String code = matcher.group(1).trim();
+            SmellDetail detail = FactoryAnalysis.getInstance().findSmellDetailByCode(code);
 
-            Smell newSmell = Smell.builder()
-                    .name(codes)  // Use the entire code string as the name
-                    .description(description)
-                    .id(++i)
-                    .build();
-            smells.add(newSmell);
+            if (detail != null) {
+                Smell newSmell = Smell.builder()
+                        .code(code)
+                        .description(matcher.group(2).trim())
+                        .id(++i)
+                        .extendedName(detail.getExtendedName())
+                        .smellTypeDescription(detail.getSmellTypeDescription())
+                        .propertiesAffected(detail.getPropertiesAffected())
+                        .refactoring(detail.getRefactoring())
+                        .build();
+                smells.add(newSmell);
+            }
+            else
+                System.out.println("Smell detail not found for code: " + code);
         }
-        System.out.println(smells);
         return smells;
     }
 }

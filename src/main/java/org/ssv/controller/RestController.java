@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.ssv.database.AnalysisDatabaseSingleton;
-import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Microservice;
@@ -12,7 +11,6 @@ import org.ssv.model.MicroserviceDTO;
 import org.ssv.service.util.ContentParser;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.util.TxtContentParser;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -23,6 +21,7 @@ public class RestController {
     public ResponseEntity<Analysis> analysis(@RequestParam("file") MultipartFile file,
                                              @RequestParam("name") String name,
                                              @RequestParam("date") String date) {
+        System.out.println(file.toString());
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body(Analysis.builder().id(-1).build());
         }
@@ -31,11 +30,12 @@ public class RestController {
             ContentParser parser = new TxtContentParser();
             Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(parser, content, name, date);
             AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //add the analysis to the database
-            System.out.println(analysis.getSmells());
             return ResponseEntity.ok().body(analysis);   //return the analysis with list of smell
         } catch (InvalidContentException e){
+
             return ResponseEntity.badRequest().body(Analysis.builder().id(-2).build());
         } catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(Analysis.builder().id(-3).build());
         }
     }
