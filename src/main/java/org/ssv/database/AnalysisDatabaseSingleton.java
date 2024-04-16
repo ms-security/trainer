@@ -1,7 +1,7 @@
 package org.ssv.database;
 
 import org.ssv.model.Analysis;
-
+import org.ssv.model.Microservice;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +24,12 @@ public class AnalysisDatabaseSingleton {
         analysisHashMap.put(analysis.getId(), analysis);
     }
 
+    public void addMicroservice(int analysisId, Microservice microservice) {
+        Analysis analysis = analysisHashMap.get(analysisId);
+        if (analysis != null) {
+            analysis.getMicroservices().add(microservice);
+        }
+    }
     public Analysis getAnalysis(int id) {
         return analysisHashMap.get(id);
     }

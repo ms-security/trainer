@@ -7,6 +7,8 @@ import org.ssv.database.AnalysisDatabaseSingleton;
 import org.ssv.exception.EmptyContentException;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
+import org.ssv.model.Microservice;
+import org.ssv.model.MicroserviceDTO;
 import org.ssv.service.util.ContentParser;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.util.TxtContentParser;
@@ -43,6 +45,16 @@ public class RestController {
         return ResponseEntity.ok().body((ArrayList<Analysis>) AnalysisDatabaseSingleton.getInstance().getAllAnalyses());
     }
 
+    @GetMapping("/analysis/{analysisId}")
+    public ResponseEntity<Analysis> getAnalysis(@PathVariable int analysisId) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if(analysis != null) {
+            return ResponseEntity.ok().body(analysis);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @DeleteMapping("/analysis/{analysisId}")
     public ResponseEntity<Void> deleteAnalysis(@PathVariable int analysisId) {
         boolean isRemoved = AnalysisDatabaseSingleton.getInstance().removeAnalysis(analysisId);
@@ -61,6 +73,59 @@ public class RestController {
             return ResponseEntity.ok().body(analysis);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    /*@PostMapping("/microservices/{analysisId}")
+    public ResponseEntity<Microservice> addMicroservice(@PathVariable int analysisId, @RequestBody MicroserviceDTO microserviceDTO) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            Microservice microservice = new Microservice();
+            microservice.setName(microserviceDTO.getName());
+            microservice.setRelevance(microserviceDTO.getRelevance());
+            microservice.setQualityAttributes(convertQualityAttributes(microserviceDTO.getQualityAttributes()));
+
+            analysis.addMicroservice(microservice);
+            AnalysisDatabaseSingleton.getInstance().updateAnalysis(analysis);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(microservice);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    private List<QualityAttributeMS> convertQualityAttributes(List<QualityAttributeDTO> dtos) {
+        return dtos.stream()
+                .map(dto -> {
+                    QualityAttributeMS attr = new QualityAttributeMS();
+                    attr.setName(dto.getName());
+                    attr.setCategory(dto.getCategory());
+                    attr.setRelevance(dto.getRelevance());
+                    return attr;
+                })
+                .collect(Collectors.toList());
+    }*/
+
+    @PostMapping("/microservices/{analysisId}")
+    public ResponseEntity<Microservice> addMicroservice(@PathVariable int analysisId, @RequestBody MicroserviceDTO microserviceDTO) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            Microservice microservice = new Microservice();
+            microservice.setName(microserviceDTO.getName());
+            microservice.setRelevance(microserviceDTO.getRelevance());
+            microservice.setQualityAttributes(microserviceDTO.getQualityAttributes());
+            AnalysisDatabaseSingleton.getInstance().addMicroservice(analysisId, microservice);
+            return ResponseEntity.ok().body(microservice);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 

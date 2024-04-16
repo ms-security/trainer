@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import './HomePage.css';
@@ -7,66 +7,39 @@ import { Analysis } from "../../interfaces/Analysis";
 import AnalysisCard from "../../components/cards/AnalysisCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faFilter } from "@fortawesome/free-solid-svg-icons";
-import WebController from "../../application/WebController";
+import { useAnalysis } from '../../contexts/AnalysisContext';
 
 function HomePage() {
 
     // State for managing the visibility of the upload component
     const [isUploadVisible, setIsUploadVisible] = useState(false);
     // State for storing the list of analyses
-    const [analysisList, setAnalysisList] = useState<Analysis[]>([]);
     const navigate = useNavigate();
+    const { analyses, fetchAnalyses, deleteAnalysis, toggleFavoriteStatus, addAnalysis } = useAnalysis();
 
-    useEffect(() => {
-       fetchAnalyses().then(r => console.log("Analyses fetched"));
-    }, []);  // The empty dependency array ensures this effect runs only once on mount
-
-    const fetchAnalyses = async () => {
-        try {
-            const analyses = await WebController.fetchAllAnalyses();
-            setAnalysisList(analyses); // Update the state with the fetched analyses
-        } catch (error) {
-            console.error('Failed to fetch analyses:', error);
-            // Optionally, handle the error e.g., show an error message to the user
-        }
-    };
     // Function to toggle the visibility of the upload component
     const handleUploadButtonClick = () => {
         setIsUploadVisible(!isUploadVisible);
     };
 
     // Function to handle a new analysis added by the upload component
-    const handleNewAnalysis = (newAnalysis: Analysis) => {
-        setAnalysisList(prev => [...prev, newAnalysis]);
+    const handleNewAnalysis = async (file: File, name: string, date: string) => {
+        await addAnalysis(file, name, date);
     };
 
     // Function for handling click events on an analysis card
-    const handleAnalysisClick = (analysis: Analysis) => {
-        navigate(`/analysis/${analysis.id}`, { state: { analysis } });
+    const handleAnalysisClick = (analysisId: number) => {
+        navigate(`/analysis/${analysisId}`);
     };
 
     // Placeholder function to handle changes in analysis favorite status
     const handleFavoriteChange = async (analysisId: number) => {
-        try {
-            await WebController.toggleFavoriteStatus(analysisId);
-            await fetchAnalyses();
-        } catch (error) {
-            console.error('Failed to update favorite status:', error);
-        }
+        await toggleFavoriteStatus(analysisId);
     };
 
     const handleDeleteAnalysis = async (analysisId: number) => {
-        // Confirm deletion
-        const isConfirmed = window.confirm("Are you sure you want to delete this analysis?");
-        if (isConfirmed) {
-            try {
-                await WebController.deleteAnalysis(analysisId); // Assume you have this method in your WebController
-                // Filter out the deleted analysis from your list
-                setAnalysisList(currentList => currentList.filter(analysis => analysis.id !== analysisId));
-            } catch (error) {
-                console.error('Failed to delete analysis:', error);
-                // Optionally, handle the error e.g., show an error message to the user
-            }
+        if (window.confirm("Are you sure you want to delete this analysis?")) {
+            await deleteAnalysis(analysisId);
         }
     };
 
@@ -92,9 +65,9 @@ function HomePage() {
                 <Upload onClose={() => setIsUploadVisible(false)} onNewAnalysis={handleNewAnalysis} />
             )}
             {/* Grid container for analysis cards. If there are no analyses, show a message. */}
-            <div className={`analysis-grid ${analysisList.length === 0 ? 'center-content' : ''}`}>
-                {analysisList.length > 0 ? (
-                    analysisList.map((analysis) => (
+            <div className={`analysis-grid ${analyses.length === 0 ? 'center-content' : ''}`}>
+                {analyses.length > 0 ? (
+                    analyses.map((analysis) => (
                         <AnalysisCard
                             key={analysis.id}
                             name={analysis.name}
@@ -102,7 +75,7 @@ function HomePage() {
                             isFavorite={analysis.isFavorite}
                             isTriageValid={analysis.isTriageValid}
                             onFavoriteChange={() => handleFavoriteChange(analysis.id)}
-                            onClick={() => handleAnalysisClick(analysis)}
+                            onClick={() => handleAnalysisClick(analysis.id)}
                             onDelete={() => handleDeleteAnalysis(analysis.id)}
                         />
                     ))

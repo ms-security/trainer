@@ -1,6 +1,5 @@
-// Importa useLocation da react-router-dom per accedere allo stato passato attraverso il routing
-import React, { useState } from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import Sidebar from '../../components/sideBar/SideBar';
 import SmellCard from '../../components/cards/SmellCard';
@@ -10,7 +9,9 @@ import {Smell} from "../../interfaces/Smell"; // Assicurati di creare questo fil
 import TriageBanner from '../../components/triageBanner/TriageBanner';
 import MicroserviceForm from "../../components/inputForm/MicroserviceForm";
 import {Box, Modal} from "@mui/material";
-import {Microservice} from "../../interfaces/Microservice"; // Assicurati di creare questo file CSS e di importarlo
+import {Microservice} from "../../interfaces/Microservice";
+import WebController from "../../application/WebController";
+import { useAnalysis } from '../../contexts/AnalysisContext';
 
 const style = {
     position: 'absolute',
@@ -25,20 +26,21 @@ const style = {
 };
 
 const AnalysisPage = () => {
-    // Use useLocation to access the state passed from the HomePage
-    const location = useLocation();
-
     const navigate = useNavigate();
-
-    // Extract the 'analysis' data from the location state
-    const { analysis } = location.state as { analysis: Analysis };
-
+    const { id } = useParams<{ id: string }>();
+    const { fetchAnalysisById, addMicroservice } = useAnalysis();
+    const [analysis, setAnalysis] = useState<Analysis | undefined>();
     // State to control the visibility of the sidebar
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
-    const handleSmellClick = (analysis: Analysis, smell: Smell) => {
-        navigate(`/analysis/${analysis.id}/smell/${smell.id}`, { state: { analysis , smell} });
-        console.log("Smell clicked    " + smell.description);
+    useEffect(() => {
+        if (id) {
+            fetchAnalysisById(parseInt(id)).then(setAnalysis);
+        }
+    }, [id, fetchAnalysisById]);
+
+    const handleSmellClick = (smellId: number) => {
+        navigate(`/analysis/${id}/smell/${smellId}`);
     };
 
     const [showModal, setShowModal] = useState(false);
@@ -47,11 +49,19 @@ const AnalysisPage = () => {
         setShowModal(!showModal);
     };
 
-    const handleAddMicroservice = (newMicroservice: Microservice) => {
-        analysis.microservices.push(newMicroservice);
-        setShowModal(!showModal);
+    const handleAddMicroservice = async (data: any) => {
+        if (analysis) {
+            try {
+                await addMicroservice(data, analysis.id);
+                // Assume that addMicroservice updates the analysis context, so refetch it
+                const updatedAnalysis = await fetchAnalysisById(analysis.id);
+                setAnalysis(updatedAnalysis);
+                toggleModal();
+            } catch (error) {
+                console.error('Error adding microservice:', error);
+            }
+        }
     };
-
     // Render the analysis page container
     return (
         <div className="analysis-page-container">
@@ -59,12 +69,12 @@ const AnalysisPage = () => {
             <Sidebar
                 isVisible={isSidebarVisible}
                 toggleSidebar={() => setIsSidebarVisible(!isSidebarVisible)}
-                microservices={analysis.microservices}
+                microservices={analysis?.microservices || []}
                 onClickModal={toggleModal}
             />
             {/* Main content area, its margin adjusts based on the sidebar visibility */}
-            <div className={`content ${isSidebarVisible ? '' : 'sidebar-closed'} ${!analysis.isTriageValid ? 'with-banner' : ''}`}>
-                {!analysis.isTriageValid && (
+            <div className={`content ${isSidebarVisible ? '' : 'sidebar-closed'} ${!analysis?.isTriageValid ? 'with-banner' : ''}`}>
+                {!analysis?.isTriageValid && (
                     <TriageBanner onClick={toggleModal} />
                 )}
                 <Modal
@@ -78,13 +88,13 @@ const AnalysisPage = () => {
                     </Box>
                 </Modal>
                 <div className="smells-list">
-                    {analysis.smells.map((smell) => (
+                    {analysis?.smells.map((smell) => (
                         <SmellCard
                             key={smell.id}
                             smellName={smell.name}
                             smellDescription={smell.description}
                             importance={"low"}
-                            onClick={() => handleSmellClick(analysis, smell)}
+                            onClick={() => handleSmellClick(smell.id)}
                         />
                     ))}
                 </div>

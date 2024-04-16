@@ -12,7 +12,7 @@ import WebController from "../../application/WebController";
 // Define the properties expected by the Upload component
 interface UploadProps {
     onClose: () => void; // Function to call when closing the upload modal
-    onNewAnalysis: (analysis: Analysis) => void; // Function to handle a new analysis object
+    onNewAnalysis: (file: File, name: string, date: string) => void; // Function to handle a new analysis object
 }
 
 // The Upload component allows the user to upload files for analysis
@@ -65,19 +65,11 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
 
     // Handles file upload submission
     // Handles file upload submission
-    const handleSubmission = async () => {
+    const handleSubmission = () =>{
         if (selectedFile && analysisName) {
             const currentDate = new Date().toISOString(); // Get the current date
-
-            try {
-                // Use the newAnalysis method from WebController to submit the file
-                const analysis = await WebController.newAnalysis(selectedFile, analysisName, currentDate);
-                onNewAnalysis(analysis); // Pass the analysis back to the parent component
-                onClose(); // Close the upload modal after submission
-            } catch (error) {
-                if(error instanceof Error)
-                    alert(error.message || 'An error occurred while uploading the file.');
-            }
+            // Use the newAnalysis method from WebController to submit the file
+            onNewAnalysis(selectedFile, analysisName, currentDate); // Pass the analysis back to the parent component
         } else {
             alert('Please select a file and enter a name for the analysis.');
         }

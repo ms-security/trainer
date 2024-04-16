@@ -3,7 +3,7 @@ import { Microservice} from "../../interfaces/Microservice";
 import {Category, QualityAttribute, Relevance} from "../../interfaces/QualityAttribute";
 
 interface MicroserviceFormProps {
-    onAddMicroservice: (microservice: Microservice) => void;
+    onAddMicroservice: (data: any) => void;
 }
 
 const qualityAttributes: QualityAttribute[] = [
@@ -47,10 +47,14 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice }
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        onAddMicroservice({
-            ...newMicroservice,
-            qualityAttributes: newMicroservice.qualityAttributes.filter(attr => attr.relevance !== Relevance.NONE)
-        });
+        const dataToSend = {
+            name: newMicroservice.name,
+            relevance: newMicroservice.relevance,
+            qualityAttributes: newMicroservice.qualityAttributes
+                .filter(attr => attr.relevance !== Relevance.NONE)
+                .map(attr => ({ name: attr.name, relevance: attr.relevance, category: attr.category }))
+        };
+        onAddMicroservice(dataToSend);
         setNewMicroservice({
             name: '',
             relevance: Relevance.NONE,
