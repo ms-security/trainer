@@ -65,6 +65,8 @@ const AnalysisPage = () => {
             try {
                 console.log('Assigning microservice to smell: ', microserviceName, smellId);
                 await addSmellToMicroservice(analysis.id, microserviceName, smellId);
+                const updatedAnalysis = await fetchAnalysisById(analysis.id);
+                setAnalysis(updatedAnalysis);
             } catch (error) {
                 console.error('Error assigning microservice to smell:', error);
             }
@@ -100,7 +102,7 @@ const AnalysisPage = () => {
                             smellName={smell.name}
                             smellId={smell.id}
                             smellDescription={smell.description}
-                            importance={"low"}
+                            urgencyCode={smell.urgencyCode}
                             onClick={() => handleSmellClick(smell.id)}
                             microservices={analysis.microservices || []}
                             onAssignMicroservice={handleAssignMicroserviceToSmell}

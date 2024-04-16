@@ -50,28 +50,21 @@
     align-items: center;
 }
 
-.importance-indicator {
+.urgency-indicator {
     height: 20px;
     width: 20px;
     border-radius: 50%;
     margin-right: 10px;
+    background-color: grey; /* Default color for undefined urgency */
 }
 
-.importance-indicator.none {
-    background-color: grey; /* Grey for no importance */
-}
-
-.importance-indicator.low {
-    background-color: #90EE90; /* Light green for low importance */
-}
-
-.importance-indicator.medium {
-    background-color: #FFD700; /* Yellow for medium importance */
-}
-
-.importance-indicator.high {
-    background-color: #FF4500; /* Red for high importance */
-}
+.urgency-indicator.Ø { background-color: darkgreen; }
+.urgency-indicator.l { background-color: lightgreen; }
+.urgency-indicator.L { background-color: yellowgreen; }
+.urgency-indicator.m { background-color: yellow; }
+.urgency-indicator.M { background-color: orange; }
+.urgency-indicator.h { background-color: lightcoral; }
+.urgency-indicator.H { background-color: darkred; }
 
 .smell-content h3 {
     margin: 0;

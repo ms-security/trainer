@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import './SmellCard.css';
 import {Microservice} from "../../interfaces/Microservice";
+import {UrgencyCode} from "../../interfaces/Smell";
 
 interface SmellCardProps {
     smellId: number;
     smellName: string;
     smellDescription: string;
-    importance: 'none' | 'low' | 'medium' | 'high';
+    urgencyCode: UrgencyCode | undefined;
     onClick: () => void;
     microservices: Microservice[];
     onAssignMicroservice: (smellId: number, microserviceName: string) => void;
@@ -16,13 +17,17 @@ const SmellCard: React.FC<SmellCardProps> = ({
                                                  smellId,
                                                  smellName,
                                                  smellDescription,
-                                                 importance,
+                                                 urgencyCode,
                                                  microservices,
                                                  onAssignMicroservice,
                                                  onClick
                                                 }) => {
     const [status, setStatus] = useState('unfixed');
     const [selectedMicroservice, setSelectedMicroservice] = useState('');
+
+    const getUrgencyClass = (code: UrgencyCode | undefined) => {
+        return code ? `urgency-indicator ${code}` : 'urgency-indicator'; // Append the urgency code as a class
+    };
     const handleStatusChange = (newStatus: string) => {
         setStatus(newStatus);
     };
@@ -44,7 +49,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
             </div>
             <div className="smell-footer">
                 <div className="importance-status">
-                    <div className={`importance-indicator ${importance}`}></div>
+                    <div className={getUrgencyClass(urgencyCode)}></div>
                     <div className="status-dropdown">
                         <select value={status} onClick={(e) => {e.stopPropagation();}} onChange={(e) => {handleStatusChange(e.target.value)}}>
                             <option value="unfixed">Unfixed</option>
