@@ -21,7 +21,6 @@ public class RestController {
     public ResponseEntity<Analysis> analysis(@RequestParam("file") MultipartFile file,
                                              @RequestParam("name") String name,
                                              @RequestParam("date") String date) {
-        System.out.println(file.toString());
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body(Analysis.builder().id(-1).build());
         }

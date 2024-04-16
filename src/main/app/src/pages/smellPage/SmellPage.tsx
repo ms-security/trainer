@@ -27,7 +27,7 @@ const SmellPage = () => {
             <div className="container-smell-page">
                 <div className="card-container">
                     <div className="smell-name-description">
-                        <h2 className="smell-name">{smell?.name}</h2>
+                        <h2 className="smell-name">{smell?.name } - {smell?.extendedName}</h2>
                         <p className="smell-description-page">{smell?.description}</p>
                     </div>
                 </div>

@@ -4,4 +4,5 @@ export interface Smell {
     description: string;
     importance: 'none' | 'low' | 'medium' | 'high';
     status: 'unfixed' | 'fixed' | 'false_positive' | 'wont_fix';
+    extendedName: string;
 }
