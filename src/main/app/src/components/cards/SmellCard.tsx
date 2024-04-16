@@ -1,23 +1,39 @@
 import React, { useState } from 'react';
 import './SmellCard.css';
+import {Microservice} from "../../interfaces/Microservice";
 
 interface SmellCardProps {
+    smellId: number;
     smellName: string;
     smellDescription: string;
     importance: 'none' | 'low' | 'medium' | 'high';
     onClick: () => void;
+    microservices: Microservice[];
+    onAssignMicroservice: (smellId: number, microserviceName: string) => void;
 }
 
 const SmellCard: React.FC<SmellCardProps> = ({
+                                                 smellId,
                                                  smellName,
                                                  smellDescription,
                                                  importance,
+                                                 microservices,
+                                                 onAssignMicroservice,
                                                  onClick
                                                 }) => {
     const [status, setStatus] = useState('unfixed');
-
+    const [selectedMicroservice, setSelectedMicroservice] = useState('');
     const handleStatusChange = (newStatus: string) => {
         setStatus(newStatus);
+    };
+
+    // Function to call when a microservice is selected from the dropdown
+    const handleMicroserviceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const microserviceName = e.target.value;
+        setSelectedMicroservice(microserviceName);
+        if (microserviceName !== '') {
+            onAssignMicroservice(smellId, microserviceName);
+        }
     };
 
     return (
@@ -41,6 +57,15 @@ const SmellCard: React.FC<SmellCardProps> = ({
                 <div className="checkbox-container" onClick={(e) => {e.stopPropagation();}}>
                     <input type="checkbox"/>
                 </div>
+                <div className="microservice-dropdown">
+                    <select value={selectedMicroservice} onClick={(e) => {e.stopPropagation();}} onChange={handleMicroserviceChange}>
+                        <option value="" disabled>Select Microservice</option>
+                        {microservices.map(microservice => (
+                            <option key={microservice.name} value={microservice.name}>{microservice.name}</option>
+                        ))}
+                    </select>
+                </div>
+
             </div>
         </div>
     );

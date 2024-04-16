@@ -12,6 +12,7 @@ interface AnalysisContextType {
     toggleFavoriteStatus: (analysisId: number) => Promise<void>;
     addMicroservice: (data: any, analysisId: number) => Promise<void>;
     getSmellById: (analysisId: number, smellId: number) => Smell | undefined;
+    addSmellToMicroservice: (analysisId: number, microserviceId: string, smellId: number) => Promise<void>;
 }
 
 const AnalysisContext = createContext<AnalysisContextType | undefined>(undefined);
@@ -87,6 +88,16 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
+    const addSmellToMicroservice = async (analysisId: number, microserviceId: string, smellId: number) => {
+        try {
+            await WebController.addSmellToMicroservice(analysisId, microserviceId, smellId);
+            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
+            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
+        } catch (error) {
+            console.error('Failed to add smell to microservice:', error);
+        }
+    };
+
     const getSmellById = useCallback((analysisId: number, smellId: number) => {
         const analysis = analyses.find(a => a.id === analysisId);
         console.log("ciao ddw");
@@ -108,6 +119,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             fetchAnalysisById,
             deleteAnalysis,
             getSmellById,
+            addSmellToMicroservice,
             toggleFavoriteStatus,
             addMicroservice
         }}>

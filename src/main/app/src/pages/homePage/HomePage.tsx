@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import './HomePage.css';
 import Upload from "../../components/upload/Upload";
-import { Analysis } from "../../interfaces/Analysis";
 import AnalysisCard from "../../components/cards/AnalysisCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faFilter } from "@fortawesome/free-solid-svg-icons";

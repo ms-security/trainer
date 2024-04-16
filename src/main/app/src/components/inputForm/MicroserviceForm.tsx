@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Microservice} from "../../interfaces/Microservice";
-import {Category, QualityAttribute, Relevance} from "../../interfaces/QualityAttribute";
+import {Category, QualityAttribute, QualityAttributeMS, Relevance} from "../../interfaces/QualityAttribute";
 
 interface MicroserviceFormProps {
     onAddMicroservice: (data: any) => void;
 }
 
-const qualityAttributes: QualityAttribute[] = [
+const qualityAttributes: QualityAttributeMS[] = [
     { name: 'confidentiality', relevance: Relevance.NONE, category: Category.SECURITY },
     { name: 'integrity', relevance: Relevance.NONE, category: Category.SECURITY },
     { name: 'authenticity', relevance: Relevance.NONE, category: Category.SECURITY },

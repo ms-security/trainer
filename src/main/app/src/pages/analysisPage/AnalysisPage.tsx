@@ -5,12 +5,8 @@ import Sidebar from '../../components/sideBar/SideBar';
 import SmellCard from '../../components/cards/SmellCard';
 import { Analysis } from "../../interfaces/Analysis";
 import './AnalysisPage.css';
-import {Smell} from "../../interfaces/Smell"; // Assicurati di creare questo file CSS e di importarlo
-import TriageBanner from '../../components/triageBanner/TriageBanner';
 import MicroserviceForm from "../../components/inputForm/MicroserviceForm";
 import {Box, Modal} from "@mui/material";
-import {Microservice} from "../../interfaces/Microservice";
-import WebController from "../../application/WebController";
 import {useAnalysis} from "../../contexts/AnalysisContext";
 
 const style = {
@@ -28,7 +24,7 @@ const style = {
 const AnalysisPage = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const { fetchAnalysisById, addMicroservice } = useAnalysis();
+    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice} = useAnalysis();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
     // State to control the visibility of the sidebar
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
@@ -63,6 +59,18 @@ const AnalysisPage = () => {
             }
         }
     };
+
+    const handleAssignMicroserviceToSmell = async (smellId: number, microserviceName: string) => {
+        if (analysis) {
+            try {
+                console.log('Assigning microservice to smell: ', microserviceName, smellId);
+                await addSmellToMicroservice(analysis.id, microserviceName, smellId);
+            } catch (error) {
+                console.error('Error assigning microservice to smell:', error);
+            }
+        }
+    };
+
     // Render the analysis page container
     return (
         <div className="analysis-page-container">
@@ -75,9 +83,6 @@ const AnalysisPage = () => {
             />
             {/* Main content area, its margin adjusts based on the sidebar visibility */}
             <div className={`content ${isSidebarVisible ? '' : 'sidebar-closed'} ${!analysis?.isTriageValid ? 'with-banner' : ''}`}>
-                {!analysis?.isTriageValid && (
-                    <TriageBanner onClick={toggleModal} />
-                )}
                 <Modal
                     open={showModal}
                     onClose={toggleModal}
@@ -93,9 +98,12 @@ const AnalysisPage = () => {
                         <SmellCard
                             key={smell.id}
                             smellName={smell.name}
+                            smellId={smell.id}
                             smellDescription={smell.description}
                             importance={"low"}
                             onClick={() => handleSmellClick(smell.id)}
+                            microservices={analysis.microservices || []}
+                            onAssignMicroservice={handleAssignMicroserviceToSmell}
                         />
                     ))}
                 </div>

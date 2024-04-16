@@ -2,6 +2,8 @@ package org.ssv.database;
 
 import org.ssv.model.Analysis;
 import org.ssv.model.Microservice;
+import org.ssv.model.Smell;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,32 @@ public class AnalysisDatabaseSingleton {
         if (analysis != null) {
             analysis.getMicroservices().add(microservice);
         }
+    }
+
+    public Microservice getMicroservice(int analysisId, String microserviceId) {
+        Analysis analysis = analysisHashMap.get(analysisId);
+        Microservice result = null;
+        if (analysis != null) {
+            for(Microservice microservice : analysis.getMicroservices()) {
+                if(microservice.getName().equals(microserviceId)) {
+                    result = microservice;
+                }
+            }
+        }
+        return result;
+    }
+
+    public Smell getSmell(int analysisId, int smellId) {
+        Analysis analysis = analysisHashMap.get(analysisId);
+        Smell result = null;
+        if (analysis != null) {
+            for(Smell smell : analysis.getSmells()) {
+                if(smell.getId() == smellId) {
+                    result = smell;
+                }
+            }
+        }
+        return result;
     }
     public Analysis getAnalysis(int id) {
         return analysisHashMap.get(id);

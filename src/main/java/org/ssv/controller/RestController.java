@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.ssv.database.AnalysisDatabaseSingleton;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.*;
+import org.ssv.service.TriageService;
 import org.ssv.service.util.ContentParser;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.util.TxtContentParser;
@@ -102,6 +103,29 @@ public class RestController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PutMapping("/microservices/{analysisId}/{microserviceId}/{smellId}")
+    public ResponseEntity<Void> assignMicroserviceToSmell(@PathVariable int analysisId, @PathVariable String microserviceId, @PathVariable int smellId) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+        System.out.println("Analysis found");
+        Microservice microservice = AnalysisDatabaseSingleton.getInstance().getMicroservice(analysisId, microserviceId);
+        if (microservice == null) {
+            return ResponseEntity.notFound().build();
+        }
+        System.out.println("Microservice found");
+        Smell smell = AnalysisDatabaseSingleton.getInstance().getSmell(analysisId, smellId);
+        if (smell == null) {
+            return ResponseEntity.notFound().build();
+        }
+        System.out.println("Smell found");
+        TriageService triageService = new TriageService();
+        smell.setUrgencyCode(triageService.urgencyCodeCalculator(microservice, smell));
+        smell.setMicroservice(microservice);
+        return ResponseEntity.ok().build();
     }
 
 }

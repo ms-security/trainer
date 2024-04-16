@@ -100,4 +100,17 @@ export default class WebController{
             throw new Error('Failed to add microservice: ' + errorData.message);
         }
     }
+
+    static async addSmellToMicroservice(analysisId: number, microserviceId: string, smellId: number): Promise<void> {
+        const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceId}/${smellId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Failed to add microservice to smell');
+        }
+        console.log('Microservice added to smell');
+    }
 }

@@ -1,5 +1,6 @@
 package org.ssv.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 @Builder
 public class Smell {
 
+    @JsonProperty("name")
     private String code; // analysis kubehound
     private String description; // analysis kubehound
     private int id; // parser

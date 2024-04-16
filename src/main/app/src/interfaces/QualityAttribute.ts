@@ -14,6 +14,12 @@ export enum Relevance {
 // Interface for QualityAttribute
 export interface QualityAttribute {
     name: string;
-    relevance: Relevance;
     category: Category;
+}
+export interface QualityAttributeMS extends QualityAttribute {
+    relevance: Relevance;
+}
+
+export interface QualityAttributeSR extends QualityAttribute {
+    impactsPositively: boolean;
 }

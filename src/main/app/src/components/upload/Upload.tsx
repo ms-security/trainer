@@ -1,15 +1,9 @@
-// Import React and hook utilities from 'react' package
 import React, { useRef, useState } from 'react';
-// Import the CSS for styling the upload component
 import './Upload.css';
-// Import the Analysis interface definition
-import { Analysis } from "../../interfaces/Analysis";
 // Import icons from Font Awesome for UI elements
 import { faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import WebController from "../../application/WebController";
 
-// Define the properties expected by the Upload component
 interface UploadProps {
     onClose: () => void; // Function to call when closing the upload modal
     onNewAnalysis: (file: File, name: string, date: string) => void; // Function to handle a new analysis object

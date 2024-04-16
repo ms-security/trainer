@@ -1,7 +1,33 @@
+import {Microservice} from "./Microservice";
+import {Refactoring} from "./Refactor";
+
 export interface Smell {
     id: number,
     name: string,
     description: string;
-    importance: 'none' | 'low' | 'medium' | 'high';
-    status: 'unfixed' | 'fixed' | 'false_positive' | 'wont_fix';
+    status: SmellStatus;
+    smellTypeDescription: string;
+    refactoring: Refactoring;
+    extendedName: string;
+    urgencyCode?: UrgencyCode;
+    microservice?: Microservice;
+    effortTime?: number;
+    isChecked: boolean;
+}
+
+export enum UrgencyCode {
+    H = "H",
+    h = "h",
+    M = "M",
+    m = "m",
+    L = "L",
+    l = "l",
+    Ø = "Ø"
+}
+
+export enum SmellStatus {
+    UNFIXED = "UNFIXED",
+    FIXED = "FIXED",
+    FALSE_POSITIVE = "FALSE_POSITIVE",
+    NOT_GOING_TO_FIX = "NOT_GOING_TO_FIX"
 }
