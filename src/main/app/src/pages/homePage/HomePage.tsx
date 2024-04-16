@@ -7,15 +7,15 @@ import { Analysis } from "../../interfaces/Analysis";
 import AnalysisCard from "../../components/cards/AnalysisCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faFilter } from "@fortawesome/free-solid-svg-icons";
-import { useAnalysis } from '../../contexts/AnalysisContext';
+import {useAnalysis} from "../../contexts/AnalysisContext";
+
 
 function HomePage() {
 
     // State for managing the visibility of the upload component
     const [isUploadVisible, setIsUploadVisible] = useState(false);
-    // State for storing the list of analyses
     const navigate = useNavigate();
-    const { analyses, fetchAnalyses, deleteAnalysis, toggleFavoriteStatus, addAnalysis } = useAnalysis();
+    const { analyses, deleteAnalysis, toggleFavoriteStatus, addAnalysis } = useAnalysis();
 
     // Function to toggle the visibility of the upload component
     const handleUploadButtonClick = () => {
@@ -24,7 +24,13 @@ function HomePage() {
 
     // Function to handle a new analysis added by the upload component
     const handleNewAnalysis = async (file: File, name: string, date: string) => {
-        await addAnalysis(file, name, date);
+        try {
+            await addAnalysis(file, name, date);
+            setIsUploadVisible(!isUploadVisible);
+        } catch (error) {
+        if(error instanceof Error)
+            alert(error.message || 'An error occurred while uploading the file.');
+        }
     };
 
     // Function for handling click events on an analysis card

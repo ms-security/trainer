@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import WebController from '../application/WebController';
 import { Analysis } from "../interfaces/Analysis";
+import {Smell} from "../interfaces/Smell";
 
 interface AnalysisContextType {
     analyses: Analysis[];
@@ -10,6 +11,7 @@ interface AnalysisContextType {
     deleteAnalysis: (analysisId: number) => Promise<void>;
     toggleFavoriteStatus: (analysisId: number) => Promise<void>;
     addMicroservice: (data: any, analysisId: number) => Promise<void>;
+    getSmellById: (analysisId: number, smellId: number) => Smell | undefined;
 }
 
 const AnalysisContext = createContext<AnalysisContextType | undefined>(undefined);
@@ -33,14 +35,10 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
     }, []);
 
     const addAnalysis = async (file: File, name: string, date: string) => {
-        try {
-            const analysis = await WebController.newAnalysis(file, name, date);
-            setAnalyses(prev => [...prev, analysis]);
-        } catch (error) {
-            if(error instanceof Error)
-                alert(error.message || 'An error occurred while uploading the file.');
-        }
+        const analysis = await WebController.newAnalysis(file, name, date);
+        setAnalyses(prev => [...prev, analysis]);
     };
+
     const fetchAnalysisById = useCallback(async (id: number): Promise<Analysis | undefined> => {
         try {
             const analysis = await WebController.fetchAnalysis(id);
@@ -89,6 +87,15 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
+    const getSmellById = useCallback((analysisId: number, smellId: number) => {
+        const analysis = analyses.find(a => a.id === analysisId);
+        console.log("ciao ddw");
+        if (analysis) {
+            return analysis.smells.find(s => s.id === smellId);
+        }
+        return undefined;
+    }, [analyses]);
+
     useEffect(() => {
         fetchAnalyses();
     }, [fetchAnalyses]);
@@ -100,6 +107,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             addAnalysis,
             fetchAnalysisById,
             deleteAnalysis,
+            getSmellById,
             toggleFavoriteStatus,
             addMicroservice
         }}>

@@ -7,5 +7,5 @@ import java.util.List;
 public class MicroserviceDTO {
     private String name;
     private Relevance relevance;
-    private List<QualityAttribute> qualityAttributes;
+    private List<QualityAttributeDTO> qualityAttributes;
 }

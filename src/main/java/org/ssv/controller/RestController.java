@@ -5,14 +5,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.ssv.database.AnalysisDatabaseSingleton;
 import org.ssv.exception.InvalidContentException;
-import org.ssv.model.Analysis;
-import org.ssv.model.Microservice;
-import org.ssv.model.MicroserviceDTO;
+import org.ssv.model.*;
 import org.ssv.service.util.ContentParser;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.util.TxtContentParser;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -76,40 +76,6 @@ public class RestController {
         }
     }
 
-    /*@PostMapping("/microservices/{analysisId}")
-    public ResponseEntity<Microservice> addMicroservice(@PathVariable int analysisId, @RequestBody MicroserviceDTO microserviceDTO) {
-        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
-        if (analysis == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        try {
-            Microservice microservice = new Microservice();
-            microservice.setName(microserviceDTO.getName());
-            microservice.setRelevance(microserviceDTO.getRelevance());
-            microservice.setQualityAttributes(convertQualityAttributes(microserviceDTO.getQualityAttributes()));
-
-            analysis.addMicroservice(microservice);
-            AnalysisDatabaseSingleton.getInstance().updateAnalysis(analysis);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(microservice);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-    private List<QualityAttributeMS> convertQualityAttributes(List<QualityAttributeDTO> dtos) {
-        return dtos.stream()
-                .map(dto -> {
-                    QualityAttributeMS attr = new QualityAttributeMS();
-                    attr.setName(dto.getName());
-                    attr.setCategory(dto.getCategory());
-                    attr.setRelevance(dto.getRelevance());
-                    return attr;
-                })
-                .collect(Collectors.toList());
-    }*/
-
     @PostMapping("/microservices/{analysisId}")
     public ResponseEntity<Microservice> addMicroservice(@PathVariable int analysisId, @RequestBody MicroserviceDTO microserviceDTO) {
         Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
@@ -121,7 +87,16 @@ public class RestController {
             Microservice microservice = new Microservice();
             microservice.setName(microserviceDTO.getName());
             microservice.setRelevance(microserviceDTO.getRelevance());
-            microservice.setQualityAttributes(microserviceDTO.getQualityAttributes());
+            List<QualityAttribute> qualityAttributes = microserviceDTO.getQualityAttributes().stream()
+                    .map(attrDTO -> {
+                        QualityAttributeMS attr = new QualityAttributeMS();
+                        attr.setName(attrDTO.getName());
+                        attr.setCategory(attrDTO.getCategory());
+                        attr.setRelevance(attrDTO.getRelevance());
+                        return attr;
+                    })
+                    .collect(Collectors.toList());
+            microservice.setQualityAttributes(qualityAttributes);
             AnalysisDatabaseSingleton.getInstance().addMicroservice(analysisId, microservice);
             return ResponseEntity.ok().body(microservice);
         } catch (Exception e) {

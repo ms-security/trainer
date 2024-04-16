@@ -4,7 +4,8 @@ import HomePage from "./pages/homePage/HomePage";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import AnalysisPage from "./pages/analysisPage/AnalysisPage";
 import SmellPage from "./pages/smellPage/SmellPage";
-import { AnalysisProvider } from './contexts/AnalysisContext';
+import {AnalysisProvider} from "./contexts/AnalysisContext";
+
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
                   <Routes>
                       <Route path="/" element={<HomePage/>}/>
                       <Route path="/analysis/:id" element={<AnalysisPage/>}/>
-                      <Route path="/analysis/:id/smell/:id" element={<SmellPage/>}/>
+                      <Route path="/analysis/:analysisId/smell/:smellId" element={<SmellPage/>}/>
                   </Routes>
               </AnalysisProvider>
           </BrowserRouter>

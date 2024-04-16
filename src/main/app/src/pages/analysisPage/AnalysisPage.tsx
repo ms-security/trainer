@@ -11,7 +11,7 @@ import MicroserviceForm from "../../components/inputForm/MicroserviceForm";
 import {Box, Modal} from "@mui/material";
 import {Microservice} from "../../interfaces/Microservice";
 import WebController from "../../application/WebController";
-import { useAnalysis } from '../../contexts/AnalysisContext';
+import {useAnalysis} from "../../contexts/AnalysisContext";
 
 const style = {
     position: 'absolute',
@@ -40,6 +40,7 @@ const AnalysisPage = () => {
     }, [id, fetchAnalysisById]);
 
     const handleSmellClick = (smellId: number) => {
+        console.log("check params:", id, smellId);
         navigate(`/analysis/${id}/smell/${smellId}`);
     };
 
