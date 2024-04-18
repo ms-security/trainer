@@ -24,12 +24,20 @@ const SmellPage = () => {
     return (
         <>
             <TopBar />
-            <div className="container-smell-page">
-                <div className="card-container">
-                    <div className="smell-name-description">
-                        <h2 className="smell-name">{smell?.name } - {smell?.extendedName}</h2>
-                        <p className="smell-description-page">{smell?.description}</p>
+            <div className="smellPage-pageContainer">
+                <div className="smellPage-smellRefactor-container">
+                    <div className="smellPage-smellK">
+                        <h2 className="smellPage-smellName">{smell?.name } - {smell?.extendedName}</h2>
+                        <p className="smellPage-smellDescription">{smell?.description}</p>
                     </div>
+                    <div className="smellPage-refactoring">
+                        <h3 className="smellPage-refactorName">Refactoring - {smell?.refactoring.name}</h3>
+                        <p className="smellPage-refactorDescription">{smell?.refactoring.refactor}</p>
+                    </div>
+                </div>
+                <div className="smellPage-smellDefinition">
+                    <h3 className="smellPage-smellDefinitionTitle">Smell Definition - {smell?.name }</h3>
+                    <p className="smellPage-smellDefinitionDescription">{smell?.smellTypeDescription}</p>
                 </div>
             </div>
         </>

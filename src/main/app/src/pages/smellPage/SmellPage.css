@@ -1,37 +1,40 @@
-.container-smell-page {
+.smellPage-pageContainer { /*container pagina totale*/
     display: flex;
     flex-direction: column;
     margin-top: 76px;
     width: 100%;
 }
 
-.card-container {
+.smellPage-smellRefactor-container { /*container box smell & box refactoring*/
     display: flex;
     margin-left: 20px;
+    margin-right: 20px;
     overflow: visible;
+    width: fit-content;
     height: fit-content;
 }
 
-.smell-container {
-    /*width: 48%; /* Ogni card occupa circa la metà dello spazio disponibile */
+.smellPage-refactoring { /*box refactoring*/
+    width: 50%;
+    height: fit-content;
     padding: 5px;
-    background: #fff;
+    background: lightcyan;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
-    box-sizing: border-box;
-    height: auto; /* Rimuove l'altezza fissa se presente */
+    margin-left: 10px;
 }
 
-.smell-name-description{
-    width: 500px;
+.smellPage-smellK{ /*box smell*/
+    width: 50%;
+    height: fit-content;
     padding: 5px;
-    background: gray;
+    background: lightgreen;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
     white-space: pre-wrap; /* rispetta le interruzioni di riga e gli spazi nel contenuto */
 }
 
-.smell-name {
+.smellPage-smellName {
     font-size: 18px;
     font-weight: bold;
     text-align: left;
@@ -39,21 +42,50 @@
     margin-bottom: 0;
 }
 
-.smell-description-page {
-    margin: 0;
-    font-size: 14px;
+.smellPage-smellDescription {
+    font-size: 16px;
     text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
+.smellPage-refactorName {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
+}
 
-.refactoring-section {
-    padding: 20px;
-    background: #fff;
+.smellPage-refactorDescription {
+    font-size: 16px;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.smellPage-smellDefinition{
+    margin-left: 20px;
+    margin-right: 20px;
+    width: fit-content;
+    height: fit-content;
+    background: lightseagreen;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
-    box-sizing: border-box;
+    margin-top: 10px;
+    padding: 5px;
 }
 
-.sidebar-closed {
-    margin-left: 0; /* Assicurati che questo valore sia sincronizzato con lo stile del tuo sidebar quando è chiuso */
+.smellPage-smellDefinitionTitle {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.smellPage-smellDefinitionDescription {
+    font-size: 16px;
+    text-align: left;
+    margin-top: 0;
 }
