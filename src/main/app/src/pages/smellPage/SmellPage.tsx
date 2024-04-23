@@ -5,6 +5,7 @@ import './SmellPage.css';
 import {Smell, UrgencyCode} from "../../interfaces/Smell";
 import { useAnalysis } from '../../contexts/AnalysisContext';
 import {Analysis} from "../../interfaces/Analysis";
+import {Category} from "../../interfaces/QualityAttribute";
 
 const SmellPage = () => {
     const { analysisId, smellId } = useParams<{ analysisId: string, smellId: string }>();
@@ -23,7 +24,7 @@ const SmellPage = () => {
             setSmell(fetchedSmell);
             console.log(fetchedSmell);
         }
-    }, [analysisId, smellId, getSmellById]);
+    }, [analysisId, smellId]);
 
     const getUrgencyClass = (code: UrgencyCode | undefined) => {
         return code ? `urgency-indicator ${code}` : 'urgency-indicator'; // Append the urgency code as a class
@@ -35,11 +36,14 @@ const SmellPage = () => {
     };
 
     return (
-        <>
+        <body className="smellPage">
             <TopBar/>
             <div className="smellPage-header">
                 <h1 className="smellPage-analysisName">Analysis - {analysis?.name}</h1>
                 <div className={getUrgencyClass(smell?.urgencyCode)}></div>
+                <div className="smellPage-headerEffortTime">
+                    <h3 className="smellPage-effortTime">{smell?.effortTime} min</h3>
+                </div>
             </div>
             <hr className="smellPage-headerSeparator"/>
 
@@ -71,32 +75,57 @@ const SmellPage = () => {
                         <h3 className="smellPage-smellDefinitionTitle">Smell Description - {smell?.extendedName}</h3>
                         <p className="smellPage-smellDefinitionDescription">{smell?.smellTypeDescription}</p>
                     </div>
-                    {/*
-                    <div className="smellPage-properties">
+                    <div id="impact-smell-refactoring" className="smellPage-properties">
                         <div className="smellPage-smellImpact">
-                            <h3 className="smellPage-propertiesTitle">Smell Impact</h3>
-                            {smell?.refactoring.propertiesAffected.map((attribute) => (
-                                <div key={attribute.name} className="smellPage-property">
-                                    <span
-                                        className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}></span>
-                                    <span className="smellPage-propertyName">{attribute.name}</span>
-                                </div>
-                            ))}
+                            <h3 className="smellPage-propertiesSmellImpact">Smell Impact</h3>
+                            {Object.values(Category).map((category) => {
+                                const filteredAttributes = smell?.propertiesAffected.filter(attribute => attribute.category === category);
+                                return filteredAttributes && filteredAttributes.length > 0 && (
+                                    <div key={category}>
+                                        <h4 className="smellPage-propertyCategory">{category}</h4>
+                                        {filteredAttributes.map((attribute) => (
+                                            <div key={attribute.name} className="smellPage-property">
+                                                <span
+                                                    className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}></span>
+                                                <span className="smellPage-propertyName">{attribute.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="smellPage-refactoringImpact">
+                            <h3 className="smellPage-propertiesRefactoringImpact">Refactoring Impact</h3>
+                            {Object.values(Category).map((category) => {
+                                const filteredRefactoringAttributes = smell?.refactoring.propertiesAffected.filter(attribute => attribute.category === category);
+                                return filteredRefactoringAttributes && filteredRefactoringAttributes.length > 0 && (
+                                    <div key={category}>
+                                        <h4 className="smellPage-propertyCategory">{category}</h4>
+                                        {filteredRefactoringAttributes.map((attribute) => (
+                                            <div key={attribute.name} className="smellPage-property">
+                                                <span
+                                                    className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}></span>
+                                                <span className="smellPage-propertyName">{attribute.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
-                    */}
                 </main>
 
                 <nav className="smellPage-toc">
-                    <h3>Table of Contents</h3>
+                    <h3 className="smellPage-tocTitle">Table of Contents</h3>
                     <ul>
                         <li><a href="#analysis-output">Analysis Output</a></li>
                         <li><a href="#refactoring">Refactoring</a></li>
                         <li><a href="#smell-description">Smell Description</a></li>
+                        <li><a href="#impact-smell-refactoring">Smell & Refactor Impacts</a></li>
                     </ul>
                 </nav>
             </div>
-        </>
+        </body>
     );
 };
 

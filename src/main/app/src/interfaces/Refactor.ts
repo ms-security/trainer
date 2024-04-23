@@ -1,7 +1,7 @@
-import {QualityAttribute} from "./QualityAttribute";
+import {QualityAttributeSR} from "./QualityAttribute";
 
 export interface Refactoring {
     name: string;
     refactor: string;
-    propertiesAffected: QualityAttribute[];
+    propertiesAffected: QualityAttributeSR[];
 }

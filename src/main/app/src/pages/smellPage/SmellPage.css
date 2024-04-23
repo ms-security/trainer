@@ -1,3 +1,4 @@
+
 .smellPage-header{
     display: flex;
     align-items: center;
@@ -27,6 +28,19 @@
 .urgency-indicator.h { background-color: lightcoral; }
 .urgency-indicator.H { background-color: darkred; }
 
+.smellPage-headerEffortTime{
+    height: fit-content;
+    width: fit-content;
+    padding: 5px;
+    margin-right: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 8px;
+}
+
+.smellPage-effortTime{
+    margin: 0;
+}
+
 .smellPage-headerSeparator{
     height: 1px; /* Set the thickness of the line */
     background-color: black; /* Set the color of the line */
@@ -41,14 +55,14 @@
     grid-template-columns: 30% 50% 17%; /* Three columns with the middle one larger */
     margin-top: 0;
     gap: 20px; /* Space between columns */
-    height: calc(100vh - 116px);
+    overflow: hidden; /* Impedisce lo scroll dell'intera griglia */
 }
 
 .smellPage-sidebar {
     grid-area: sidebar;
     background-color: lightseagreen;
     overflow-y: auto;
-    height: 100vh;
+    height: calc(100vh - 116px);
 }
 
 .smellPage-mainContent {
@@ -56,16 +70,23 @@
     background-color: white;
     overflow-y: auto;
     padding: 1rem;
-    height: 100vh;
+    height: calc(100vh - 150px);
 }
 
 .smellPage-toc{
+    margin: 2px;
     grid-area: toc;
     background-color: lightgreen;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
     height: fit-content;
     text-align: left;
+}
+
+.smellPage-tocTitle{
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .smellPage-sidebarContent {
@@ -181,4 +202,60 @@
     font-size: 16px;
     text-align: left;
     margin-top: 0;
+}
+
+/************************************************/
+
+.smellPage-properties {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Create two columns of equal width */
+    column-gap: 20px; /* Space between columns */
+    row-gap: 20px; /* Space between rows */
+    margin-top: 20px;
+}
+
+.smellPage-smellImpact, .smellPage-refactoringImpact {
+    background-color: #fff; /* Change to white for impact boxes */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 20px; /* Increased padding for more space inside the boxes */
+}
+
+.smellPage-propertiesSmellImpact, .smellPage-propertiesRefactoringImpact {
+    font-size: 20px; /* Increase font size if needed */
+    font-weight: bold;
+    color: #333; /* Dark text for better contrast */
+    margin-top: 5px;
+    margin-bottom: 15px; /* More space below the heading */
+}
+
+.smellPage-propertyCategory {
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 15px; /* More space below category name */
+}
+
+.smellPage-property {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Adjust spacing between properties */
+}
+
+.smellPage-impactIndicator {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block; /* Ensure it doesn't collapse */
+}
+
+.smellPage-impactIndicator.positive { background-color: green; }
+.smellPage-impactIndicator.negative { background-color: red; }
+
+.smellPage-propertyName {
+    font-size: 16px;
+    text-align: left;
+    flex-grow: 1; /* Ensure names take up available space */
 }
