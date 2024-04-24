@@ -15,6 +15,7 @@ interface AnalysisContextType {
     getSmellById: (analysisId: number, smellId: number) => Smell | undefined;
     addSmellToMicroservice: (analysisId: number, microserviceId: string, smellId: number) => Promise<void>;
     deleteMicroservice: (analysisId: number, microserviceName: string) => Promise<void>;
+    addEffortTime: (analysisId: number, smellId: number, effortTime: EffortTime) => Promise<void>;
 }
 
 const AnalysisContext = createContext<AnalysisContextType | undefined>(undefined);
@@ -130,6 +131,17 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         return undefined;
     }, [analyses]);
 
+    const addEffortTime = async (analysisId: number, smellId: number, effortTime: EffortTime) => {
+        try {
+            console.log("Adding effort time:", effortTime);
+            await WebController.addEffortTime(analysisId, smellId, effortTime);
+            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
+            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
+        } catch (error) {
+            console.error('Failed to add effort time:', error);
+        }
+    };
+
     useEffect(() => {
         fetchAnalyses();
     }, [fetchAnalyses]);
@@ -146,7 +158,8 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             toggleFavoriteStatus,
             addMicroservice,
             updateMicroservice,
-            deleteMicroservice
+            deleteMicroservice,
+            addEffortTime
         }}>
             {children}
         </AnalysisContext.Provider>

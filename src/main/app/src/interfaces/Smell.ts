@@ -1,5 +1,7 @@
 import {Microservice} from "./Microservice";
 import {Refactoring} from "./Refactor";
+import {QualityAttributeSR} from "./QualityAttribute";
+import {EffortTime} from "./EffortTime";
 
 export interface Smell {
     id: number,
@@ -11,8 +13,9 @@ export interface Smell {
     extendedName: string;
     urgencyCode?: UrgencyCode;
     microservice?: Microservice;
-    effortTime?: number;
+    effortTime?: EffortTime;
     isChecked: boolean;
+    propertiesAffected: QualityAttributeSR[];
 }
 
 export enum UrgencyCode {

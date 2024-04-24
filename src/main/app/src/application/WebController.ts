@@ -138,5 +138,19 @@ export default class WebController{
         console.log('Microservice added to smell');
     }
 
+    static async addEffortTime(analysisId: number, smellId: number, effortTime: EffortTime): Promise<void> {
+        const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}/effortTime`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(effortTime)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to add effort time');
+        }
+        console.log('Effort time added successfully ' + effortTime);
+    }
+
 
 }

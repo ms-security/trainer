@@ -22,7 +22,7 @@ public class Smell {
     private SmellStatus smellStatus; // frontend
     private  boolean isChecked; // frontend
     private Microservice microservice; // frontend
-    private int effortTime; // frontend
+    private EffortTime effortTime; // frontend
 
 
 }
