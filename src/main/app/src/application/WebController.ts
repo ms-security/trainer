@@ -101,6 +101,30 @@ export default class WebController{
         }
     }
 
+    static async updateMicroservice(data: any, analysisId: number) {
+        const response = await fetch(`http://localhost:8080/microservices/${analysisId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to update microservice');
+        }
+        console.log('Microservice updated');
+    }
+
+    static async deleteMicroservice(analysisId: number, microserviceName: string) {
+        const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceName}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to delete microservice');
+        }
+        console.log('Microservice deleted');
+    }
+
     static async addSmellToMicroservice(analysisId: number, microserviceId: string, smellId: number): Promise<void> {
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceId}/${smellId}`, {
             method: 'PUT',
@@ -113,4 +137,6 @@ export default class WebController{
         }
         console.log('Microservice added to smell');
     }
+
+
 }

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './SmellCard.css';
 import {Microservice} from "../../interfaces/Microservice";
 import {UrgencyCode} from "../../interfaces/Smell";
 
 interface SmellCardProps {
     smellId: number;
+    smellMicroservice: Microservice | undefined;
     smellName: string;
     smellDescription: string;
     urgencyCode: UrgencyCode | undefined;
@@ -16,6 +17,7 @@ interface SmellCardProps {
 const SmellCard: React.FC<SmellCardProps> = ({
                                                  smellId,
                                                  smellName,
+                                                 smellMicroservice,
                                                  smellDescription,
                                                  urgencyCode,
                                                  microservices,
@@ -23,7 +25,9 @@ const SmellCard: React.FC<SmellCardProps> = ({
                                                  onClick
                                                 }) => {
     const [status, setStatus] = useState('unfixed');
-    const [selectedMicroservice, setSelectedMicroservice] = useState('');
+    const [selectedMicroservice, setSelectedMicroservice] = useState(
+        smellMicroservice ? smellMicroservice.name : ''
+    );
 
     const getUrgencyClass = (code: UrgencyCode | undefined) => {
         return code ? `urgency-indicator ${code}` : 'urgency-indicator'; // Append the urgency code as a class
@@ -40,6 +44,10 @@ const SmellCard: React.FC<SmellCardProps> = ({
             onAssignMicroservice(smellId, microserviceName);
         }
     };
+
+    useEffect(() => {
+        setSelectedMicroservice(smellMicroservice ? smellMicroservice.name : '');
+    }, [smellMicroservice]);
 
     return (
         <div className="smell-card" onClick={onClick}>
@@ -63,10 +71,12 @@ const SmellCard: React.FC<SmellCardProps> = ({
                     <input type="checkbox"/>
                 </div>
                 <div className="microservice-dropdown">
-                    <select value={selectedMicroservice} onClick={(e) => {e.stopPropagation();}} onChange={handleMicroserviceChange}>
-                        <option value="" disabled>Select Microservice</option>
+                    <select value={selectedMicroservice} onClick={(e) => {e.stopPropagation();}}  onChange={handleMicroserviceChange}>
+                        <option value="" >Select Microservice</option>
                         {microservices.map(microservice => (
-                            <option key={microservice.name} value={microservice.name}>{microservice.name}</option>
+                            <option key={microservice.name} value={microservice.name}>
+                                {microservice.name}
+                            </option>
                         ))}
                     </select>
                 </div>

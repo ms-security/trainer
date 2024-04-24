@@ -127,4 +127,65 @@ public class RestController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/microservices/{analysisId}")
+    public ResponseEntity<Void> updateMicroservice(@PathVariable int analysisId, @RequestBody MicroserviceDTO microserviceDTO) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Microservice microservice = AnalysisDatabaseSingleton.getInstance().getMicroservice(analysisId, microserviceDTO.getName());
+        if (microservice == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        microservice.setRelevance(microserviceDTO.getRelevance());
+        List<QualityAttribute> updatedQualityAttributes = microserviceDTO.getQualityAttributes().stream()
+                .map(attrDTO -> {
+                    QualityAttributeMS attr = new QualityAttributeMS();
+                    attr.setName(attrDTO.getName());
+                    attr.setCategory(attrDTO.getCategory());
+                    attr.setRelevance(attrDTO.getRelevance());
+                    return attr;
+                })
+                .collect(Collectors.toList());
+        microservice.setQualityAttributes(updatedQualityAttributes);
+
+        TriageService triageService = new TriageService();
+        for (Smell smell : analysis.getSmells()) {
+            if (smell.getMicroservice() != null && smell.getMicroservice().getName().equals(microservice.getName())){
+                smell.setUrgencyCode(triageService.urgencyCodeCalculator(microservice, smell));
+            }
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/microservices/{analysisId}/{microserviceName}")
+    public ResponseEntity<Void> deleteMicroservice(@PathVariable int analysisId, @PathVariable String microserviceName) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Microservice microservice = AnalysisDatabaseSingleton.getInstance().getMicroservice(analysisId, microserviceName);
+        if (microservice == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        boolean removed = AnalysisDatabaseSingleton.getInstance().removeMicroservice(analysisId, microservice);
+        if (!removed) {
+            return ResponseEntity.notFound().build();
+        }
+
+        analysis.getSmells().forEach(smell -> {
+            if (smell.getMicroservice() != null && smell.getMicroservice().getName().equals(microserviceName)) {
+                smell.setMicroservice(null);
+                smell.setUrgencyCode(null);
+            }
+        });
+
+        return ResponseEntity.ok().build();
+    }
+
+
 }

@@ -10,7 +10,6 @@
     margin: 10px;
     position: relative;
     height: 130px; /* Fixed height */
-    width: 800px;
     overflow: hidden; /* Ensures the content does not overflow the card */
 }
 

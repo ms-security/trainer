@@ -46,6 +46,14 @@ public class AnalysisDatabaseSingleton {
         return result;
     }
 
+    public boolean removeMicroservice(int analysisId, Microservice microservice) {
+        Analysis analysis = analysisHashMap.get(analysisId);
+        if (analysis != null) {
+            return analysis.getMicroservices().remove(microservice);  // Ritorna true se il microservizio è stato rimosso
+        }
+        return false;
+    }
+
     public Smell getSmell(int analysisId, int smellId) {
         Analysis analysis = analysisHashMap.get(analysisId);
         Smell result = null;

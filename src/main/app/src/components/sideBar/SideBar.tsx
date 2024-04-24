@@ -5,13 +5,10 @@ import { faArrowLeft, faAngleDown, faAngleRight } from "@fortawesome/free-solid-
 import {Microservice} from "../../interfaces/Microservice";
 
 interface SidebarProps {
-    isVisible: boolean;
-    toggleSidebar: () => void;
     microservices: Microservice[];
-    onClickModal: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isVisible, toggleSidebar, microservices, onClickModal}) => {
+const Sidebar: React.FC<SidebarProps> = ({microservices}) => {
     const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({});
 
     const toggleSection = (section: string) => {
@@ -39,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, toggleSidebar, microservic
     };
 
     return (
-        <div className={`sidebar-wrapper ${!isVisible ? 'hidden' : ''}`}>
+        <div className="sidebar-wrapper">
             <div className="sidebar">
                 <div className="accordion">
                     <div className="accordion-item">
@@ -57,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, toggleSidebar, microservic
                         {openSections.microservices &&
                             <div className="accordion-content">
                                 {renderMicroservices()}
-                                <button onClick={onClickModal}>Add Microservice</button>
+
                             </div>}
                     </div>
                     <div className="accordion-item">
@@ -69,9 +66,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isVisible, toggleSidebar, microservic
                     </div>
                 </div>
             </div>
-            <button onClick={toggleSidebar} className="toggle-button">
-                <FontAwesomeIcon icon={faArrowLeft} className={`arrow-icon ${!isVisible ? 'flipped' : ''}`} />
-            </button>
         </div>
     );
 };

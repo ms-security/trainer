@@ -1,0 +1,36 @@
+.microservice-manager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.microservice-title {
+    margin-bottom: 20px;
+}
+
+.add-microservice-btn {
+    margin-bottom: 20px;
+    /* Add styling for the button */
+}
+
+.microservice-list {
+    width: 100%;
+}
+
+.microservice-item {
+    margin-bottom: 10px;
+    cursor: pointer;
+    /* Add styling for the items */
+}
+
+.microservice-details {
+    margin-top: 10px;
+    /* Style for the expanded details */
+}
+
+.action-buttons button {
+    margin-right: 10px;
+    /* Style for the action buttons */
+}

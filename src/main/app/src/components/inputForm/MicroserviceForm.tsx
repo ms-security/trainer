@@ -1,9 +1,11 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, {useState, ChangeEvent, FormEvent, useEffect} from 'react';
 import { Microservice} from "../../interfaces/Microservice";
 import {Category, QualityAttribute, QualityAttributeMS, Relevance} from "../../interfaces/QualityAttribute";
 
 interface MicroserviceFormProps {
     onAddMicroservice: (data: any) => void;
+    onUpdateMicroservice?: (data: any) => void;  // Nuova funzione per l'update
+    initialData?: Microservice;  // Dati iniziali per la modifica
 }
 
 const qualityAttributes: QualityAttributeMS[] = [
@@ -20,8 +22,8 @@ const qualityAttributes: QualityAttributeMS[] = [
     { name: 'testability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY }
 ];
 
-const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice }) => {
-    const [newMicroservice, setNewMicroservice] = useState<Microservice>({
+const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, onUpdateMicroservice, initialData }) => {
+    const [newMicroservice, setNewMicroservice] = useState<Microservice>(initialData || {
         name: '',
         relevance: Relevance.NONE,
         qualityAttributes: [...qualityAttributes]
@@ -34,6 +36,21 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice }
             [name]: value
         }));
     };
+
+    useEffect(() => {
+        if (initialData) {
+            const updatedQualityAttributes = qualityAttributes.map(defaultAttr => {
+                const existingAttr = initialData.qualityAttributes.find(attr => attr.name === defaultAttr.name);
+                return existingAttr || defaultAttr;
+            });
+
+            setNewMicroservice({
+                name: initialData.name,
+                relevance: initialData.relevance,
+                qualityAttributes: updatedQualityAttributes,
+            });
+        }
+    }, [initialData]);
 
     const handleQualityChange = (name: string, value: Relevance) => {
         const updatedQualityAttributes = newMicroservice.qualityAttributes.map(attr =>
@@ -54,7 +71,12 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice }
                 .filter(attr => attr.relevance !== Relevance.NONE)
                 .map(attr => ({ name: attr.name, relevance: attr.relevance, category: attr.category }))
         };
-        onAddMicroservice(dataToSend);
+        if (initialData) {
+            onUpdateMicroservice?.(dataToSend);
+        } else {
+            onAddMicroservice(dataToSend);
+        }
+
         setNewMicroservice({
             name: '',
             relevance: Relevance.NONE,
@@ -95,6 +117,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice }
                     type="text"
                     value={newMicroservice.name}
                     onChange={handleInputChange}
+                    readOnly={!!initialData}
                 />
 
                 <label htmlFor="relevance">Relevance:</label>
@@ -113,7 +136,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice }
                 {renderCategoryGroup(Category.PERFORMANCE_EFFICIENCY)}
                 {renderCategoryGroup(Category.MAINTAINABILITY)}
 
-                <button type="submit">Add Microservice</button>
+                <button type="submit">{initialData ? 'Update Microservice' : 'Add Microservice'}</button>
             </form>
         </div>
     );

@@ -1,56 +1,15 @@
 .sidebar-wrapper {
-    position: fixed;
     top: 66px;
     left: 0;
+    width: 100%;
     height: calc(100vh - 66px); /* Sottrae l'altezza della topbar */
-    width: 350px; /* Larghezza della sidebar */
     background-color: #c4f1dd;
-    box-sizing: border-box;
-    transition: transform 0.5s ease-in-out;
     z-index: 1000;
+    overflow-y: auto;
 }
 
 .sidebar {
     height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 0 30px 30px 0; /* Curvatura sul bordo destro della sidebar */
-    transition: all 0.5s ease-in-out;
-    position: relative;
-}
-
-.sidebar-wrapper.hidden{
-    transform: translateX(-350px); /* Nasconde la sidebar */
-    border-radius: 0 0 0 0; /* Rimuove la curvatura quando la sidebar è nascosta */
-}
-
-.toggle-button {
-    position: absolute;
-    top: 50%;
-    right: -25px;
-    width: 40px;
-    height: 150px;
-    background-color: #c4f1dd;
-    border: none;
-    color: #333;
-    cursor: pointer;
-    box-shadow: none;
-    transform: translateY(-50%);
-    clip-path: polygon(0 0, 100% 25%, 100% 75%, 0 100%);
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.arrow-icon {
-    transition: transform 0.3s; /* Smooth transformation for the rotation */
-    margin-left: 10px;
-}
-
-.flipped {
-    transform: rotate(180deg); /* Rotate the arrow 180 degrees when sidebar is not visible */
-}
-
-.sidebar-wrapper.hidden .toggle-button {
-    transform: translateY(-50%) rotate(0deg); /* Orienta la freccia nella direzione opposta */
 }
 
 .accordion {

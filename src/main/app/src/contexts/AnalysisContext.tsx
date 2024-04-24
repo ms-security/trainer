@@ -11,8 +11,10 @@ interface AnalysisContextType {
     deleteAnalysis: (analysisId: number) => Promise<void>;
     toggleFavoriteStatus: (analysisId: number) => Promise<void>;
     addMicroservice: (data: any, analysisId: number) => Promise<void>;
+    updateMicroservice: (data: any, analysisId: number) => Promise<void>;
     getSmellById: (analysisId: number, smellId: number) => Smell | undefined;
     addSmellToMicroservice: (analysisId: number, microserviceId: string, smellId: number) => Promise<void>;
+    deleteMicroservice: (analysisId: number, microserviceName: string) => Promise<void>;
 }
 
 const AnalysisContext = createContext<AnalysisContextType | undefined>(undefined);
@@ -88,6 +90,27 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
+    const updateMicroservice = async (data: any, analysisId: number) => {
+        try {
+            await WebController.updateMicroservice(data, analysisId);
+            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
+            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
+        } catch (error) {
+            console.error('Failed to update microservice:', error);
+        }
+    };
+
+    const deleteMicroservice = async (analysisId: number, microserviceName: string) => {
+        try {
+            await WebController.deleteMicroservice(analysisId, microserviceName);
+            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
+            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
+        } catch (error) {
+            console.error('Failed to delete microservice:', error);
+        }
+    }
+
+
     const addSmellToMicroservice = async (analysisId: number, microserviceId: string, smellId: number) => {
         try {
             await WebController.addSmellToMicroservice(analysisId, microserviceId, smellId);
@@ -121,7 +144,9 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             getSmellById,
             addSmellToMicroservice,
             toggleFavoriteStatus,
-            addMicroservice
+            addMicroservice,
+            updateMicroservice,
+            deleteMicroservice
         }}>
             {children}
         </AnalysisContext.Provider>
