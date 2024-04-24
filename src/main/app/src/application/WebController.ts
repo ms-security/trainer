@@ -1,5 +1,6 @@
 import {Analysis} from "../interfaces/Analysis";
 import {Microservice} from "../interfaces/Microservice";
+import {EffortTime} from "../interfaces/EffortTime";
 
 export default class WebController{
     static async newAnalysis(file: File, name: string, date: string): Promise<Analysis> {

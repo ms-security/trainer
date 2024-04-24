@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import WebController from '../application/WebController';
 import { Analysis } from "../interfaces/Analysis";
 import {Smell} from "../interfaces/Smell";
+import {EffortTime} from "../interfaces/EffortTime";
 
 interface AnalysisContextType {
     analyses: Analysis[];
