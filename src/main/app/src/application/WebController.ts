@@ -1,5 +1,6 @@
 import {Analysis} from "../interfaces/Analysis";
 import {Microservice} from "../interfaces/Microservice";
+import {EffortTime} from "../interfaces/EffortTime";
 
 export default class WebController{
     static async newAnalysis(file: File, name: string, date: string): Promise<Analysis> {
@@ -112,5 +113,19 @@ export default class WebController{
             throw new Error('Failed to add microservice to smell');
         }
         console.log('Microservice added to smell');
+    }
+
+    static async addEffortTime(analysisId: number, smellId: number, effortTime: EffortTime): Promise<void> {
+        const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}/effortTime`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(effortTime)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to add effort time');
+        }
+        console.log('Effort time added successfully ' + effortTime);
     }
 }

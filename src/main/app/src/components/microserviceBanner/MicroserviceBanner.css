@@ -1,0 +1,21 @@
+.microservice-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    font-weight: bold;
+    color: black;
+    margin-right: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.microservice-banner.associated {
+    background-color: white; /* Un colore verde per l'associazione positiva */
+}
+
+.microservice-banner.no-association {
+    background-color: #f44336; /* Un colore rosso per l'assenza di associazione */
+    position: relative;
+}
+

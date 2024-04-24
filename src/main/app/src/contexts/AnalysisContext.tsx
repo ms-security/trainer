@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import WebController from '../application/WebController';
 import { Analysis } from "../interfaces/Analysis";
 import {Smell} from "../interfaces/Smell";
+import {EffortTime} from "../interfaces/EffortTime";
 
 interface AnalysisContextType {
     analyses: Analysis[];
@@ -13,6 +14,7 @@ interface AnalysisContextType {
     addMicroservice: (data: any, analysisId: number) => Promise<void>;
     getSmellById: (analysisId: number, smellId: number) => Smell | undefined;
     addSmellToMicroservice: (analysisId: number, microserviceId: string, smellId: number) => Promise<void>;
+    addEffortTime: (analysisId: number, smellId: number, effortTime: EffortTime) => Promise<void>;
 }
 
 const AnalysisContext = createContext<AnalysisContextType | undefined>(undefined);
@@ -107,6 +109,17 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         return undefined;
     }, [analyses]);
 
+    const addEffortTime = async (analysisId: number, smellId: number, effortTime: EffortTime) => {
+        try {
+            console.log("Adding effort time:", effortTime);
+            await WebController.addEffortTime(analysisId, smellId, effortTime);
+            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
+            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
+        } catch (error) {
+            console.error('Failed to add effort time:', error);
+        }
+    };
+
     useEffect(() => {
         fetchAnalyses();
     }, [fetchAnalyses]);
@@ -121,7 +134,8 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             getSmellById,
             addSmellToMicroservice,
             toggleFavoriteStatus,
-            addMicroservice
+            addMicroservice,
+            addEffortTime
         }}>
             {children}
         </AnalysisContext.Provider>

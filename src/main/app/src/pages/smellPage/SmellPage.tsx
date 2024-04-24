@@ -6,12 +6,15 @@ import {Smell, UrgencyCode} from "../../interfaces/Smell";
 import { useAnalysis } from '../../contexts/AnalysisContext';
 import {Analysis} from "../../interfaces/Analysis";
 import {Category} from "../../interfaces/QualityAttribute";
+import MicroserviceBanner from "../../components/microserviceBanner/MicroserviceBanner";
+import EffortTimeBanner from "../../components/effortTimeBanner/EffortTimeBanner";
+import {EffortTime} from "../../interfaces/EffortTime";
 
 const SmellPage = () => {
     const { analysisId, smellId } = useParams<{ analysisId: string, smellId: string }>();
     const [smell, setSmell] = useState<Smell | undefined>();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
-    const { getSmellById, fetchAnalysisById } = useAnalysis();
+    const { getSmellById, fetchAnalysisById, addEffortTime} = useAnalysis();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,22 +38,35 @@ const SmellPage = () => {
         navigate(`/analysis/${analysisId}/smell/${smellId}`);
     };
 
+    const handleEffortTimeChange = (newEffortTime: EffortTime) => {
+        if (smell) {
+            const updatedSmell = { ...smell, effortTime: newEffortTime };
+            setSmell(updatedSmell);
+            if (analysisId && smellId) {
+
+                addEffortTime(parseInt(analysisId), parseInt(smellId), newEffortTime);
+            }
+        }
+    };
+
     return (
         <body className="smellPage">
             <TopBar/>
             <div className="smellPage-header">
                 <h1 className="smellPage-analysisName">Analysis - {analysis?.name}</h1>
                 <div className={getUrgencyClass(smell?.urgencyCode)}></div>
-                <div className="smellPage-headerEffortTime">
-                    <h3 className="smellPage-effortTime">{smell?.effortTime} min</h3>
-                </div>
+                <MicroserviceBanner microserviceName={smell?.microservice?.name} />
+                <EffortTimeBanner
+                    effortTime={smell?.effortTime}
+                    onEffortTimeChange={handleEffortTimeChange}
+                />
             </div>
             <hr className="smellPage-headerSeparator"/>
 
             <div className="smellPage-layout">
                 <aside className="smellPage-sidebar">
                     <div className="smellPage-sidebarContent">
-                        <h3 className="smellPage-smellIndex">Smell: {smell?.id} / {analysis?.smells.length}</h3>
+                    <h3 className="smellPage-smellIndex">Smell: {smell?.id} / {analysis?.smells.length}</h3>
                         {analysis?.smells.map((smell) => (
                             <div key={smell.id} className="smellPage-smellListCard" onClick={() => handleSmellClick(analysis?.id, smell.id)}>
                                 <h3 className="smellPage-smellCardTitle">{smell.name}</h3>

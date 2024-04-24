@@ -28,6 +28,15 @@
 .urgency-indicator.h { background-color: lightcoral; }
 .urgency-indicator.H { background-color: darkred; }
 
+.smellPage-microserviceBanner{
+    height: fit-content;
+    width: fit-content;
+    padding: 5px;
+    margin-right: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 8px;
+}
+
 .smellPage-headerEffortTime{
     height: fit-content;
     width: fit-content;
@@ -52,9 +61,8 @@
 .smellPage-layout { /*container pagina totale*/
     display: grid; /* Using grid layout */
     grid-template-areas: 'sidebar main toc';
-    grid-template-columns: 30% 50% 17%; /* Three columns with the middle one larger */
+    grid-template-columns: 30% 50% 20%; /* Three columns with the middle one larger */
     margin-top: 0;
-    gap: 20px; /* Space between columns */
     overflow: hidden; /* Impedisce lo scroll dell'intera griglia */
 }
 

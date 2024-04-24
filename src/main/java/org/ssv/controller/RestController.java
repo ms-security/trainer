@@ -127,4 +127,19 @@ public class RestController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/analysis/{analysisId}/smell/{smellId}/effortTime")
+    public ResponseEntity<Void> setEffortTime(@PathVariable int analysisId, @PathVariable int smellId, @RequestBody EffortTime effortTime) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Smell smell = AnalysisDatabaseSingleton.getInstance().getSmell(analysisId, smellId);
+        if (smell == null) {
+            return ResponseEntity.notFound().build();
+        }
+        System.out.println(effortTime);
+        smell.setEffortTime(effortTime);
+        return ResponseEntity.ok().build();
+    }
+
 }
