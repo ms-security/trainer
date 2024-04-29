@@ -1,49 +1,47 @@
 .analysis-card {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top: 30px;
+    margin-left: 30px;
+    padding: 10px;
     background: lightgrey;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    padding: 10px;
-    position: relative;
-    width: 600px;
-    margin-top: 30px;
-    margin-left: 30px;
-    display: flex;
-    flex-direction: column;/* Change to column to stack the elements */
 }
 
 .parent_name_favorite {
+    width: auto;
     display: flex;
     margin-top: 0;
-    width: auto;
 }
 
 .triage-warning-icon {
-    margin-left: 10px; /* Space it from the name */
-    border-radius: 50%; /* Make it round */
-    padding: 2px; /* Padding around the icon */
+    margin-left: 10px;
+    padding: 2px;
+    border-radius: 50%;
 }
 
-/* Add styles for black icon color inside the yellow circle */
 .triage-warning-icon .fa-exclamation-circle {
     color: yellow; /* Black color for the exclamation point */
 }
 
-
 .star-label {
+    margin: 0;
+    padding: 0;
     cursor: pointer;
     font-size: 40px;
-    padding: 0;
-    margin: 0;
 }
 
 .star-favorite {
-    color: gold; /* O il colore che preferisci */
+    color: gold;
 }
 
 .analysis-name {
     display: flex;
-    align-items: center; /* Align items in line */
+    align-items: center;
     margin-left: 20px;
     font-size: 20px;
     font-weight: bold;
@@ -57,57 +55,38 @@
 
 .analysis-date {
     margin-top: 0;
-
 }
 
 .smells {
     display: flex;
-    justify-content: center; /* Center the smells */
-
+    justify-content: center;
 }
 
 .smell {
     height: 20px;
     width: 20px;
-    border-radius: 50%;
-    margin-left: 5px;
-    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 25px;
+    margin-left: 5px;
+    color: black;
     font-size: 10px;
     font-weight: bold;
     border: 2px solid;
-    margin-right: 25px;
+    border-radius: 50%;
 }
 
-.red-smell {
-    background-color: #ff5f56;
-}
-
-.orange-smell {
-    background-color: #ffbd2e;
-    }
-
-.yellow-smell {
-    background-color: #fffc35;
-    }
-
-.green-smell {
-    background-color: #27c93f;
-    }
-
-.lightblue-smell {
-    background-color: #2ab2e2;
-    }
-
-.blue-smell {
-    background-color: #5956ff;
-}
+.red-smell { background-color: #ff5f56; }
+.orange-smell { background-color: #ffbd2e; }
+.yellow-smell { background-color: #fffc35; }
+.green-smell { background-color: #27c93f; }
+.lightblue-smell { background-color: #2ab2e2; }
+.blue-smell { background-color: #5956ff; }
 
 .delete-icon {
-    position: absolute; /* Position it absolutely relative to the card */
-    top: 10px; /* Adjust as needed */
+    position: absolute;
+    top: 10px;
     right: 10px;
     cursor: pointer;
     font-size: 25px;

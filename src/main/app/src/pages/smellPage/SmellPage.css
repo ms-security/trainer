@@ -1,9 +1,8 @@
-
 .smellPage-header{
+    height: 50px;
     display: flex;
     align-items: center;
     margin-top: 66px;
-    height: 50px;
 }
 
 .smellPage-analysisName{
@@ -14,10 +13,10 @@
 .urgency-indicator {
     height: 20px;
     width: 20px;
-    border-radius: 50%;
-    background-color: grey; /* Default color for undefined urgency */
     margin-left: auto; /* Pushes the indicator to the right */
     margin-right: 20px; /* Adds space between the indicator and the analysis name */
+    border-radius: 50%;
+    background-color: grey; /* Default color for undefined urgency */
 }
 
 .urgency-indicator.Ø { background-color: darkgreen; }
@@ -31,8 +30,8 @@
 .smellPage-microserviceBanner{
     height: fit-content;
     width: fit-content;
-    padding: 5px;
     margin-right: 20px;
+    padding: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
 }
@@ -40,8 +39,8 @@
 .smellPage-headerEffortTime{
     height: fit-content;
     width: fit-content;
-    padding: 5px;
     margin-right: 10px;
+    padding: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
 }
@@ -51,9 +50,9 @@
 }
 
 .smellPage-headerSeparator{
-    height: 1px; /* Set the thickness of the line */
-    background-color: black; /* Set the color of the line */
-    margin: 0; /* Adjust margin if needed */
+    height: 1px; /* Thickness of the line */
+    background-color: black; /* Color of the line */
+    margin: 0;
 }
 
 {/********************************************************************************/}
@@ -61,33 +60,33 @@
 .smellPage-layout { /*container pagina totale*/
     display: grid; /* Using grid layout */
     grid-template-areas: 'sidebar main toc';
-    grid-template-columns: 30% 50% 20%; /* Three columns with the middle one larger */
+    grid-template-columns: 30% 50% 20%;
     margin-top: 0;
-    overflow: hidden; /* Impedisce lo scroll dell'intera griglia */
+    overflow: hidden;
 }
 
 .smellPage-sidebar {
     grid-area: sidebar;
+    height: calc(100vh - 116px);
     background-color: lightseagreen;
     overflow-y: auto;
-    height: calc(100vh - 116px);
 }
 
 .smellPage-mainContent {
     grid-area: main;
+    height: calc(100vh - 150px);
+    padding: 1rem;
     background-color: white;
     overflow-y: auto;
-    padding: 1rem;
-    height: calc(100vh - 150px);
 }
 
 .smellPage-toc{
-    margin: 2px;
     grid-area: toc;
+    height: fit-content;
+    margin: 2px;
     background-color: lightgreen;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
-    height: fit-content;
     text-align: left;
 }
 
@@ -103,12 +102,12 @@
 }
 
 .smellPage-smellListCard{
-    background-color: white;
+    margin: 5px 2px;
     padding: 5px;
+    background-color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
     text-align: left;
-    margin: 5px 2px;
 }
 
 .smellPage-smellIndex{
@@ -129,12 +128,12 @@
 }
 
 .smellPage-smellRefactor-container { /*container box smell & box refactoring*/
+    width: fit-content;
+    height: fit-content;
     display: flex;
     margin-left: 20px;
     margin-right: 20px;
     overflow: visible;
-    width: fit-content;
-    height: fit-content;
 }
 
 .smellPage-smellK{ /*box smell*/
@@ -145,22 +144,22 @@
     background: lightgreen;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
-    white-space: pre-wrap; /* rispetta le interruzioni di riga e gli spazi nel contenuto */
+    white-space: pre-wrap; /* Keeps text format */
 }
 
 .smellPage-smellName {
+    margin-top: 0;
+    margin-bottom: 0;
     font-size: 18px;
     font-weight: bold;
     text-align: left;
-    margin-top: 0;
-    margin-bottom: 0;
 }
 
 .smellPage-smellDescription {
-    font-size: 16px;
-    text-align: left;
     margin-top: 0;
     margin-bottom: 0;
+    font-size: 16px;
+    text-align: left;
 }
 
 .smellPage-refactoring { /*box refactoring*/
@@ -174,89 +173,89 @@
 }
 
 .smellPage-refactorName {
+    margin-top: 0;
+    margin-bottom: 0;
     font-size: 18px;
     font-weight: bold;
     text-align: left;
-    margin-top: 0;
-    margin-bottom: 0;
 }
 
 .smellPage-refactorDescription {
-    font-size: 16px;
-    text-align: left;
     margin-top: 0;
     margin-bottom: 0;
+    font-size: 16px;
+    text-align: left;
 }
 
 .smellPage-smellDefinition{
     width: fit-content;
     height: fit-content;
+    margin-top: 10px;
+    padding: 5px;
     background: lightseagreen;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
-    margin-top: 10px;
-    padding: 5px;
 }
 
 .smellPage-smellDefinitionTitle {
+    margin-top: 0;
+    margin-bottom: 0;
     font-size: 18px;
     font-weight: bold;
     text-align: left;
-    margin-top: 0;
-    margin-bottom: 0;
 }
 
 .smellPage-smellDefinitionDescription {
+    margin-top: 0;
     font-size: 16px;
     text-align: left;
-    margin-top: 0;
 }
 
 /************************************************/
 
 .smellPage-properties {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Create two columns of equal width */
-    column-gap: 20px; /* Space between columns */
-    row-gap: 20px; /* Space between rows */
+    grid-template-columns: repeat(2, 1fr); /* Two columns of equal width */
+    column-gap: 20px;
+    row-gap: 20px;
     margin-top: 20px;
 }
 
 .smellPage-smellImpact, .smellPage-refactoringImpact {
-    background-color: #fff; /* Change to white for impact boxes */
+    padding: 20px;
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    padding: 20px; /* Increased padding for more space inside the boxes */
 }
 
 .smellPage-propertiesSmellImpact, .smellPage-propertiesRefactoringImpact {
-    font-size: 20px; /* Increase font size if needed */
-    font-weight: bold;
-    color: #333; /* Dark text for better contrast */
     margin-top: 5px;
-    margin-bottom: 15px; /* More space below the heading */
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
 }
 
 .smellPage-propertyCategory {
+    margin-top: 10px;
+    margin-bottom: 15px;
     text-align: left;
     font-size: 16px;
     font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 15px; /* More space below category name */
 }
 
 .smellPage-property {
     display: flex;
     align-items: center;
-    margin-bottom: 10px; /* Adjust spacing between properties */
+    margin-bottom: 10px;
 }
 
 .smellPage-impactIndicator {
     height: 15px;
     width: 15px;
-    border-radius: 50%;
     margin-right: 10px;
     display: inline-block; /* Ensure it doesn't collapse */
+    border-radius: 50%;
 }
 
 .smellPage-impactIndicator.positive { background-color: green; }

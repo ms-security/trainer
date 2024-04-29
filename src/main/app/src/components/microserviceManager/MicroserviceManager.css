@@ -12,7 +12,6 @@
 
 .add-microservice-btn {
     margin-bottom: 20px;
-    /* Add styling for the button */
 }
 
 .microservice-list {
@@ -22,15 +21,12 @@
 .microservice-item {
     margin-bottom: 10px;
     cursor: pointer;
-    /* Add styling for the items */
 }
 
 .microservice-details {
     margin-top: 10px;
-    /* Style for the expanded details */
 }
 
 .action-buttons button {
     margin-right: 10px;
-    /* Style for the action buttons */
 }

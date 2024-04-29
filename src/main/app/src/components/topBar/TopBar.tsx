@@ -5,11 +5,11 @@ import logoImage from './SSV_logo.png';
 
 const TopBar: React.FC = () => {
     return (
-        <div className="top-bar">
-            <div className="logo">
+        <div className="top-bar_container">
+            <div className="top-bar_logo">
                 <img src={logoImage} alt="Logo" />
             </div>
-            <div className="title">
+            <div className="top-bar_title">
                 <h1>SECURITY SMELLS VISUALIZER</h1>
             </div>
         </div>

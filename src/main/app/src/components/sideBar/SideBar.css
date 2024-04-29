@@ -1,8 +1,8 @@
 .sidebar-wrapper {
+    width: 100%;
+    height: calc(100vh - 66px);
     top: 66px;
     left: 0;
-    width: 100%;
-    height: calc(100vh - 66px); /* Sottrae l'altezza della topbar */
     background-color: #c4f1dd;
     z-index: 1000;
     overflow-y: auto;
@@ -17,19 +17,19 @@
 }
 
 .accordion-item {
+    margin-bottom: 10px;
     background-color: #fff;
     color: #333;
-    margin-bottom: 10px;
     border-radius: 6px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
 .accordion-title {
-    padding: 15px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 15px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -39,9 +39,9 @@
 }
 
 .accordion-content {
+    display: block;
     padding: 15px 20px;
     border-top: 1px solid #ddd;
-    display: block; /* you can use this if you want to animate the accordion */
 }
 
 .microservice {

@@ -1,16 +1,16 @@
 .home-container {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 66px;
-    width: 100%;
 }
 
 .content-header {
+    width: calc(100% - 40px);
     display: flex;
     align-items: center;
-    justify-content: space-between; /* This will align the title and the buttons on opposite ends */
-    width: calc(100% - 40px);
+    justify-content: space-between;
     margin: 20px auto;
     padding: 0 20px;
 }
@@ -18,39 +18,40 @@
 .title-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;/* This stacks the title and subtitle */
+    align-items: flex-start;
 }
 
 .main-title {
     font-size: 2em;
-    margin: 0 0 0.25em 0; /* Adjust the bottom margin to space title from subtitle */
+    margin: 0 0 0.25em 0;
     color: #333;
 }
 
 .subtitle {
+    margin: 0;
     font-size: 1em;
     color: grey;
-    margin: 0; /* No bottom margin needed */
 }
 
 .buttons-container {
     display: flex;
-    gap: 10px;
-    align-self: flex-start; /* Aligns the buttons at the top */
+    align-self: flex-start;
     margin-right: 20px;
+    gap: 10px;
 }
+
 .action-btn {
-    border: none;
-    background-color: transparent; /* Change to desired button background */
-    color: #4CAF50; /* Icon color */
-    padding: 15px 25px;
-    display: inline-flex; /* Use inline-flex for better icon alignment */
+    display: inline-flex;
     align-items: center; /* Vertically center the icon */
     justify-content: center; /* Horizontally center the icon */
-    font-size: 50px; /* Adjust icon size */
+    padding: 15px 25px;
+    border: none;
+    background-color: transparent;
+    color: #4CAF50;
+    font-size: 50px;
     border-radius: 5px;
     cursor: pointer;
-    transition: color 0.3s; /* Smooth color transition */
+    transition: color 0.3s;
 }
 
 .action-btn:hover {
@@ -66,13 +67,13 @@
 }
 
 .center-content {
-    display: flex; /* Use flexbox to center children */
-    justify-content: center; /* Center children vertically in the container */
-    align-items: center; /* Center children horizontally in the container */
-    height: calc(100vh - 350px); /* Adjust the height as needed */
+    height: calc(100vh - 350px);
+    display: flex; /* Flexbox to center children */
+    justify-content: center;
+    align-items: center;
 }
 
 .no-analysis-message {
-    font-size: 1.5em; /* Adjust the font size as necessary */
-    color: #666; /* Set the color as you prefer */
+    font-size: 1.5em;
+    color: #666;
 }

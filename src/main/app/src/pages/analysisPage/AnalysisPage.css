@@ -1,38 +1,35 @@
 .analysis-page-container {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* The page container takes the full viewport height */
-
 }
 
 .analysisPage-grid {
     display: grid;
-    grid-template-columns: 25% 55% 20%; /* Divide the grid into three columns */
+    grid-template-columns: 25% 55% 20%;
     grid-template-areas: "sidebar smells microservice";
     margin-top: 66px;
-    gap: 0px;
-    overflow: hidden; /* Nasconde lo scrolling della pagina principale */
+    gap: 0;
+    overflow: hidden;
 }
 
 .grid-sidebar {
     grid-area: sidebar;
-    overflow-y: auto;
     width: 100%;
-    height: 100vh; /* Sidebar takes the full viewport height */
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .grid-smells-list {
     grid-area: smells;
-    overflow-y: auto; /* Scroll for smell cards if necessary */
     height: 100vh;
     width: 100%;
+    overflow-y: auto;
 }
 
 .grid-microservice-manager {
     grid-area: microservice;
     height: 100vh;
-    overflow-y: auto;
     width: 100%;
+    overflow-y: auto;
 }
-
-/* Additional styles for Modal and other components as needed */

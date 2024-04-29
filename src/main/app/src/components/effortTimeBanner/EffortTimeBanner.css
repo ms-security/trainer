@@ -2,19 +2,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 10px;
     padding: 0.5em 1em;
     border-radius: 4px;
     font-weight: bold;
     color: black;
-    margin-right: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .effortTime-banner.set {
-    background-color: white; /* Un colore verde per l'associazione positiva */
+    background-color: white;
 }
 
 .effortTime-banner.not-set {
-    background-color: #f44336; /* Un colore rosso per l'assenza di associazione */
+    background-color: yellow;
     position: relative;
 }

@@ -1,25 +1,24 @@
-/* TopBar.css */
-.top-bar {
+.top-bar_container {
+    width: 100%;
+    height: 65px;
     display: flex;
     align-items: center;
-    background-color: #c4f1dd; /* Scegli un colore di sfondo */
-    padding: 0px; /* Aggiusta il padding come preferisci */
-    position: fixed; /* Rendi la topbar sempre visibile */
+    padding: 0;
     top: 0;
-    height: 65px; /* Nuova altezza per la topbar */
     left: 0;
+    position: fixed;
+    background-color: #c4f1dd;
     border: 1px solid black;
-    width: 100%; /* Assicurati che si estenda per tutta la larghezza */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Opzionale: aggiunge un'ombra per una sensazione di profondità */
-    z-index: 100; /* Assicurati che sia sopra agli altri elementi */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
 }
 
-.logo img {
-    height:50px; /* o qualsiasi altra dimensione */
+.top-bar_logo img {
+    height:50px;
     margin-left: 10px;
 }
 
-.title h1 {
-    margin-left: 20px; /* Spazio tra logo e titolo */
-    color: #088d55; /* Scegli un colore di testo */
+.top-bar_title h1 {
+    margin-left: 20px;
+    color: #088d55;
 }
