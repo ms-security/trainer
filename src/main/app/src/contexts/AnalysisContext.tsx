@@ -21,6 +21,8 @@ interface AnalysisContextType {
     addSmellToMicroservice: (analysisId: number, microserviceId: string, smellId: number) => Promise<void>;
     deleteMicroservice: (analysisId: number, microserviceName: string) => Promise<void>;
     addEffortTime: (analysisId: number, smellId: number, effortTime: EffortTime) => Promise<void>;
+    changeCheckboxValue: (analysisId: number, smellId: number, checkboxValue: boolean) => Promise<void>;
+    changeSmellStatus: (analysisId: number, smellId: number, newStatus: string) => Promise<void>;
 }
 
 const AnalysisContext = createContext<AnalysisContextType | undefined>(undefined);
@@ -148,6 +150,26 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
+    const changeCheckboxValue = async (analysisId: number, smellId: number, checkboxValue: boolean) => {
+        try {
+            await WebController.changeCheckboxValue(analysisId, smellId, checkboxValue);
+            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
+            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
+        } catch (error) {
+            console.error('Failed to change checkbox value:', error);
+        }
+    };
+
+    const changeSmellStatus = async (analysisId: number, smellId: number, newStatus: string) => {
+        try {
+            await WebController.changeSmellStatus(analysisId, smellId, newStatus);
+            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
+            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
+        } catch (error) {
+            console.error('Failed to change smell status:', error);
+        }
+    }
+
     useEffect(() => {
         fetchAnalyses();
     }, [fetchAnalyses]);
@@ -167,7 +189,9 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             addMicroservice,
             updateMicroservice,
             deleteMicroservice,
-            addEffortTime
+            addEffortTime,
+            changeCheckboxValue,
+            changeSmellStatus
         }}>
             {children}
         </AnalysisContext.Provider>

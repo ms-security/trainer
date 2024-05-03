@@ -5,6 +5,7 @@
 }
 
 .analysisPage-grid {
+    height: calc(100vh - 66px);
     display: grid;
     grid-template-columns: 25% 50% 25%;
     grid-template-areas: "sidebar smells microservice";
@@ -16,13 +17,13 @@
 .grid-sidebar {
     grid-area: sidebar;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     overflow-y: auto;
 }
 
 .grid-smells-list {
     grid-area: smells;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     overflow-y: auto;
     border-left: 2px solid #ccc;
@@ -30,7 +31,7 @@
 
 .grid-microservice-manager {
     grid-area: microservice;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     overflow-y: auto;
     border-left: 2px solid #ccc;

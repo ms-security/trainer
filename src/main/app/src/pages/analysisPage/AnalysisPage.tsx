@@ -27,7 +27,7 @@ const style = {
 const AnalysisPage = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice, updateMicroservice, deleteMicroservice, filters} = useAnalysis();
+    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice, updateMicroservice, deleteMicroservice, filters, changeCheckboxValue, changeSmellStatus} = useAnalysis();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
     const [showModal, setShowModal] = useState(false);
     const [currentMicroservice, setCurrentMicroservice] = useState<Microservice | undefined>(undefined);
@@ -113,13 +113,12 @@ const AnalysisPage = () => {
 
     const filterSmells = (smells: Smell[]): Smell[] => {
         return smells.filter(smell => {
-            if (filters.isChecked === true && !smell.isChecked) {
+            if (filters.isChecked === true && !smell.checked) {
                 return false;
             }
             const matchUrgency =
-                !filters.urgencyCode || !filters.urgencyCode.length || // Se l'array è vuoto, restituisci true
-                (
-                    !smell.urgencyCode && filters.urgencyCode.includes(undefined) ||
+                !(filters.urgencyCode && filters.urgencyCode.length) || // Se l'array è vuoto, restituisci true
+                (!smell.urgencyCode && filters.urgencyCode.includes(undefined) ||
                     (smell.urgencyCode && filters.urgencyCode.includes(smell.urgencyCode))
                 ); // Se lo smell ha un attributo urgencyCode, controlla se è incluso nell'array urgencyCodes
             const matchStatus = filters.smellStatus?.length ? filters.smellStatus.includes(smell.status) : true;
@@ -132,10 +131,23 @@ const AnalysisPage = () => {
         });
     };
 
+    const handleCheckboxChange = async (smellId: number, checkboxValue: boolean) => {
+        console.log('Checkbox changed:', smellId, checkboxValue);
+        if(analysis){
+            await changeCheckboxValue(analysis?.id, smellId, checkboxValue);
+            const updatedAnalysis = await fetchAnalysisById(analysis.id);
+            setAnalysis(updatedAnalysis);
+        }
+    }
 
-
-
-
+    const handleSmellStatusChange = async (smellId: number, newStatus: string) => {
+        console.log('Status changed:', smellId, newStatus);
+        if(analysis){
+            await changeSmellStatus(analysis?.id, smellId, newStatus);
+            const updatedAnalysis = await fetchAnalysisById(analysis.id);
+            setAnalysis(updatedAnalysis);
+        }
+    }
 
     // Render the analysis page container
     return (
@@ -155,10 +167,14 @@ const AnalysisPage = () => {
                             smellId={smell.id}
                             smellDescription={smell.description}
                             urgencyCode={smell.urgencyCode}
+                            isChecked={smell.checked}
+                            smellStatus={smell.status}
                             onClick={() => handleSmellClick(smell.id)}
                             microservices={analysis.microservices || []}
                             onAssignMicroservice={handleAssignMicroserviceToSmell}
                             smellMicroservice={smell.microservice}
+                            onCheckboxChange={handleCheckboxChange}
+                            onStatusChange={handleSmellStatusChange}
                         />
                     ))}
                 </div>

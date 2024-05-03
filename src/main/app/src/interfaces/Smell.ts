@@ -14,7 +14,7 @@ export interface Smell {
     urgencyCode?: UrgencyCode;
     microservice?: Microservice;
     effortTime?: EffortTime;
-    isChecked: boolean;
+    checked: boolean;
     propertiesAffected: QualityAttributeSR[];
 }
 

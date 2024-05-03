@@ -1,6 +1,6 @@
 import React, {useState, ChangeEvent, FormEvent, useEffect} from 'react';
 import { Microservice} from "../../interfaces/Microservice";
-import {Category, QualityAttribute, QualityAttributeMS, Relevance} from "../../interfaces/QualityAttribute";
+import {Category, QualityAttributeMS, Relevance} from "../../interfaces/QualityAttribute";
 
 interface MicroserviceFormProps {
     onAddMicroservice: (data: any) => void;
@@ -90,7 +90,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
             <fieldset>
                 <legend>{category}</legend>
                 {filteredAttributes.map((attr, index) => (
-                    <div key={index}>
+                    <div key={attr.name}>
                         <label htmlFor={`quality-${attr.name}`}>{attr.name}:</label>
                         <select
                             id={`quality-${attr.name}`}

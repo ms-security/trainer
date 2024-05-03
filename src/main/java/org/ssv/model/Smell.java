@@ -19,8 +19,8 @@ public class Smell {
     private Refactoring refactoring; // parser - from json
     private List<QualityAttribute> propertiesAffected; // file json
     private UrgencyCode urgencyCode; // triage
-    private SmellStatus smellStatus; // frontend
-    private  boolean isChecked; // frontend
+    private SmellStatus status; // frontend
+    private boolean isChecked; // frontend
     private Microservice microservice; // frontend
     private EffortTime effortTime; // frontend
 

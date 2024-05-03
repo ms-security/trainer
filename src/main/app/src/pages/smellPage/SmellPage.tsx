@@ -74,7 +74,7 @@ const SmellPage = () => {
                     <div className="smellPage-sidebarContent">
                     <h3 className="smellPage-smellIndex">Smell: {smell?.id} / {analysis?.smells.length}</h3>
                         {analysis?.smells.map((smell) => (
-                            <div className="smellPage-smellListCard" onClick={() => handleSmellClick(analysis?.id, smell.id)}>
+                            <div key={smell.id} className="smellPage-smellListCard" onClick={() => handleSmellClick(analysis?.id, smell.id)}>
                                 <div className="smellPage-smellList-scripts">
                                     <h3 className="smellPage-smellCardTitle">{smell.name}</h3>
                                     <p className="smellPage-smellCardMicroservice">{"Microservice: " + smell.microservice?.name || ''}</p>

@@ -1,4 +1,4 @@
-import {QualityAttribute, QualityAttributeMS, Relevance} from "./QualityAttribute";
+import {QualityAttributeMS, Relevance} from "./QualityAttribute";
 export interface Microservice {
     name: string,
     relevance: Relevance;

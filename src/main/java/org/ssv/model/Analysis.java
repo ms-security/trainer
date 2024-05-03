@@ -24,7 +24,7 @@ import java.util.List;
         private LocalDateTime date;
         private List<Microservice> microservices;
 
-        public Analysis(String name, List<Smell> smells, LocalDateTime date) throws Exception {
+        public Analysis(String name, List<Smell> smells, LocalDateTime date) {
             id = lastId++;
             this.name = name;
             this.smells = smells;

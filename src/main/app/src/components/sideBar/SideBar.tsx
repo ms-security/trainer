@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SideBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faAngleDown, faAngleRight, faFilter, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import {faAngleDown, faAngleRight, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import { Microservice } from "../../interfaces/Microservice";
 import {SmellStatus, UrgencyCode } from "../../interfaces/Smell";
 import { useAnalysis } from "../../contexts/AnalysisContext";
@@ -64,12 +64,12 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
             } else {
                 newUrgencyCodes.add(undefined);
             }
-        } else {
-            if (newUrgencyCodes.has(code)) {
-                newUrgencyCodes.delete(code);
-            } else {
-                newUrgencyCodes.add(code);
-            }
+        }
+        else if (newUrgencyCodes.has(code)){
+            newUrgencyCodes.delete(code);
+        }
+        else {
+            newUrgencyCodes.add(code);
         }
         setFilters({ ...filters, urgencyCode: Array.from(newUrgencyCodes) });
     };

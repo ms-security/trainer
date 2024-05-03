@@ -2,11 +2,16 @@ package org.ssv.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
+import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Smell;
 import org.ssv.service.util.ContentParser;
+import org.ssv.service.util.TxtContentParser;
+
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -18,10 +23,11 @@ public class FactoryAnalysis {
     private static FactoryAnalysis instance;
     private ContentParser parser;  // Strategy interface
     private List<SmellDetail> smellDetails;
+    private static final Logger LOGGER = LoggerFactory.getLogger(FactoryAnalysis.class);
 
     private FactoryAnalysis(){
         loadSmellDetails();
-    };
+    }
 
     public static synchronized FactoryAnalysis getInstance() {
         if (instance == null) {
@@ -37,7 +43,7 @@ public class FactoryAnalysis {
             String json = new String(data, StandardCharsets.UTF_8);
             smellDetails = objectMapper.readValue(json, new TypeReference<List<SmellDetail>>() {});
         } catch (Exception e) {
-            System.out.println("Errore nella lettura del file smellDetail.json ");
+            LOGGER.error("Errore nella lettura del file smellDetail.json ");
             e.printStackTrace();
             smellDetails = new ArrayList<>();
         }
@@ -51,7 +57,7 @@ public class FactoryAnalysis {
     }
 
 
-    public Analysis createAnalysis(ContentParser parser, String fileContent, String name, String dateString) throws Exception {
+    public Analysis createAnalysis(ContentParser parser, String fileContent, String name, String dateString) throws InvalidContentException {
         List<Smell> smells = parser.parseContent(fileContent);
         LocalDateTime date = extractUploadDate(dateString);
         return new Analysis(name, smells, date);

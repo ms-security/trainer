@@ -111,17 +111,14 @@ public class RestController {
         if (analysis == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println("Analysis found");
         Microservice microservice = AnalysisDatabaseSingleton.getInstance().getMicroservice(analysisId, microserviceId);
         if (microservice == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println("Microservice found");
         Smell smell = AnalysisDatabaseSingleton.getInstance().getSmell(analysisId, smellId);
         if (smell == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println("Smell found");
         TriageService triageService = new TriageService();
         smell.setUrgencyCode(triageService.urgencyCodeCalculator(microservice, smell));
         smell.setMicroservice(microservice);
@@ -199,9 +196,35 @@ public class RestController {
         if (smell == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println(effortTime);
         smell.setEffortTime(effortTime);
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("analysis/{analysisId}/smell/{smellId}/checkbox")
+    public ResponseEntity<Void> setCheckbox(@PathVariable int analysisId, @PathVariable int smellId, @RequestBody boolean checkbox) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Smell smell = AnalysisDatabaseSingleton.getInstance().getSmell(analysisId, smellId);
+        if (smell == null) {
+            return ResponseEntity.notFound().build();
+        }
+        smell.setChecked(checkbox);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("analysis/{analysisId}/smell/{smellId}/status")
+    public ResponseEntity<Void> setStatus(@PathVariable int analysisId, @PathVariable int smellId, @RequestBody SmellStatus smellStatus) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Smell smell = AnalysisDatabaseSingleton.getInstance().getSmell(analysisId, smellId);
+        if (smell == null) {
+            return ResponseEntity.notFound().build();
+        }
+        smell.setStatus(smellStatus);
+        return ResponseEntity.ok().build();
+    }
 }

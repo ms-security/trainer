@@ -58,7 +58,6 @@ export default class WebController{
             throw new Error('Failed to fetch analysis from the server');
         }
         const analysis: Analysis = await response.json();
-        console.log('Analysis fetched successfully:', analysis);
         return analysis;
     }
 
@@ -94,7 +93,6 @@ export default class WebController{
         });
         if (response.ok) {
             const microservice: Microservice = await response.json();
-            console.log('Microservice added successfully:', microservice);
             return microservice;
         } else {
             const errorData = await response.json();
@@ -150,8 +148,34 @@ export default class WebController{
         if (!response.ok) {
             throw new Error('Failed to add effort time');
         }
-        console.log('Effort time added successfully ' + effortTime);
     }
 
+    static async changeCheckboxValue(analysisId: number, smellId: number, checkboxValue: boolean): Promise<void> {
+        const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}/checkbox`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(checkboxValue)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to change checkbox value');
+        }
+        console.log('Checkbox value changed successfully');
+    }
+
+    static async changeSmellStatus(analysisId: number, smellId: number, newStatus: string): Promise<void> {
+        const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newStatus)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to change smell status');
+        }
+        console.log('Smell status changed successfully');
+    }
 
 }

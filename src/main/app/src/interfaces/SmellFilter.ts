@@ -1,4 +1,3 @@
-import { Microservice } from "./Microservice";
 import { SmellStatus, UrgencyCode } from "./Smell";
 
 export interface SmellFilter {
