@@ -49,10 +49,16 @@ const SmellPage = () => {
         }
     };
 
+    const handleBackClick = (analysisId: number | undefined) => {
+        console.log("check params:", analysisId);
+        navigate(`/analysis/${analysisId}`);
+    };
+
     return (
         <body className="smellPage">
             <TopBar/>
             <div className="smellPage-header">
+                <h1 className="smellPage-backButton" onClick={() => handleBackClick(analysis?.id)}> ← </h1>
                 <h1 className="smellPage-analysisName">Analysis - {analysis?.name}</h1>
                 <div className={getUrgencyClass(smell?.urgencyCode)}></div>
                 <MicroserviceBanner microserviceName={smell?.microservice?.name} />
@@ -68,9 +74,14 @@ const SmellPage = () => {
                     <div className="smellPage-sidebarContent">
                     <h3 className="smellPage-smellIndex">Smell: {smell?.id} / {analysis?.smells.length}</h3>
                         {analysis?.smells.map((smell) => (
-                            <div key={smell.id} className="smellPage-smellListCard" onClick={() => handleSmellClick(analysis?.id, smell.id)}>
-                                <h3 className="smellPage-smellCardTitle">{smell.name}</h3>
-                                <p className="smellPage-smellCardMicroservice">{smell.microservice?.name}</p>
+                            <div className="smellPage-smellListCard" onClick={() => handleSmellClick(analysis?.id, smell.id)}>
+                                <div className="smellPage-smellList-scripts">
+                                    <h3 className="smellPage-smellCardTitle">{smell.name}</h3>
+                                    <p className="smellPage-smellCardMicroservice">{"Microservice: " + smell.microservice?.name || ''}</p>
+                                    <p className="smellPage-smellList-effortTime">
+                                        {smell.effortTime ? `${smell.effortTime.value} ${smell.effortTime.unitOfTime}` : ''}
+                                    </p>
+                                </div>
                                 <div className={getUrgencyClass(smell?.urgencyCode)}></div>
                             </div>
                         ))}

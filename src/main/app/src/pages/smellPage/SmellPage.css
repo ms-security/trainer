@@ -1,3 +1,7 @@
+.smellPage{
+    overflow: hidden;
+}
+
 .smellPage-header{
     height: 50px;
     display: flex;
@@ -5,8 +9,14 @@
     margin-top: 66px;
 }
 
+.smellPage-backButton{
+    margin: 0 2px 8px 10px;
+    font-size: 50px;
+    cursor: pointer;
+}
+
 .smellPage-analysisName{
-    margin: 2px 2px 2px 20px;
+    margin: 2px 2px 2px 10px;
     font-size: 20px;
 }
 
@@ -62,32 +72,33 @@
     grid-template-areas: 'sidebar main toc';
     grid-template-columns: 30% 50% 20%;
     margin-top: 0;
-    overflow: hidden;
+    height: calc(100vh - 120px);
 }
 
 .smellPage-sidebar {
     grid-area: sidebar;
-    height: calc(100vh - 116px);
+    height: 100%;
     background-color: lightseagreen;
     overflow-y: auto;
 }
 
 .smellPage-mainContent {
     grid-area: main;
-    height: calc(100vh - 150px);
-    padding: 1rem;
+    height: 100%;
     background-color: white;
     overflow-y: auto;
+    padding: 0 20px 0 20px;
 }
 
 .smellPage-toc{
     grid-area: toc;
     height: fit-content;
-    margin: 2px;
-    background-color: lightgreen;
+    margin: 20px 10px 2px 10px;
+    background-color: lightgrey;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
     text-align: left;
+    overflow-y: auto;
 }
 
 .smellPage-tocTitle{
@@ -101,26 +112,48 @@
     flex-direction: column;
 }
 
-.smellPage-smellListCard{
+.smellPage-smellIndex{
+    margin: 5px 10px 2px auto;
+}
+
+.smellPage-smellListCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
     margin: 5px 2px;
-    padding: 5px;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
     text-align: left;
 }
 
-.smellPage-smellIndex{
-    margin-left: auto;
-    margin-right: 10px;
+.smellPage-smellList-scripts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1; /* Allows this container to take up all available space */
 }
 
-.smellPage-smellCardTitle{
-    margin: 0;
+.smellPage-smellCardTitle {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
-.smellPage-smellCardMicroservice{
-    margin: 0;
+.smellPage-smellCardMicroservice {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 2px;
+    margin-top: 0;
+}
+
+.smellPage-smellList-effortTime {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .smellPage-smellTitle{
@@ -219,6 +252,7 @@
     column-gap: 20px;
     row-gap: 20px;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .smellPage-smellImpact, .smellPage-refactoringImpact {
