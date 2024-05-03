@@ -204,4 +204,34 @@ public class RestController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("analysis/{analysisId}/smell/{smellId}/checkbox")
+    public ResponseEntity<Void> setCheckbox(@PathVariable int analysisId, @PathVariable int smellId, @RequestBody boolean checkbox) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Smell smell = AnalysisDatabaseSingleton.getInstance().getSmell(analysisId, smellId);
+        if (smell == null) {
+            return ResponseEntity.notFound().build();
+        }
+        System.out.println(smell.isChecked());
+        smell.setChecked(checkbox);
+        System.out.println(smell.isChecked());
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("analysis/{analysisId}/smell/{smellId}/status")
+    public ResponseEntity<Void> setStatus(@PathVariable int analysisId, @PathVariable int smellId, @RequestBody SmellStatus smellStatus) {
+        Analysis analysis = AnalysisDatabaseSingleton.getInstance().getAnalysis(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Smell smell = AnalysisDatabaseSingleton.getInstance().getSmell(analysisId, smellId);
+        if (smell == null) {
+            return ResponseEntity.notFound().build();
+        }
+        System.out.println(smell.getStatus());
+        smell.setStatus(smellStatus);
+        return ResponseEntity.ok().build();
+    }
 }
