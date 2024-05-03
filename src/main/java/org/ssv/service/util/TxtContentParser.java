@@ -44,4 +44,50 @@ public class TxtContentParser implements ContentParser {
         }
         return smells;
     }
+
+    /*@Override
+    public List<Smell> parseContent(String content) throws Exception {
+        if(!Pattern.compile("^Analysis results:\\s*\n").matcher(content).find())
+            throw new InvalidContentException("Invalid content");
+
+        //conta il numero di \n in content e stampa il numero
+        System.out.println("content with \\n: " + content);
+        //int count = content.length() - content.replace("\\n", " cane ").length();
+        System.out.println("\n\n\n\n");
+        content = content.replace('a', 'c');
+        System.out.println("Content with cane: " + content);
+        //System.out.println("Numero di \\n: " + count);
+
+        content = content.replaceAll("^Analysis results:\\s*\n", "");
+        List<Smell> smells = new ArrayList<>();
+        String[] smellsToParse = content.split("\n\n");
+        System.out.println("Numero di smells: " + smellsToParse.length);
+
+        int j = 0;
+        for(int i = 0; i < smellsToParse.length; i++) {
+            String firstLine = smellsToParse[i].substring(0, smellsToParse[i].indexOf("\n"));
+            System.out.println(" --------- " + firstLine);
+            String description = smellsToParse[i].substring(smellsToParse[i].indexOf("\n") + 1);
+            String code = firstLine.substring(firstLine.indexOf("{") + 1, firstLine.indexOf("}"));
+
+            SmellDetail detail = FactoryAnalysis.getInstance().findSmellDetailByCode(code);
+
+            if (detail != null) {
+                Smell newSmell = Smell.builder()
+                        .code(code)
+                        .description(description)
+                        .fistLineDescription(firstLine)
+                        .id(++j)
+                        .extendedName(detail.getExtendedName())
+                        .smellTypeDescription(detail.getSmellTypeDescription())
+                        .propertiesAffected(detail.getPropertiesAffected())
+                        .refactoring(detail.getRefactoring())
+                        .build();
+                smells.add(newSmell);
+            }
+            else
+                System.out.println("Smell detail not found for code: " + code);
+        }
+        return smells;
+    }*/
 }
