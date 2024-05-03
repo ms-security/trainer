@@ -1,5 +1,7 @@
 package org.ssv.service.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Smell;
 import org.ssv.service.FactoryAnalysis;
@@ -10,9 +12,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TxtContentParser implements ContentParser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TxtContentParser.class);
 
     @Override
-    public List<Smell> parseContent(String content) throws Exception {
+    public List<Smell> parseContent(String content) throws InvalidContentException {
         if(!Pattern.compile("^Analysis results:\\s*\n").matcher(content).find())
             throw new InvalidContentException("Invalid content");
 
@@ -40,7 +43,8 @@ public class TxtContentParser implements ContentParser {
                 smells.add(newSmell);
             }
             else
-                System.out.println("Smell detail not found for code: " + code);
+                LOGGER.error("Smell detail not found for code: ", code);
+
         }
         return smells;
     }

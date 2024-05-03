@@ -111,17 +111,14 @@ public class RestController {
         if (analysis == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println("Analysis found");
         Microservice microservice = AnalysisDatabaseSingleton.getInstance().getMicroservice(analysisId, microserviceId);
         if (microservice == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println("Microservice found");
         Smell smell = AnalysisDatabaseSingleton.getInstance().getSmell(analysisId, smellId);
         if (smell == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println("Smell found");
         TriageService triageService = new TriageService();
         smell.setUrgencyCode(triageService.urgencyCodeCalculator(microservice, smell));
         smell.setMicroservice(microservice);
@@ -199,7 +196,6 @@ public class RestController {
         if (smell == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println(effortTime);
         smell.setEffortTime(effortTime);
         return ResponseEntity.ok().build();
     }
@@ -214,9 +210,7 @@ public class RestController {
         if (smell == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println(smell.isChecked());
         smell.setChecked(checkbox);
-        System.out.println(smell.isChecked());
         return ResponseEntity.ok().build();
     }
 
@@ -230,7 +224,6 @@ public class RestController {
         if (smell == null) {
             return ResponseEntity.notFound().build();
         }
-        System.out.println(smell.getStatus());
         smell.setStatus(smellStatus);
         return ResponseEntity.ok().build();
     }

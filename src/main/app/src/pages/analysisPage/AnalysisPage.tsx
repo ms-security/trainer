@@ -10,7 +10,6 @@ import {Box, Modal} from "@mui/material";
 import {useAnalysis} from "../../contexts/AnalysisContext";
 import MicroserviceManager from "../../components/microserviceManager/MicroserviceManager";
 import {Microservice} from "../../interfaces/Microservice";
-import {SmellFilter} from "../../interfaces/SmellFilter";
 import {Smell} from "../../interfaces/Smell";
 
 const style = {
@@ -118,9 +117,8 @@ const AnalysisPage = () => {
                 return false;
             }
             const matchUrgency =
-                !filters.urgencyCode || !filters.urgencyCode.length || // Se l'array è vuoto, restituisci true
-                (
-                    !smell.urgencyCode && filters.urgencyCode.includes(undefined) ||
+                !(filters.urgencyCode && filters.urgencyCode.length) || // Se l'array è vuoto, restituisci true
+                (!smell.urgencyCode && filters.urgencyCode.includes(undefined) ||
                     (smell.urgencyCode && filters.urgencyCode.includes(smell.urgencyCode))
                 ); // Se lo smell ha un attributo urgencyCode, controlla se è incluso nell'array urgencyCodes
             const matchStatus = filters.smellStatus?.length ? filters.smellStatus.includes(smell.status) : true;

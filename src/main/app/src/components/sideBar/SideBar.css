@@ -149,7 +149,7 @@
     visibility: visible; /* Show the icon when needed */
 }
 
-.accordion-content urgency{
+.accordion-content.urgency{
     padding: 10px;
     background-color: #f8f9fa;
 }
