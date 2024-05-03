@@ -6,7 +6,7 @@
 
 .analysisPage-grid {
     display: grid;
-    grid-template-columns: 25% 55% 20%;
+    grid-template-columns: 25% 50% 25%;
     grid-template-areas: "sidebar smells microservice";
     margin-top: 66px;
     gap: 0;
@@ -25,6 +25,7 @@
     height: 100vh;
     width: 100%;
     overflow-y: auto;
+    border-left: 2px solid #ccc;
 }
 
 .grid-microservice-manager {
@@ -32,4 +33,5 @@
     height: 100vh;
     width: 100%;
     overflow-y: auto;
+    border-left: 2px solid #ccc;
 }

@@ -100,12 +100,12 @@
 .confirm-button.disabled {
     background-color: #cccccc;
     cursor: not-allowed;
-
 }
 
 .upload-button {
     cursor: pointer;
     align-self: start;
+    background-color:lightgrey;
 }
 
 

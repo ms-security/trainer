@@ -1,64 +1,204 @@
 .sidebar-wrapper {
     width: 100%;
-    height: calc(100vh - 66px);
-    top: 66px;
-    left: 0;
-    background-color: #c4f1dd;
-    z-index: 1000;
+    height: calc(100vh - 66px); /* Assuming header height to be 66px */
+    background-color: #f4f4f4;
     overflow-y: auto;
 }
 
 .sidebar {
-    height: 100%;
+    padding: 20px;
+}
+
+.filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+}
+
+.filters-header h2 {
+    margin: 0; /* Remove any default margin */
+    text-decoration: underline; /* Aggiunge sottolineatura al titolo Filters */
+
+}
+
+.filter-controls {
+    margin-top: 20px;
+    display: inline-block; /* or use flex if you prefer */
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid black; /* Optional: adds a border around the button group */
+    cursor: pointer;
+}
+
+.filter-controls button {
+    margin: 0; /* Remove margin between buttons */
+    border-radius: 0; /* Remove individual border-radius */
+    padding: 12px 24px;
+    border: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.filter-controls button:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.filter-controls button:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.filter-controls button.active {
+    background-color: gray;
+}/* Darker blue when active */
+
+.filter-controls button:hover:not(.active) {
+    background-color: lightgrey; /* Same as active state for hover on inactive buttons */
+}
+
+
+.clear-filters {
+    background-color: #ff4d4d;
+    color: white;
+    visibility: hidden;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    padding: 10px 20px;
+}
+
+.clear-filters.visible {
+    visibility: visible; /* Show the button when there are filters */
+}
+
+.clear-filters button:hover {
+    opacity: 0.8;
+}
+
+.filter-counter {
+    background-color: #f0f0f0;
+    color: #333;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    visibility: hidden; /* Hide when count is zero */
+
+}
+
+.filter-counter.visible {
+    visibility: visible; /* Show when count is more than zero */
 }
 
 .accordion {
-    margin: 20px;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 10px;
 }
 
 .accordion-item {
-    margin-bottom: 10px;
-    background-color: #fff;
-    color: #333;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    border-top: 1px solid #ccc;
 }
 
 .accordion-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 20px;
+    padding: 10px 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: #e9ecef;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    position: relative;
 }
 
-.accordion-title:hover {
-    background-color: #e3e3e3;
+.icon-arrow {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-.accordion-content {
-    display: block;
-    padding: 15px 20px;
-    border-top: 1px solid #ddd;
+.accordion-title span {
+    margin-left: 25px; /* Spazio per l'icona */
+    font-weight: bold; /* Rendi il testo Urgency Codes in grassetto */
+
 }
 
-.microservice {
+
+.filter-controls-right {
+    display: flex;
+    align-items: center;
+}
+
+.filter-icon {
+    margin-right: 10px; /* Space between icon and number */
+    color: #333;
+}
+
+.remove-filter-icon {
+    visibility: hidden; /* Initially hidden */
+    color: #ff4d4d;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.remove-filter-icon.visible {
+    visibility: visible; /* Show the icon when needed */
+}
+
+.accordion-content urgency{
     padding: 10px;
-    border-bottom: 1px solid #e1e1e1;
+    background-color: #f8f9fa;
 }
 
-.microservice-name,
-.microservice-relevance,
-.quality-attribute-name,
-.quality-attribute-relevance {
-    margin: 5px 0;
+.accordion-content.urgency .option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid transparent; /* Helps in managing layout shifts when selected */
+    transition: background-color 0.2s, border-color 0.2s;
 }
 
-.quality-attributes {
-    margin-top: 10px;
-    padding-left: 20px;
-    border-left: 2px solid #d0d0d0;
+.accordion-content.smell {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Crea due colonne di uguale larghezza */
+    padding: 10px;
+    justify-items: center;
+    align-self: start;
+    background-color: #f8f9fa;
 }
 
+.accordion-content.smell .option {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: background-color 0.2s, border-color 0.2s;
+    text-align: left; /* Assicura che il testo sia allineato a sinistra */
+}
+
+.accordion-content .option.selected {
+    background-color: #add8e6;
+    border-color: #000;
+}
+
+.color-dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.color-dot.dark-red { background-color: darkred; }
+.color-dot.light-coral { background-color: lightcoral; }
+.color-dot.orange { background-color: orange; }
+.color-dot.yellow { background-color: yellow; }
+.color-dot.yellow-green { background-color: yellowgreen; }
+.color-dot.light-green { background-color: lightgreen; }
+.color-dot.darkgreen { background-color: darkgreen; }
+.color-dot.gray { background-color: gray; }

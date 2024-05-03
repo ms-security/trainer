@@ -9,17 +9,17 @@ interface MicroserviceFormProps {
 }
 
 const qualityAttributes: QualityAttributeMS[] = [
-    { name: 'confidentiality', relevance: Relevance.NONE, category: Category.SECURITY },
-    { name: 'integrity', relevance: Relevance.NONE, category: Category.SECURITY },
-    { name: 'authenticity', relevance: Relevance.NONE, category: Category.SECURITY },
-    { name: 'resource utilization', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
-    { name: 'time behaviour', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
-    { name: 'capacity', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
-    { name: 'modularity', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
-    { name: 'reusability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
-    { name: 'analysability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
-    { name: 'modifiability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
-    { name: 'testability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY }
+    { name: 'Confidentiality', relevance: Relevance.NONE, category: Category.SECURITY },
+    { name: 'Integrity', relevance: Relevance.NONE, category: Category.SECURITY },
+    { name: 'Authenticity', relevance: Relevance.NONE, category: Category.SECURITY },
+    { name: 'Resource utilization', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
+    { name: 'Time behaviour', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
+    { name: 'Capacity', relevance: Relevance.NONE, category: Category.PERFORMANCE_EFFICIENCY },
+    { name: 'Modularity', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
+    { name: 'Reusability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
+    { name: 'Analysability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
+    { name: 'Modifiability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY },
+    { name: 'Testability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY }
 ];
 
 const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, onUpdateMicroservice, initialData }) => {

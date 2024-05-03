@@ -3,9 +3,12 @@ import WebController from '../application/WebController';
 import { Analysis } from "../interfaces/Analysis";
 import {Smell} from "../interfaces/Smell";
 import {EffortTime} from "../interfaces/EffortTime";
+import {SmellFilter} from "../interfaces/SmellFilter";
 
 interface AnalysisContextType {
     analyses: Analysis[];
+    filters: SmellFilter;
+    setFilters: (newFilters: SmellFilter) => void;
     fetchAnalyses: () => Promise<void>;
     fetchAnalysisById: (id: number) => Promise<Analysis | undefined>;
     addAnalysis: (file: File, name: string, date: string) => Promise<void>;
@@ -29,6 +32,7 @@ export const useAnalysis = () => {
 
 export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const [analyses, setAnalyses] = useState<Analysis[]>([]);
+    const [filters, setFilters] = useState<SmellFilter>({});
 
     const fetchAnalyses = useCallback(async () => {
         try {
@@ -150,6 +154,8 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
     return (
         <AnalysisContext.Provider value={{
             analyses,
+            filters,
+            setFilters,
             fetchAnalyses,
             addAnalysis,
             fetchAnalysisById,

@@ -10,6 +10,8 @@ import {Box, Modal} from "@mui/material";
 import {useAnalysis} from "../../contexts/AnalysisContext";
 import MicroserviceManager from "../../components/microserviceManager/MicroserviceManager";
 import {Microservice} from "../../interfaces/Microservice";
+import {SmellFilter} from "../../interfaces/SmellFilter";
+import {Smell} from "../../interfaces/Smell";
 
 const style = {
     position: 'absolute',
@@ -26,10 +28,11 @@ const style = {
 const AnalysisPage = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice, updateMicroservice, deleteMicroservice} = useAnalysis();
+    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice, updateMicroservice, deleteMicroservice, filters} = useAnalysis();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
     const [showModal, setShowModal] = useState(false);
     const [currentMicroservice, setCurrentMicroservice] = useState<Microservice | undefined>(undefined);
+
     useEffect(() => {
         if (id) {
             fetchAnalysisById(parseInt(id)).then(setAnalysis);
@@ -109,6 +112,29 @@ const AnalysisPage = () => {
         setShowModal(true);
     };
 
+    const filterSmells = (smells: Smell[]): Smell[] => {
+        return smells.filter(smell => {
+            if (filters.isChecked === true && !smell.isChecked) {
+                return false;
+            }
+            const matchUrgency =
+                !filters.urgencyCode || !filters.urgencyCode.length || // Se l'array è vuoto, restituisci true
+                (
+                    !smell.urgencyCode && filters.urgencyCode.includes(undefined) ||
+                    (smell.urgencyCode && filters.urgencyCode.includes(smell.urgencyCode))
+                ); // Se lo smell ha un attributo urgencyCode, controlla se è incluso nell'array urgencyCodes
+            const matchStatus = filters.smellStatus?.length ? filters.smellStatus.includes(smell.status) : true;
+            const matchMicroservice = filters.microservice?.length ? filters.microservice.includes(smell.microservice?.name as string) : true;
+
+            return matchUrgency && matchStatus && matchMicroservice;
+        });
+    };
+
+
+
+
+
+
     // Render the analysis page container
     return (
         <div className="analysis-page-container">
@@ -116,21 +142,21 @@ const AnalysisPage = () => {
             <div className="analysisPage-grid">
                 <aside className="grid-sidebar">
                     {analysis && <Sidebar
-                        microservices={analysis.microservices || []}
+                        microservices={analysis?.microservices || []}
                     />}
                 </aside>
                 <div className="grid-smells-list">
-                    {analysis?.smells.map((smell) => (
+                    {analysis && filterSmells(analysis.smells).map(smell => (
                         <SmellCard
                             key={smell.id}
-                                smellName={smell.name}
-                                smellId={smell.id}
-                                smellDescription={smell.description}
-                                urgencyCode={smell.urgencyCode}
-                                onClick={() => handleSmellClick(smell.id)}
-                                microservices={analysis.microservices || []}
-                                onAssignMicroservice={handleAssignMicroserviceToSmell}
-                                smellMicroservice={smell.microservice}
+                            smellName={smell.name}
+                            smellId={smell.id}
+                            smellDescription={smell.description}
+                            urgencyCode={smell.urgencyCode}
+                            onClick={() => handleSmellClick(smell.id)}
+                            microservices={analysis.microservices || []}
+                            onAssignMicroservice={handleAssignMicroserviceToSmell}
+                            smellMicroservice={smell.microservice}
                         />
                     ))}
                 </div>

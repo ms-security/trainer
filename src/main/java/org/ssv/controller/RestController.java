@@ -6,10 +6,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.ssv.database.AnalysisDatabaseSingleton;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.*;
+import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.TriageService;
 import org.ssv.service.util.ContentParser;
-import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.util.TxtContentParser;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
