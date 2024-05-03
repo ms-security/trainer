@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Smell;
+import org.ssv.model.SmellStatus;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.SmellDetail;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class TxtContentParser implements ContentParser {
                         .smellTypeDescription(detail.getSmellTypeDescription())
                         .propertiesAffected(detail.getPropertiesAffected())
                         .refactoring(detail.getRefactoring())
+                        .status(SmellStatus.UNFIXED)
                         .build();
                 smells.add(newSmell);
             }

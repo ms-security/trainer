@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './SideBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faAngleDown, faAngleRight, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
@@ -35,13 +35,30 @@ const smellCodeDescriptions: Record<string, string> = {
     PAM: "Publicly Accessible Microservices"
 };
 
+// Helper function to format the SmellStatus enum values into a more readable format
+const formatSmellStatus = (status : SmellStatus) => {
+    return status
+        .toLowerCase() // Convert all to lower case
+        .replaceAll('_', ' ') // Replace underscores with spaces
+        .replace(/\b(\w)/g, char => char.toUpperCase()); // Capitalize the first letter of each word
+};
+
 const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
-    const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({});
+    const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({ urgencyCodes: true });
     const { filters, setFilters } = useAnalysis();
 
     const toggleSection = (section: string) => {
         setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
     };
+
+    useEffect(() => {
+        // Assicurarsi che i filtri dei microservizi rimangano validi anche quando i microservizi cambiano
+        const currentMicroserviceNames = new Set(microservices.map(m => m.name));
+        const validMicroservices = (filters.microservice || []).filter(name => currentMicroserviceNames.has(name));
+        if (validMicroservices.length !== (filters.microservice || []).length) {
+            setFilters({ ...filters, microservice: validMicroservices });
+        }
+    }, [microservices, filters, setFilters]);
 
     const countActiveFilters = (filterKey: keyof SmellFilter): number => {
         const filterArray = filters[filterKey];
@@ -237,7 +254,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
                                     className={`option ${filters.smellStatus?.includes(status) ? 'selected' : ''}`}
                                     onClick={() => toggleSmellStatus(status)}
                                 >
-                                    <span>{status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}</span> {/* Formattazione del testo */}
+                                    <span>{formatSmellStatus(status)}</span>
                                 </div>
                             ))}
                         </div>
