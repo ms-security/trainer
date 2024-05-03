@@ -124,7 +124,6 @@
 .accordion-title span {
     margin-left: 25px; /* Spazio per l'icona */
     font-weight: bold; /* Rendi il testo Urgency Codes in grassetto */
-
 }
 
 
@@ -149,12 +148,12 @@
     visibility: visible; /* Show the icon when needed */
 }
 
-.accordion-content urgency{
+.accordion-content {
     padding: 10px;
     background-color: #f8f9fa;
 }
 
-.accordion-content.urgency .option {
+.accordion-content .option {
     display: flex;
     align-items: center;
     padding: 10px;
@@ -164,28 +163,22 @@
     transition: background-color 0.2s, border-color 0.2s;
 }
 
-.accordion-content.smell {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Crea due colonne di uguale larghezza */
-    padding: 10px;
-    justify-items: center;
-    align-self: start;
-    background-color: #f8f9fa;
-}
-
-.accordion-content.smell .option {
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 1px solid transparent;
-    transition: background-color 0.2s, border-color 0.2s;
-    text-align: left; /* Assicura che il testo sia allineato a sinistra */
-}
-
 .accordion-content .option.selected {
     background-color: #add8e6;
     border-color: #000;
 }
+
+.accordion-content.smellCode .option span:first-child {
+    flex-grow: 1; /* Permette al testo di espandersi e occupare tutto lo spazio disponibile */
+    text-align: left; /* Allinea il testo a sinistra */
+    margin-right: 10px; /* Distanza tra la descrizione e il codice */
+}
+
+.accordion-content.smellCode .option span:last-child {
+    white-space: nowrap; /* Impedisce la rottura a capo del codice */
+    font-weight: bold;
+}
+
 
 .color-dot {
     height: 10px;

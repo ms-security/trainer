@@ -5,6 +5,7 @@ import {Smell} from "../interfaces/Smell";
 import {EffortTime} from "../interfaces/EffortTime";
 import {SmellFilter} from "../interfaces/SmellFilter";
 
+
 interface AnalysisContextType {
     analyses: Analysis[];
     filters: SmellFilter;

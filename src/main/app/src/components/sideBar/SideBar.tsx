@@ -3,7 +3,7 @@ import './SideBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faAngleDown, faAngleRight, faFilter, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import { Microservice } from "../../interfaces/Microservice";
-import { UrgencyCode } from "../../interfaces/Smell";
+import {SmellStatus, UrgencyCode } from "../../interfaces/Smell";
 import { useAnalysis } from "../../contexts/AnalysisContext";
 import {SmellFilter} from "../../interfaces/SmellFilter";
 
@@ -102,6 +102,26 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
         });
     };
 
+    const toggleMicroservice = (microserviceName: string) => {
+        const newMicroservices = new Set(filters.microservice || []);
+        if (newMicroservices.has(microserviceName)) {
+            newMicroservices.delete(microserviceName);
+        } else {
+            newMicroservices.add(microserviceName);
+        }
+        setFilters({ ...filters, microservice: Array.from(newMicroservices) });
+    };
+
+    const toggleSmellStatus = (status: SmellStatus) => {
+        const newSmellStatus = new Set(filters.smellStatus || []);
+        if (newSmellStatus.has(status)) {
+            newSmellStatus.delete(status);
+        } else {
+            newSmellStatus.add(status);
+        }
+        setFilters({ ...filters, smellStatus: Array.from(newSmellStatus) });
+    };
+
 
     return (
         <div className="sidebar-wrapper">
@@ -129,7 +149,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
                         </div>
                     </div>
                     {openSections['urgencyCodes'] && (
-                        <div className="accordion-content urgency">
+                        <div className="accordion-content">
                             {Object.entries(urgencyCodeDescriptions).map(([code, { color, description }]) => (
                                 <div key={code} className={`option ${filters.urgencyCode?.includes(code as UrgencyCode) || (code === 'undefined' && filters.urgencyCode?.includes(undefined)) ? 'selected' : ''}`} onClick={() => toggleUrgencyCode(code as UrgencyCode)}>
                                     <span className={`color-dot ${color}`}></span>
@@ -155,10 +175,69 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
                         </div>
                     </div>
                     {openSections['smellCodes'] && (
-                        <div className="accordion-content smell">
+                        <div className="accordion-content smellCode">
                             {Object.entries(smellCodeDescriptions).map(([code, description]) => (
                                 <div key={code} className={`option ${filters.smellCodes?.includes(code) ? 'selected' : ''}`} onClick={() => toggleSmellCode(code)}>
-                                    <span>{description} ({code})</span>
+                                    <span>{description}</span>
+                                    <span>({code})</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+                {/* Sezione Microservice*/}
+                <div className="accordion-item">
+                    <div className="accordion-title" onClick={() => toggleSection('microservice')}>
+                        <FontAwesomeIcon icon={openSections['microservice'] ? faAngleDown : faAngleRight} className="icon-arrow" />
+                        <span>Microservice</span>
+                        <div className="filter-controls-right">
+                        <span className={`filter-counter ${countActiveFilters('microservice') > 0 ? 'visible' : ''}`}>
+                            {countActiveFilters('microservice')}
+                        </span>
+                            <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => {
+                                e.stopPropagation();
+                                removeSectionFilters('microservice');
+                            }} className={`remove-filter-icon ${countActiveFilters('microservice') > 0 ? 'visible' : ''}`} />
+                        </div>
+                    </div>
+                    {openSections['microservice'] && (
+                        <div className="accordion-content smellCode">
+                            {microservices.length > 0 ? (
+                                microservices.map(microservice => (
+                                    <div key={microservice.name} className={`option ${filters.microservice?.includes(microservice.name) ? 'selected' : ''}`} onClick={() => toggleMicroservice(microservice.name)}>
+                                        <span>{microservice.name}</span>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="no-microservice">No microservices found</div>
+                            )}
+                        </div>
+                    )}
+                </div>
+                {/* Sezione Status*/}
+                <div className="accordion-item">
+                    <div className="accordion-title" onClick={() => toggleSection('smellStatus')}>
+                        <FontAwesomeIcon icon={openSections['smellStatus'] ? faAngleDown : faAngleRight} className="icon-arrow" />
+                        <span>Smell Status</span>
+                        <div className="filter-controls-right">
+                        <span className={`filter-counter ${countActiveFilters('smellStatus') > 0 ? 'visible' : ''}`}>
+                            {countActiveFilters('smellStatus')}
+                        </span>
+                            <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => {
+                                e.stopPropagation();
+                                removeSectionFilters('smellStatus');
+                            }} className={`remove-filter-icon ${countActiveFilters('smellStatus') > 0 ? 'visible' : ''}`} />
+                        </div>
+                    </div>
+                    {openSections['smellStatus'] && (
+                        <div className="accordion-content smellStatus"> {/* Aggiunto smellStatus come classe */}
+                            {Object.values(SmellStatus).map(status => (
+                                <div
+                                    key={status}
+                                    className={`option ${filters.smellStatus?.includes(status) ? 'selected' : ''}`}
+                                    onClick={() => toggleSmellStatus(status)}
+                                >
+                                    <span>{status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}</span> {/* Formattazione del testo */}
                                 </div>
                             ))}
                         </div>

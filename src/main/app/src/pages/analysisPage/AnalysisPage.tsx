@@ -10,7 +10,6 @@ import {Box, Modal} from "@mui/material";
 import {useAnalysis} from "../../contexts/AnalysisContext";
 import MicroserviceManager from "../../components/microserviceManager/MicroserviceManager";
 import {Microservice} from "../../interfaces/Microservice";
-import {SmellFilter} from "../../interfaces/SmellFilter";
 import {Smell} from "../../interfaces/Smell";
 
 const style = {
@@ -125,8 +124,11 @@ const AnalysisPage = () => {
                 ); // Se lo smell ha un attributo urgencyCode, controlla se è incluso nell'array urgencyCodes
             const matchStatus = filters.smellStatus?.length ? filters.smellStatus.includes(smell.status) : true;
             const matchMicroservice = filters.microservice?.length ? filters.microservice.includes(smell.microservice?.name as string) : true;
+            const smellCodes = smell.name.split(', '); // Assumiamo che i codici siano separati da ", "
+            const matchSmellCode = filters.smellCodes?.length ? filters.smellCodes.some(code => smellCodes.includes(code)) : true;
 
-            return matchUrgency && matchStatus && matchMicroservice;
+
+            return matchUrgency && matchStatus && matchMicroservice && matchSmellCode;
         });
     };
 
