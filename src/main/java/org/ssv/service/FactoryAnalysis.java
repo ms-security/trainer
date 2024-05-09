@@ -10,14 +10,13 @@ import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Smell;
 import org.ssv.service.util.ContentParser;
-import org.ssv.service.util.TxtContentParser;
-
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class FactoryAnalysis {
     private static FactoryAnalysis instance;
@@ -58,9 +57,10 @@ public class FactoryAnalysis {
 
 
     public Analysis createAnalysis(ContentParser parser, String fileContent, String name, String dateString) throws InvalidContentException {
-        List<Smell> smells = parser.parseContent(fileContent);
+        String analysisId = UUID.randomUUID().toString();
+        List<Smell> smells = parser.parseContent(fileContent, analysisId);
         LocalDateTime date = extractUploadDate(dateString);
-        return new Analysis(name, smells, date);
+        return new Analysis(analysisId, name, smells, date);
     }
 
     public LocalDateTime extractUploadDate(String date) {

@@ -47,7 +47,7 @@ export default class WebController{
         return analyses;
     }
 
-    static async fetchAnalysis(analysisId: number): Promise<Analysis> {
+    static async fetchAnalysis(analysisId: String): Promise<Analysis> {
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}`, {
             method: 'GET',
             headers: {
@@ -61,7 +61,7 @@ export default class WebController{
         return analysis;
     }
 
-    static async deleteAnalysis(analysisId: number) {
+    static async deleteAnalysis(analysisId: String) {
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}`, {
             method: 'DELETE'
         });
@@ -72,7 +72,7 @@ export default class WebController{
         }
     }
 
-    static async toggleFavoriteStatus(analysisId: number): Promise<void> {
+    static async toggleFavoriteStatus(analysisId: String): Promise<void> {
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}/favorite`, {
             method: 'PUT'
         });
@@ -82,7 +82,7 @@ export default class WebController{
         }
     }
 
-    static async newMicroservice(data: any, analysisId: number): Promise<Microservice> {
+    static async newMicroservice(data: any, analysisId: String): Promise<Microservice> {
         console.log('Adding microservice:', data, analysisId)
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}`, {
             method: 'POST',
@@ -100,7 +100,7 @@ export default class WebController{
         }
     }
 
-    static async updateMicroservice(data: any, analysisId: number) {
+    static async updateMicroservice(data: any, analysisId: String) {
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}`, {
             method: 'PUT',
             headers: {
@@ -114,7 +114,7 @@ export default class WebController{
         console.log('Microservice updated');
     }
 
-    static async deleteMicroservice(analysisId: number, microserviceName: string) {
+    static async deleteMicroservice(analysisId: String, microserviceName: string) {
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceName}`, {
             method: 'DELETE'
         });
@@ -124,7 +124,7 @@ export default class WebController{
         console.log('Microservice deleted');
     }
 
-    static async addSmellToMicroservice(analysisId: number, microserviceId: string, smellId: number): Promise<void> {
+    static async addSmellToMicroservice(analysisId: String, microserviceId: string, smellId: number): Promise<void> {
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceId}/${smellId}`, {
             method: 'PUT',
             headers: {
@@ -137,7 +137,7 @@ export default class WebController{
         console.log('Microservice added to smell');
     }
 
-    static async addEffortTime(analysisId: number, smellId: number, effortTime: EffortTime): Promise<void> {
+    static async addEffortTime(analysisId: String, smellId: number, effortTime: EffortTime): Promise<void> {
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}/effortTime`, {
             method: 'PUT',
             headers: {
@@ -150,7 +150,7 @@ export default class WebController{
         }
     }
 
-    static async changeCheckboxValue(analysisId: number, smellId: number, checkboxValue: boolean): Promise<void> {
+    static async changeCheckboxValue(analysisId: String, smellId: number, checkboxValue: boolean): Promise<void> {
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}/checkbox`, {
             method: 'PUT',
             headers: {
@@ -164,7 +164,7 @@ export default class WebController{
         console.log('Checkbox value changed successfully');
     }
 
-    static async changeSmellStatus(analysisId: number, smellId: number, newStatus: string): Promise<void> {
+    static async changeSmellStatus(analysisId: String, smellId: number, newStatus: string): Promise<void> {
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}/status`, {
             method: 'PUT',
             headers: {

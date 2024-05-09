@@ -1,16 +1,18 @@
 package org.ssv.database;
 
+import org.ssv.exception.DatabaseConnectionException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Microservice;
 import org.ssv.model.Smell;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class AnalysisDatabaseSingleton {
     private static AnalysisDatabaseSingleton instance;
-    private final HashMap<Integer, Analysis> analysisHashMap = new HashMap<>();
+    private final HashMap<String, Analysis> analysisHashMap = new HashMap<>();
 
     private AnalysisDatabaseSingleton() {
     }
@@ -23,17 +25,18 @@ public class AnalysisDatabaseSingleton {
     }
 
     public void addAnalysis(Analysis analysis) {
+        System.out.println("Database hashmap analysis id" + analysis.getId());
         analysisHashMap.put(analysis.getId(), analysis);
     }
 
-    public void addMicroservice(int analysisId, Microservice microservice) {
+    public void addMicroservice(String analysisId, Microservice microservice) {
         Analysis analysis = analysisHashMap.get(analysisId);
         if (analysis != null) {
             analysis.getMicroservices().add(microservice);
         }
     }
 
-    public Microservice getMicroservice(int analysisId, String microserviceId) {
+    public Microservice getMicroservice(String analysisId, String microserviceId) {
         Analysis analysis = analysisHashMap.get(analysisId);
         Microservice result = null;
         if (analysis != null) {
@@ -46,7 +49,7 @@ public class AnalysisDatabaseSingleton {
         return result;
     }
 
-    public boolean removeMicroservice(int analysisId, Microservice microservice) {
+    public boolean removeMicroservice(String analysisId, Microservice microservice) {
         Analysis analysis = analysisHashMap.get(analysisId);
         if (analysis != null) {
             return analysis.getMicroservices().remove(microservice);  // Ritorna true se il microservizio è stato rimosso
@@ -54,7 +57,7 @@ public class AnalysisDatabaseSingleton {
         return false;
     }
 
-    public Smell getSmell(int analysisId, int smellId) {
+    public Smell getSmell(String analysisId, int smellId) {
         Analysis analysis = analysisHashMap.get(analysisId);
         Smell result = null;
         if (analysis != null) {
@@ -66,11 +69,11 @@ public class AnalysisDatabaseSingleton {
         }
         return result;
     }
-    public Analysis getAnalysis(int id) {
+    public Analysis getAnalysis(String id) {
         return analysisHashMap.get(id);
     }
 
-    public boolean removeAnalysis(int id) {
+    public boolean removeAnalysis(String id) {
         return analysisHashMap.remove(id) != null;
     }
 

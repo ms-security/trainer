@@ -16,7 +16,7 @@ public class TxtContentParser implements ContentParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(TxtContentParser.class);
 
     @Override
-    public List<Smell> parseContent(String content) throws InvalidContentException {
+    public List<Smell> parseContent(String content, String analysisId) throws InvalidContentException {
         if(!Pattern.compile("^Analysis results:\\s*\n").matcher(content).find())
             throw new InvalidContentException("Invalid content");
 

@@ -7,7 +7,7 @@ import { faExclamationCircle, faStar as faStarRegular , faStar as faStarSolid } 
 
 // Define the prop types for the AnalysisCard component
 interface AnalysisCardProps {
-    name: string;
+    name: String;
     date: string;
     isFavorite: boolean;
     isTriageValid: boolean;

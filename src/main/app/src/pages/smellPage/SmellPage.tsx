@@ -20,9 +20,9 @@ const SmellPage = () => {
     useEffect(() => {
         console.log("Check Params:", analysisId, smellId);
         if (analysisId && smellId) {
-            fetchAnalysisById(parseInt(analysisId)).then(setAnalysis);
+            fetchAnalysisById(analysisId).then(setAnalysis);
             console.log("Fetching smell for Analysis ID:");
-            const fetchedSmell = getSmellById(parseInt(analysisId), parseInt(smellId));
+            const fetchedSmell = getSmellById(analysisId, parseInt(smellId));
             console.log("Fetched Smell:", fetchedSmell);
             setSmell(fetchedSmell);
             console.log(fetchedSmell);
@@ -33,7 +33,7 @@ const SmellPage = () => {
         return code ? `urgency-indicator ${code}` : 'urgency-indicator'; // Append the urgency code as a class
     };
 
-    const handleSmellClick = (analysisId: number, smellId: number) => {
+    const handleSmellClick = (analysisId: String, smellId: number) => {
         console.log("check params:", analysisId, smellId);
         navigate(`/analysis/${analysisId}/smell/${smellId}`);
     };
@@ -44,12 +44,12 @@ const SmellPage = () => {
             setSmell(updatedSmell);
             if (analysisId && smellId) {
 
-                addEffortTime(parseInt(analysisId), parseInt(smellId), newEffortTime);
+                addEffortTime(analysisId, parseInt(smellId), newEffortTime);
             }
         }
     };
 
-    const handleBackClick = (analysisId: number | undefined) => {
+    const handleBackClick = (analysisId: String | undefined) => {
         console.log("check params:", analysisId);
         navigate(`/analysis/${analysisId}`);
     };

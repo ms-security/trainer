@@ -34,7 +34,7 @@ const AnalysisPage = () => {
 
     useEffect(() => {
         if (id) {
-            fetchAnalysisById(parseInt(id)).then(setAnalysis);
+            fetchAnalysisById(id).then(setAnalysis);
         }
     }, [id, fetchAnalysisById]);
 

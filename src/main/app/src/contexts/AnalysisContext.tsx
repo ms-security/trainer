@@ -11,18 +11,18 @@ interface AnalysisContextType {
     filters: SmellFilter;
     setFilters: (newFilters: SmellFilter) => void;
     fetchAnalyses: () => Promise<void>;
-    fetchAnalysisById: (id: number) => Promise<Analysis | undefined>;
+    fetchAnalysisById: (id: String) => Promise<Analysis | undefined>;
     addAnalysis: (file: File, name: string, date: string) => Promise<void>;
-    deleteAnalysis: (analysisId: number) => Promise<void>;
-    toggleFavoriteStatus: (analysisId: number) => Promise<void>;
-    addMicroservice: (data: any, analysisId: number) => Promise<void>;
-    updateMicroservice: (data: any, analysisId: number) => Promise<void>;
-    getSmellById: (analysisId: number, smellId: number) => Smell | undefined;
-    addSmellToMicroservice: (analysisId: number, microserviceId: string, smellId: number) => Promise<void>;
-    deleteMicroservice: (analysisId: number, microserviceName: string) => Promise<void>;
-    addEffortTime: (analysisId: number, smellId: number, effortTime: EffortTime) => Promise<void>;
-    changeCheckboxValue: (analysisId: number, smellId: number, checkboxValue: boolean) => Promise<void>;
-    changeSmellStatus: (analysisId: number, smellId: number, newStatus: string) => Promise<void>;
+    deleteAnalysis: (analysisId: String) => Promise<void>;
+    toggleFavoriteStatus: (analysisId: String) => Promise<void>;
+    addMicroservice: (data: any, analysisId: String) => Promise<void>;
+    updateMicroservice: (data: any, analysisId: String) => Promise<void>;
+    getSmellById: (analysisId: String, smellId: number) => Smell | undefined;
+    addSmellToMicroservice: (analysisId: String, microserviceId: string, smellId: number) => Promise<void>;
+    deleteMicroservice: (analysisId: String, microserviceName: string) => Promise<void>;
+    addEffortTime: (analysisId: String, smellId: number, effortTime: EffortTime) => Promise<void>;
+    changeCheckboxValue: (analysisId: String, smellId: number, checkboxValue: boolean) => Promise<void>;
+    changeSmellStatus: (analysisId: String, smellId: number, newStatus: string) => Promise<void>;
 }
 
 const AnalysisContext = createContext<AnalysisContextType | undefined>(undefined);
@@ -51,7 +51,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         setAnalyses(prev => [...prev, analysis]);
     };
 
-    const fetchAnalysisById = useCallback(async (id: number): Promise<Analysis | undefined> => {
+    const fetchAnalysisById = useCallback(async (id: String): Promise<Analysis | undefined> => {
         try {
             const analysis = await WebController.fetchAnalysis(id);
             setAnalyses(prev => {
@@ -70,7 +70,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     }, []);
 
-    const deleteAnalysis = async (analysisId: number) => {
+    const deleteAnalysis = async (analysisId: String) => {
         try {
             await WebController.deleteAnalysis(analysisId);
             setAnalyses(prev => prev.filter(a => a.id !== analysisId));
@@ -79,7 +79,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const toggleFavoriteStatus = async (analysisId: number) => {
+    const toggleFavoriteStatus = async (analysisId: String) => {
         try {
             await WebController.toggleFavoriteStatus(analysisId);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
@@ -89,7 +89,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const addMicroservice = async (data: any, analysisId: number) => {
+    const addMicroservice = async (data: any, analysisId: String) => {
         try {
             await WebController.newMicroservice(data, analysisId);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
@@ -99,7 +99,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const updateMicroservice = async (data: any, analysisId: number) => {
+    const updateMicroservice = async (data: any, analysisId: String) => {
         try {
             await WebController.updateMicroservice(data, analysisId);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
@@ -109,7 +109,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const deleteMicroservice = async (analysisId: number, microserviceName: string) => {
+    const deleteMicroservice = async (analysisId: String, microserviceName: string) => {
         try {
             await WebController.deleteMicroservice(analysisId, microserviceName);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
@@ -120,7 +120,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
     }
 
 
-    const addSmellToMicroservice = async (analysisId: number, microserviceId: string, smellId: number) => {
+    const addSmellToMicroservice = async (analysisId: String, microserviceId: string, smellId: number) => {
         try {
             await WebController.addSmellToMicroservice(analysisId, microserviceId, smellId);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
@@ -130,7 +130,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const getSmellById = useCallback((analysisId: number, smellId: number) => {
+    const getSmellById = useCallback((analysisId: String, smellId: number) => {
         const analysis = analyses.find(a => a.id === analysisId);
         console.log("ciao ddw");
         if (analysis) {
@@ -139,7 +139,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         return undefined;
     }, [analyses]);
 
-    const addEffortTime = async (analysisId: number, smellId: number, effortTime: EffortTime) => {
+    const addEffortTime = async (analysisId: String, smellId: number, effortTime: EffortTime) => {
         try {
             console.log("Adding effort time:", effortTime);
             await WebController.addEffortTime(analysisId, smellId, effortTime);
@@ -150,7 +150,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const changeCheckboxValue = async (analysisId: number, smellId: number, checkboxValue: boolean) => {
+    const changeCheckboxValue = async (analysisId: String, smellId: number, checkboxValue: boolean) => {
         try {
             await WebController.changeCheckboxValue(analysisId, smellId, checkboxValue);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
@@ -160,7 +160,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const changeSmellStatus = async (analysisId: number, smellId: number, newStatus: string) => {
+    const changeSmellStatus = async (analysisId: String, smellId: number, newStatus: string) => {
         try {
             await WebController.changeSmellStatus(analysisId, smellId, newStatus);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);

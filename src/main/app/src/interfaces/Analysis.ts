@@ -2,7 +2,7 @@ import {Smell} from "./Smell";
 import {Microservice} from "./Microservice";
 
 export interface Analysis {
-    id: number;
+    id: String;
     smells: Smell[];
     name: string;
     isFavorite: boolean;

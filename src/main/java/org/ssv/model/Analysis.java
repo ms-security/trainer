@@ -7,34 +7,51 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import javax.persistence.*;
 
-    @Data
-    @SuperBuilder
-    @NoArgsConstructor
-    public class Analysis {
+@Entity
+@Table(name = "Analysis")
+@Data
+@SuperBuilder
+@NoArgsConstructor
+public class Analysis {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
-        private String name;
-        private List<Smell> smells;
-        private static int lastId = 0;
-        private int id;
-        @JsonProperty("isFavorite")
-        private boolean isFavorite;
-        @JsonProperty("isTriageValid")
-        private boolean isTriageValid;
-        private LocalDateTime date;
-        private List<Microservice> microservices;
+    @Column(name = "name")
+    private String name;
 
-        public Analysis(String name, List<Smell> smells, LocalDateTime date) {
-            id = lastId++;
-            this.name = name;
-            this.smells = smells;
-            this.date = date;
-            this.microservices = new ArrayList<>();
-            isFavorite = false;
-            isTriageValid = false;
-        }
+    @Column(name = "date")
+    private LocalDateTime date;
 
-        public String toString() {
-            return "Analysis{ " + smells + + id + " --" + name + " --" + date + " --" + isFavorite +'}';
-        }
+    @JsonProperty("isFavorite")
+    @Column(name = "is_favorite")
+    private boolean isFavorite;
+
+    @JsonProperty("isTriageValid")
+    @Column(name = "is_triage_valid")
+    private boolean isTriageValid;
+
+    @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Smell> smells;
+
+    @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Microservice> microservices;
+
+    public Analysis(String id, String name, List<Smell> smells, LocalDateTime date) {
+        this.id = id;
+        System.out.println("Costruttore Analysis id: " + id);
+        this.name = name;
+        this.smells = smells;
+        this.date = date;
+        this.microservices = new ArrayList<>();
+        isFavorite = false;
+        isTriageValid = false;
     }
+
+    public String toString() {
+        return "Analysis{ " + smells + id + " --" + name + " --" + date + " --" + isFavorite +'}';
+    }
+}

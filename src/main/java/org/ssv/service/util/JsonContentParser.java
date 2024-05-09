@@ -6,7 +6,7 @@ import java.util.List;
 
 public class JsonContentParser implements ContentParser {
     @Override
-    public List<Smell> parseContent(String content) throws InvalidContentException {
+    public List<Smell> parseContent(String content, String analysisId) throws InvalidContentException {
         return null;
     }
 }
