@@ -11,6 +11,7 @@ import org.ssv.model.Analysis;
 import org.ssv.model.Smell;
 import org.ssv.service.util.ContentParser;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -56,11 +57,10 @@ public class FactoryAnalysis {
     }
 
 
-    public Analysis createAnalysis(ContentParser parser, String fileContent, String name, String dateString) throws InvalidContentException {
+    public Analysis createAnalysis(String name, String dateString) throws InvalidContentException{
         String analysisId = UUID.randomUUID().toString();
-        List<Smell> smells = parser.parseContent(fileContent, analysisId);
         LocalDateTime date = extractUploadDate(dateString);
-        return new Analysis(analysisId, name, smells, date);
+        return new Analysis(analysisId, name, date);
     }
 
     public LocalDateTime extractUploadDate(String date) {

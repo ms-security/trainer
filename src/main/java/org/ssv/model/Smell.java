@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Smell {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @JsonIgnore
@@ -30,10 +29,10 @@ public class Smell {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "extendedName")
+    @Column(name = "extended_name")
     private String extendedName;
 
-    @Column(name = "smellTypeDescription")
+    @Column(name = "smell_type_description")
     private String smellTypeDescription;
 
     @ManyToOne
@@ -41,7 +40,7 @@ public class Smell {
     private Microservice microservice;
 
     @ManyToOne
-    @JoinColumn(name = "effortTime_id")
+    @JoinColumn(name = "effort_time_id")
     private EffortTime effortTime;
 
     @ManyToOne
@@ -49,14 +48,14 @@ public class Smell {
     private Refactoring refactoring;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "urgencyCode")
+    @Column(name = "urgency_code")
     private UrgencyCode urgencyCode;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private SmellStatus status;
 
-    @Column(name = "isChecked")
+    @Column(name = "is_checked")
     private boolean isChecked;
 
     @ManyToMany

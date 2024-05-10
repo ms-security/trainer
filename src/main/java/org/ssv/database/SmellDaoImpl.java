@@ -48,7 +48,7 @@ public class SmellDaoImpl implements SmellDao {
                     "microservice_id INTEGER, " +
                     "refactoring_id INTEGER, " +
                     "analysis_id TEXT, " +
-                    "FOREIGN KEY (effortTime_id) REFERENCES EffortTime(id), " +
+                    "FOREIGN KEY (effortTime_id) REFERENCES effort_time(id), " +
                     "FOREIGN KEY (microservice_id) REFERENCES Microservice(id), " +
                     "FOREIGN KEY (refactoring_id) REFERENCES Refactoring(id), " +
                     "FOREIGN KEY (analysis_id) REFERENCES Analysis(id))");
@@ -70,15 +70,16 @@ public class SmellDaoImpl implements SmellDao {
 
     @Override
     public void insert(Smell smell) throws SQLException {
-        String sql = "INSERT INTO Smell (code, description, extendedName, smellTypeDescription, urgencyCode, " +
-                "status, isChecked, effortTime_id, microservice_id, refactoring_id, analysis_id) " +
+        LOGGER.info("Inserting smell: " + smell.getCode());
+        String sql = "INSERT INTO Smell (code, description, extended_name, smell_type_description, urgency_code, " +
+                "status, is_checked, effort_time_id, microservice_id, refactoring_id, analysis_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, smell.getCode());
             pstmt.setString(2, smell.getDescription());
             pstmt.setString(3, smell.getExtendedName());
             pstmt.setString(4, smell.getSmellTypeDescription());
-            pstmt.setString(5, smell.getUrgencyCode().toString());
+            pstmt.setString(5, smell.getUrgencyCode() != null ? smell.getUrgencyCode().toString() : null);
             pstmt.setString(6, smell.getStatus().toString());
             pstmt.setBoolean(7, smell.isChecked());
             pstmt.setObject(8, smell.getEffortTime() != null ? smell.getEffortTime().getId() : null, Types.INTEGER);
@@ -86,14 +87,15 @@ public class SmellDaoImpl implements SmellDao {
             pstmt.setObject(10, smell.getRefactoring() != null ? smell.getRefactoring().getId() : null, Types.INTEGER);
             pstmt.setString(11, smell.getAnalysis().getId());
             pstmt.executeUpdate();
+            LOGGER.info("Inserted smell: " + smell.getCode());
 
-            // Optional: Retrieve the auto-generated key (id) if needed
+            /*   // Optional: Retrieve the auto-generated key (id) if needed
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     smell.setId(generatedKeys.getInt(1));
                 }
-            }
-        } catch (SQLException e) {
+            }*/
+        } catch (Exception e) {
             LOGGER.error("Error inserting smell", e);
             throw new SQLException("Error inserting smell: " + e.getMessage());
         }
@@ -127,10 +129,12 @@ public class SmellDaoImpl implements SmellDao {
         return smells;
     }
 
+
+
     @Override
     public void update(Smell smell) throws SQLException {
-        String sql = "UPDATE Smell SET code = ?, description = ?, extendedName = ?, smellTypeDescription = ?, " +
-                "urgencyCode = ?, status = ?, isChecked = ?, effortTime_id = ?, microservice_id = ?, " +
+        String sql = "UPDATE Smell SET code = ?, description = ?, extended_name = ?, smell_type_description = ?, " +
+                "urgency_code = ?, status = ?, is_checked = ?, effortTime_id = ?, microservice_id = ?, " +
                 "refactoring_id = ?, analysis_id = ? WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, smell.getCode());

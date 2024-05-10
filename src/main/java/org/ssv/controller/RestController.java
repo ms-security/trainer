@@ -1,12 +1,15 @@
 package org.ssv.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.ssv.database.*;
+import org.ssv.database.jpaRepositories.AnalysisRepositoryJpa;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.*;
 import org.ssv.service.AnalysisRepository;
+import org.ssv.service.AnalysisService;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.TriageService;
 import org.ssv.service.util.ContentParser;
@@ -21,7 +24,10 @@ import java.util.stream.Collectors;
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
-    private static AnalysisRepository analysisRepository;
+    //private static AnalysisRepository analysisRepository;
+
+    private AnalysisService analysisService;
+
 
     @PostMapping("/analysis")
     public ResponseEntity<Analysis> analysis(@RequestParam("file") MultipartFile file,
@@ -33,16 +39,22 @@ public class RestController {
         try{
             String content = new String(file.getBytes(), StandardCharsets.UTF_8);
             ContentParser parser = new TxtContentParser();
-            Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(parser, content, name, date);
+            Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(name, date);
+            List<Smell> smells = parser.parseContent(content, analysis);
+            analysis.setSmells(smells);
 
             //analysisRepository = AnalysisRepository.getInstance();
+            //analysisRepository.insertAnalysis(analysis); // persistent db
+            analysisService = new AnalysisService();
+            try{
+                analysisService.saveAnalysis(analysis); // persistent db
+            } catch (Exception e){
+                System.out.println("Controller : Error saving analysis: " + e.getMessage());
+            }
+
 
             //AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //hashmap
-
-            //analysisRepository.insertAnalysis(analysis); // persistent db
-            AnalysisDaoImpl.getInstance().insert(analysis); // persistent db
-
-            System.out.println("test dao find by id: " + AnalysisDaoImpl.getInstance().findById(analysis.getId()));
+            //AnalysisDaoImpl.getInstance().insert(analysis); // persistent db
 
             return ResponseEntity.ok().body(analysis);   //return the analysis with list of smell
         } catch (InvalidContentException e){

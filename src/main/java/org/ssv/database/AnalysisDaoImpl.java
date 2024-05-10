@@ -42,8 +42,8 @@ public class AnalysisDaoImpl implements AnalysisDao {
                     "id TEXT PRIMARY KEY, " +
                     "name TEXT, " +
                     "date TEXT, " +
-                    "is_favorite INTEGER, " +
-                    "is_triage_valid INTEGER)");
+                    "is_favorite BOOLEAN, " +
+                    "is_triage_valid BOOLEAN)");
         } catch (SQLException e) {
             LOGGER.error("Error creating table", e);
         }
@@ -59,8 +59,8 @@ public class AnalysisDaoImpl implements AnalysisDao {
             pstmt.setString(1, analysis.getId());
             pstmt.setString(2, analysis.getName());
             pstmt.setString(3, analysis.getDate().toString());
-            pstmt.setInt(4, analysis.isFavorite() ? 1 : 0);
-            pstmt.setInt(5, analysis.isTriageValid() ? 1 : 0);
+            pstmt.setBoolean(4, analysis.isFavorite());
+            pstmt.setBoolean(5, analysis.isTriageValid());
             pstmt.executeUpdate();
         }
         catch (SQLException e) {
@@ -74,6 +74,7 @@ public class AnalysisDaoImpl implements AnalysisDao {
     public Analysis findById(String id) throws SQLException {
         Analysis analysis = null;
         String sql = "SELECT * FROM analysis WHERE id = ?";
+        LOGGER.info("Executing SQL query: " + sql);
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -84,9 +85,11 @@ public class AnalysisDaoImpl implements AnalysisDao {
                     analysis.setDate(LocalDateTime.parse(rs.getString("date")));
                     analysis.setFavorite(rs.getBoolean("is_favorite"));
                     analysis.setTriageValid(rs.getBoolean("is_triage_valid"));
+                    LOGGER.info("Finding analysis with id: " + rs.getString("id") + " " + rs.getString("name") + " " + rs.getString("date") + " " + rs.getBoolean("is_favorite") + " " + rs.getBoolean("is_triage_valid"));
                 }
             }
         }
+        LOGGER.info("Finding analysis: " + analysis);
         return analysis;
     }
 

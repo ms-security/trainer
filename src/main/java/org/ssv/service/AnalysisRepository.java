@@ -13,6 +13,8 @@ import org.ssv.database.daoInterface.*;
 import org.ssv.model.Analysis;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class AnalysisRepository {
@@ -45,10 +47,24 @@ public class AnalysisRepository {
     public void insertAnalysis(Analysis analysis) {
         try{
             analysisDao.insert(analysis);
-            //smellDao.insertSmellList(analysis.getSmells());
+            smellDao.insertSmellList(analysis.getSmells());
         } catch (SQLException e) {
             LOGGER.error("Error inserting analysis", e);
         }
     }
+
+    /*
+    public List<Analysis> getAllAnalysis() {
+        try {
+            List<Analysis> analyses = analysisDao.findAll();
+            for(Analysis analysis : analyses) {
+                analysis.setSmells(smellDao.findByAnalysis(analysis));
+            }
+            return new ArrayList<>();
+        } catch (SQLException e) {
+            LOGGER.error("Error getting all analysis", e);
+            return new ArrayList<>();
+        }
+    }*/
 
 }

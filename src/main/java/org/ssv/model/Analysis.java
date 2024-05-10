@@ -17,7 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Analysis {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private String id;
 
     @Column(name = "name")
@@ -40,11 +40,11 @@ public class Analysis {
     @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Microservice> microservices;
 
-    public Analysis(String id, String name, List<Smell> smells, LocalDateTime date) {
+    public Analysis(String id, String name, LocalDateTime date) {
         this.id = id;
         System.out.println("Costruttore Analysis id: " + id);
         this.name = name;
-        this.smells = smells;
+        this.smells = new ArrayList<>();
         this.date = date;
         this.microservices = new ArrayList<>();
         isFavorite = false;

@@ -2,11 +2,16 @@ package org.ssv.service.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.ssv.database.AnalysisDaoImpl;
 import org.ssv.exception.InvalidContentException;
+import org.ssv.model.Analysis;
 import org.ssv.model.Smell;
 import org.ssv.model.SmellStatus;
+import org.ssv.model.UrgencyCode;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.SmellDetail;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,7 +21,7 @@ public class TxtContentParser implements ContentParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(TxtContentParser.class);
 
     @Override
-    public List<Smell> parseContent(String content, String analysisId) throws InvalidContentException {
+    public List<Smell> parseContent(String content, Analysis analysis) throws InvalidContentException{
         if(!Pattern.compile("^Analysis results:\\s*\n").matcher(content).find())
             throw new InvalidContentException("Invalid content");
 
@@ -41,6 +46,7 @@ public class TxtContentParser implements ContentParser {
                         .propertiesAffected(detail.getPropertiesAffected())
                         .refactoring(detail.getRefactoring())
                         .status(SmellStatus.UNFIXED)
+                        .analysis(analysis)
                         .build();
                 smells.add(newSmell);
             }
