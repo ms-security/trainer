@@ -1,5 +1,6 @@
 package org.ssv.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
@@ -8,13 +9,12 @@ import java.util.List;
 @Table(name = "Microservice")
 @Data
 public class Microservice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
 
+    @JsonIgnore
     @ManyToOne
     private Analysis analysis;
 
+    @Id
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -22,7 +22,7 @@ public class Microservice {
     @Column(name = "relevance", nullable = false)
     private Relevance relevance;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     @JoinTable(
             name = "microservice_quality",
             joinColumns = @JoinColumn(name = "microservice_id"),

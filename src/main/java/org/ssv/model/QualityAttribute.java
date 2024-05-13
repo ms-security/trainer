@@ -7,14 +7,14 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "QualityAttribute")
+@Table(name = "quality_attribute")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @Data
 @NoArgsConstructor
 public abstract class QualityAttribute implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name")

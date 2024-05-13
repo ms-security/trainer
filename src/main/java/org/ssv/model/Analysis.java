@@ -34,10 +34,10 @@ public class Analysis {
     @Column(name = "is_triage_valid")
     private boolean isTriageValid;
 
-    @OneToMany(mappedBy = "analysis",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "analysis",  fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Smell> smells;
 
-    @OneToMany(mappedBy = "analysis",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "analysis",  fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Microservice> microservices;
 
     public Analysis(String id, String name, LocalDateTime date) {
@@ -51,7 +51,15 @@ public class Analysis {
         isTriageValid = false;
     }
 
+    @Override
     public String toString() {
-        return "Analysis{ " + smells + id + " --" + name + " --" + date + " --" + isFavorite +'}';
+        return "Analysis{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", isFavorite=" + isFavorite +
+                ", isTriageValid=" + isTriageValid +
+                ", smells_count=" + (smells != null ? smells.size() : "null") +
+                '}';
     }
 }

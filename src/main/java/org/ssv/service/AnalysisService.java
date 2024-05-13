@@ -8,8 +8,8 @@ import org.ssv.model.Microservice;
 import org.ssv.model.QualityAttribute;
 import org.ssv.model.Smell;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,13 +32,11 @@ public class AnalysisService {
     @Autowired
     private QualityAttributeRepositoryJpa qualityAttributeRepository;
 
-    public Analysis saveAnalysis(Analysis analysis) {
+    public void saveAnalysis(Analysis analysis) {
         try {
             analysisRepository.save(analysis);
             try {
-                int count = 0;
                 for (Smell smell : analysis.getSmells()) {
-                    // Prima salva le QualityAttribute associate al Refactoring
                     if (smell.getRefactoring() != null && smell.getRefactoring().getPropertiesAffected() != null) {
                         for (QualityAttribute qa : smell.getRefactoring().getPropertiesAffected()) {
                             if (qa.getId() == 0) {  // Verifica se l'id non è già impostato
@@ -50,30 +48,18 @@ public class AnalysisService {
                                 qualityAttributeRepository.save(qa);
                             }
                         }
-                        // Salva il Refactoring dopo aver salvato le QualityAttribute
                         refactoringRepository.save(smell.getRefactoring());
                     }
-
-                    // Ora salva il Smell
                     smellRepository.save(smell);
                 }
-                System.out.println("Saved " + count + " smells");
             }
             catch (Exception e) {
                 System.out.println("Error saving smells: service problem -- " + e.getMessage());
             }
-            /*
-            // Ensure microservices are also managed similarly if they are not managed elsewhere
-            for (Microservice microservice : analysis.getMicroservices()) {
-                if (microservice.getId() == 0 || microserviceRepository.findById(microservice.getId()).isEmpty()) {
-                    microserviceRepository.save(microservice);
-                }
-            }*/
         }
         catch (Exception e) {
             System.out.println("Error saving analysis: service problem -- " + e.getMessage());
         }
-        return null;
     }
 
     // Get all analyses
@@ -82,13 +68,83 @@ public class AnalysisService {
     }
 
     // Find analysis by ID
-    public Optional<Analysis> findById(String id) {
-        return analysisRepository.findById(id);
+    public Analysis findById(String id) {
+        Optional<Analysis> analysis = analysisRepository.findById(id);
+        return analysis.orElse(null);
     }
 
     // Delete an analysis by ID
-    public void deleteById(String id) {
-        analysisRepository.deleteById(id);
+    public boolean deleteById(String id) {
+        boolean existsBeforeDelete = analysisRepository.existsById(id);
+        if (existsBeforeDelete) {
+            analysisRepository.deleteById(id);
+            return !analysisRepository.existsById(id);
+        }
+        return false;
+    }
+
+    public Smell findSmellById(String analysisId, int id) {
+        Analysis analysis = findById(analysisId);
+        if (analysis != null) {
+            for (Smell smell : analysis.getSmells()) {
+                if (smell.getId() == id) {
+                    return smell;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void saveSmell(Smell smell) {
+        try{
+            smellRepository.save(smell);
+        }
+        catch (Exception e) {
+            System.out.println("Error saving smell: service problem -- " + e.getMessage());
+        }
+    }
+
+    public void saveEffortTime(Smell smell){
+        try{
+            effortTimeRepository.save(smell.getEffortTime());
+            saveSmell(smell);
+        }
+        catch (Exception e) {
+            System.out.println("Error saving effort time: service problem -- " + e.getMessage());
+        }
+    }
+
+    public void saveMicroservice(Microservice microservice) {
+        System.out.println("Saving microservice: " + microservice.getQualityAttributes());
+        try{
+            qualityAttributeRepository.saveAll(microservice.getQualityAttributes());
+            microserviceRepository.save(microservice);
+            analysisRepository.save(microservice.getAnalysis());
+        }
+        catch (Exception e) {
+            System.out.println("Error saving microservice: service problem -- " + e.getMessage());
+        }
+    }
+
+    public Microservice findMicroserviceById(String analysisId, String microserviceId) {
+        Analysis analysis = findById(analysisId);
+        if (analysis != null) {
+            for (Microservice microservice : analysis.getMicroservices()) {
+                if (microservice.getName().equals(microserviceId)) {
+                    return microservice;
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteMicroservice(String microserviceId) {
+        Optional<Microservice> microservice = microserviceRepository.findById(microserviceId);
+        if (microservice.isPresent()) {
+            microserviceRepository.deleteById(microserviceId);
+            return !microserviceRepository.existsById(microserviceId);
+        }
+        return false;
     }
 }
 

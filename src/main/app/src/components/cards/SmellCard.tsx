@@ -86,7 +86,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
                             <option value="UNFIXED">Unfixed</option>
                             <option value="FIXED">Mark as fixed</option>
                             <option value="FALSE_POSITIVE">Mark as false positive</option>
-                            <option value="WONT_FIX">Mark not going to fix</option>
+                            <option value="NOT_GOING_TO_FIX">Mark not going to fix</option>
                         </select>
                     </div>
                 </div>

@@ -40,11 +40,11 @@ public class Smell {
     @JoinColumn(name = "microservice_id")
     private Microservice microservice;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "effort_time_id")
     private EffortTime effortTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "refactoring_id")
     private Refactoring refactoring;
 
@@ -59,11 +59,19 @@ public class Smell {
     @Column(name = "is_checked")
     private boolean isChecked;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "smell_quality",
             joinColumns = @JoinColumn(name = "smell_id"),
             inverseJoinColumns = @JoinColumn(name = "quality_attribute_id")
     )
     private List<QualityAttribute> propertiesAffected;
+
+    public String toString() {
+        return "Smell{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", analysis_id=" + (analysis != null ? analysis.getId() : "null") +
+                '}';
+    }
 }
