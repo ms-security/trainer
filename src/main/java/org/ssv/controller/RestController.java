@@ -5,10 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.ssv.database.*;
-import org.ssv.database.jpaRepositories.AnalysisRepositoryJpa;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.*;
-import org.ssv.service.AnalysisRepository;
 import org.ssv.service.AnalysisService;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.TriageService;
@@ -24,10 +22,8 @@ import java.util.stream.Collectors;
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
-    //private static AnalysisRepository analysisRepository;
-
+    @Autowired
     private AnalysisService analysisService;
-
 
     @PostMapping("/analysis")
     public ResponseEntity<Analysis> analysis(@RequestParam("file") MultipartFile file,
@@ -43,18 +39,12 @@ public class RestController {
             List<Smell> smells = parser.parseContent(content, analysis);
             analysis.setSmells(smells);
 
-            //analysisRepository = AnalysisRepository.getInstance();
-            //analysisRepository.insertAnalysis(analysis); // persistent db
-            analysisService = new AnalysisService();
             try{
                 analysisService.saveAnalysis(analysis); // persistent db
             } catch (Exception e){
                 System.out.println("Controller : Error saving analysis: " + e.getMessage());
             }
-
-
             //AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //hashmap
-            //AnalysisDaoImpl.getInstance().insert(analysis); // persistent db
 
             return ResponseEntity.ok().body(analysis);   //return the analysis with list of smell
         } catch (InvalidContentException e){
@@ -67,7 +57,7 @@ public class RestController {
     @GetMapping("/analysis")
     public ResponseEntity<ArrayList<Analysis>> analysis() throws SQLException {
         System.out.println("fetching analyses");
-        return ResponseEntity.ok().body((ArrayList<Analysis>) AnalysisDaoImpl.getInstance().findAll());
+        return ResponseEntity.ok().body((ArrayList<Analysis>) analysisService.getAllAnalyses());
         //return ResponseEntity.ok().body((ArrayList<Analysis>) AnalysisDatabaseSingleton.getInstance().getAllAnalyses());
     }
 
@@ -82,11 +72,9 @@ public class RestController {
     }
 
     @DeleteMapping("/analysis/{analysisId}")
-    public ResponseEntity<Void> deleteAnalysis(@PathVariable String analysisId) throws SQLException {
-        //boolean isRemoved = AnalysisDatabaseSingleton.getInstance().removeAnalysis(analysisId);
-        boolean isRemovedDb = AnalysisDaoImpl.getInstance().delete(String.valueOf(analysisId));
-        System.out.println("analysis removed " + isRemovedDb);
-        if(isRemovedDb) {
+    public ResponseEntity<Void> deleteAnalysis(@PathVariable String analysisId){
+        boolean isRemoved = AnalysisDatabaseSingleton.getInstance().removeAnalysis(analysisId);
+        if(isRemoved) {
             System.out.println("analysis removed");
             return ResponseEntity.ok().build();
         } else {

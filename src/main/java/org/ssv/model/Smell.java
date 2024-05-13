@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Smell {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @JsonIgnore

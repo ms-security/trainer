@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface AnalysisRepositoryJpa extends JpaRepository<Analysis, String>{
 
-    List<Analysis> findByName(String name);
 }

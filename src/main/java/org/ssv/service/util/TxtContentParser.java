@@ -2,16 +2,12 @@ package org.ssv.service.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.ssv.database.AnalysisDaoImpl;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Smell;
 import org.ssv.model.SmellStatus;
-import org.ssv.model.UrgencyCode;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.SmellDetail;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -40,7 +36,6 @@ public class TxtContentParser implements ContentParser {
                 Smell newSmell = Smell.builder()
                         .code(code)
                         .description(matcher.group(2).trim())
-                        .id(++i)
                         .extendedName(detail.getExtendedName())
                         .smellTypeDescription(detail.getSmellTypeDescription())
                         .propertiesAffected(detail.getPropertiesAffected())

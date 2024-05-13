@@ -34,10 +34,10 @@ public class Analysis {
     @Column(name = "is_triage_valid")
     private boolean isTriageValid;
 
-    @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "analysis",  fetch = FetchType.LAZY)
     private List<Smell> smells;
 
-    @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "analysis",  fetch = FetchType.LAZY)
     private List<Microservice> microservices;
 
     public Analysis(String id, String name, LocalDateTime date) {
