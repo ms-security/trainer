@@ -8,7 +8,6 @@ export interface Smell {
     name: string,
     description: string;
     status: SmellStatus;
-    smellTypeDescription: string;
     refactoring: Refactoring;
     extendedName: string;
     urgencyCode?: UrgencyCode;
