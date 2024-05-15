@@ -2,6 +2,7 @@ package org.ssv.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.ssv.database.jpaRepositories.*;
 import org.ssv.model.Analysis;
 import org.ssv.model.Microservice;
@@ -32,6 +33,7 @@ public class AnalysisService {
     @Autowired
     private QualityAttributeRepositoryJpa qualityAttributeRepository;
 
+    @Transactional
     public void saveAnalysis(Analysis analysis) {
         try {
             analysisRepository.save(analysis);
@@ -138,9 +140,17 @@ public class AnalysisService {
         return null;
     }
 
+    @Transactional
     public boolean deleteMicroservice(String microserviceId) {
-        Optional<Microservice> microservice = microserviceRepository.findById(microserviceId);
-        if (microservice.isPresent()) {
+        Optional<Microservice> microserviceOpt = microserviceRepository.findById(microserviceId);
+        if (microserviceOpt.isPresent()) {
+            Microservice microservice = microserviceOpt.get();
+            List<Smell> smells = smellRepository.findByMicroservice(microservice);
+            for (Smell smell : smells) {
+                smell.setMicroservice(null);
+                smell.setUrgencyCode(null);
+                smellRepository.save(smell);
+            }
             microserviceRepository.deleteById(microserviceId);
             return !microserviceRepository.existsById(microserviceId);
         }

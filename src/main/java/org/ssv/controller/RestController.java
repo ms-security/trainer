@@ -205,13 +205,13 @@ public class RestController {
             return ResponseEntity.notFound().build();
         }
 
-        analysis.getSmells().forEach(smell -> {
+        /*analysis.getSmells().forEach(smell -> {
             if (smell.getMicroservice() != null && smell.getMicroservice().getName().equals(microserviceName)) {
                 smell.setMicroservice(null);
                 smell.setUrgencyCode(null);
                 analysisService.saveSmell(smell);
             }
-        });
+        });*/
 
         return ResponseEntity.ok().build();
     }

@@ -37,7 +37,7 @@ public class Smell {
     private String smellTypeDescription;
 
     @ManyToOne
-    @JoinColumn(name = "microservice_id")
+    @JoinColumn(name = "microservice_id", nullable = true)
     private Microservice microservice;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
