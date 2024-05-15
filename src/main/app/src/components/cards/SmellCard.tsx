@@ -83,10 +83,10 @@ const SmellCard: React.FC<SmellCardProps> = ({
                     <div className="status-dropdown">
                         <select value={smellStatus} onClick={(e) => {e.stopPropagation();}}
                                 onChange={(e) => {handleSmellStatusChange(e)}}>
-                            <option value="UNFIXED">Unfixed</option>
-                            <option value="FIXED">Mark as fixed</option>
-                            <option value="FALSE_POSITIVE">Mark as false positive</option>
-                            <option value="NOT_GOING_TO_FIX">Mark not going to fix</option>
+                            <option value="UNFIXED">Not fixed</option>
+                            <option value="FIXED">Fixed</option>
+                            <option value="FALSE_POSITIVE">False positive</option>
+                            <option value="NOT_GOING_TO_FIX">Not going to fix</option>
                         </select>
                     </div>
                 </div>

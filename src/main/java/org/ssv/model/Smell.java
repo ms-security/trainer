@@ -33,9 +33,6 @@ public class Smell {
     @Column(name = "extended_name")
     private String extendedName;
 
-    @Column(name = "smell_type_description")
-    private String smellTypeDescription;
-
     @ManyToOne
     @JoinColumn(name = "microservice_id", nullable = true)
     private Microservice microservice;

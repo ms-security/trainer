@@ -2,7 +2,6 @@
     {
       "code": "UPM",
       "extendedName": "Unnecessary Privileges to Microservices",
-      "smellTypeDescription": "The Unnecessary Privileges to Microservices smell occurs when microservices are granted unnecessary access levels, permissions, or functionalities that are actually not needed by such microservices to deliver their business functions. The additional privileges given to microservices would potentially result in Confidentiality and Integrity issues. This happens, e.g., when a service can write or read data stored in databases or messages posted in messages queues, even if such databases or queues are not needed by the service to deliver its business function. As a result, resources are unnecessarily exposed, hence unnecessarily increasing the attack surface for Confidentiality and Integrity leaks: an intruder taking control of a service can indeed start reading or modifying all data and messages the service can access to.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
         {"category": "SECURITY", "name": "Integrity", "impactsPositively": 0},
@@ -11,7 +10,7 @@
       ],
       "refactoring": {
         "name": "Apply Least Privilege Principle",
-        "refactor": "The Least Privilege Principle recommends that accounts and services should have the least amount of privileges they need to suitably perform their business function. This principle should be used because even if a development team has ensured that the machine-to-machine communication is secured and there are appropriate safeguards with their firewall, there is always the risk that an attacker gets access to the microservice-based application. Development teams should indeed limit service privileges, by providing each service with access to only the resources they actually need to deliver their business functionalities.",
+        "refactor": "The microservice <template nome microservice> should have the least amount of access privileges they need to suitably perform their business function.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -24,7 +23,6 @@
     {
       "code": "HS",
       "extendedName": "Hardcoded Secrets",
-      "smellTypeDescription": "The Hardcoded Secrets smell occurs when a microservice of an application has hard-coded credentials in its source code, or when credentials are hardcoded in the deployment scripts for a microservice-based application, e.g., as environment variables passing secrets in a Dockerfile or a Docker Compose file. Microservices are indeed likely to have secrets to be used for communicating with authorization servers and other services. These secrets might be an API key, a client secret, or credentials for basic authentication. Development teams should never store sensitive keys and other information in environment variables. In the latter case, the Confidentiality and Integrity of secrets may get violated, as they could be accidentally exposed, e.g., since exception handlers may grab and send the corresponding information to a logging platform. In addition, since child processes duplicate the parent’s environment on startup, child processes may be another source of exposure of secrets in application logs, or they may be the reason why secrets could be unintentionally accessed by other services. In all such cases, we would end up with Confidentiality and Integrity leaks.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
         {"category": "SECURITY", "name": "Integrity", "impactsPositively": 0},
@@ -32,7 +30,7 @@
       ],
       "refactoring": {
         "name": "Encrypt Secrets at Rest",
-        "refactor": "Development teams can mitigate the effects of this smell if they Encrypt Secrets at Rest. This would indeed help achieving that only authorized resources have access to secrets. In doing so, development teams should also adopt the following best practices: they should never store credentials alongside applications or in the repositories used to host their source code, nor they should exploit environment variables to pass secrets to applications.",
+        "refactor": "The secrets detected in <template pod-name> should be encrypted at Rest.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -43,7 +41,6 @@
     {
       "code": "NSC",
       "extendedName": "Non-Secured Service-to-Service Communications",
-      "smellTypeDescription": "This smell occurs whenever two microservices in an application interact without enacting a secure communication channel, even if they are within the same network. As microservice-based applications are highly distributed, communication interfaces and channels proliferate, hence increasing the overall application attack surface. Each API exposed by each microservice indeed constitutes a potential attack vector that could be exploited by a malicious intruder, as it does each communication channel between any two microservices. Microservices often need to communicate with each other to perform their business functions, and —if the communication channel is not secured— the data transferred can be exposed to man-in-the-middle, eavesdropping, and tampering attacks. This could not only result in Confidentiality issues for service-to-service communications, as it could also break their Integrity and authenticity, e.g., intruders could intercept the communication between two microservices and change the data in transit to their advantage.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
         {"category": "SECURITY", "name": "Integrity", "impactsPositively": 0},
@@ -52,7 +49,7 @@
       ],
       "refactoring": {
         "name": "Use of Mutual Transport Layer Security",
-        "refactor": "This smell can be mitigated with the Use of Mutual Transport Layer Security. Mutual TLS is indeed a widely-accepted solution to secure service-to-service communications, which enables encrypting the data in transit and ensuring its integrity and confidentiality. This is going to protect the microservice-based application context from man-in-the-middle, eavesdropping, and tampering attacks by providing a bidirectional encryption channel. In addition, when Mutual TLS is used to secure communications between two microservices, each microservice can legitimately identify the microservice it is talking to, which means that microservices can authenticate each other. Hence, whereas there exist other solutions for encrypting data in transit and ensuring its integrity, Mutual TLS is suggested by experienced practitioners as it also helps mitigating the Unauthenticated traffic smell.",
+        "refactor": "The effects of this smell, detected in pod <template pod-name>, can be mitigated with the Use of Mutual Transport Layer Security. It provides a bidirectional encryption channel that ensures integrity and confidentiality in service-to-service comunications.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -64,7 +61,6 @@
     {
       "code": "OCC",
       "extendedName": "Own Crypto Code",
-      "smellTypeDescription": "It is well-known that Confidentiality, Integrity, and Authenticity of data in software applications can get violated if development teams use their Own Crypto Code, viz., their own new encryption solutions and algorithms, unless they have been heavily tested. Microservice-based applications are not the exception: development teams that implement their own encryption solutions may end with improper solutions for securing microservices, which may result in possible Confidentiality, Integrity, and Authenticity issues. The use of Own Crypto Code may actually be even worse than not having any encryption solution at all, as it may produce a false sense of security.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
         {"category": "SECURITY", "name": "Integrity", "impactsPositively": 0},
@@ -72,7 +68,7 @@
       ],
       "refactoring": {
         "name": "Use of Established Encryption Technologies",
-        "refactor": "Development teams should indeed minimize the amount of encryption code they write on their own, but rather maximize the reuse of code coming from libraries that have already been heavily tested by the community. Development teams should also avoid the use of experimental encryption algorithms, as they may be subject to various kinds of vulnerabilities, which may be not yet known at the time of their use. Whatever are the programming languages used to implement the microservices forming an application, development teams always have access to reviewed and regularly patched implementations of established encryption algorithms.",
+        "refactor": "The use of own encryption solutions in <template script-python> can cause Confidentiality, Integrity, and Authenticity issues. Replace this encryption method with established and well tested encryption algorithms.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -83,7 +79,6 @@
     {
       "code": "PAM",
       "extendedName": "Publicly Accessible Microservices",
-      "smellTypeDescription": "The Publicly Accessible Microservices smell occurs whenever the microservices forming an application are directly accessible by external clients. Each microservice can be accessed independently through its API, and it needs a mechanism to ensure that each request is authenticated and authorized to access the set of functions requested. However, if each microservice performs authentication individually, the complete set of a user’s credentials is required each time, increasing the likelihood of Confidentiality violations (eg with the exposure of long-term credentials) and reducing the overall maintainability and usability of the application. Also, each microservice is required to enforce the security policies that are applicable across all functions of the microservice-based application.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
         {"category": "MAINTAINABILITY", "name": "Modifiability", "impactsPositively": 0},
@@ -91,7 +86,7 @@
       ],
       "refactoring": {
         "name": "Add an API Gateway",
-        "refactor": "Development teams can mitigate the effects of the Publicly Accessible Microservices smell if they Add an API Gateway. This enables to identify a set of microservices to be exposed through the newly introduced API Gateway, while the rest of the microservices are made unreachable from outside this domain. The API gateway centrally enforces security for all the requests entering the microservices application, including authentication, authorization, throttling, and message content validation for known security threats. For instance, the API gateway can be used to implement a single sign-on to the application. In addition, by using this approach development teams can also secure all microservices behind a firewall, allowing the API gateway to handle external requests and then communicate with the microservices behind the firewall. Since the clients do not directly access the services, they cannot exploit the services on their own.",
+        "refactor": "The effects of this smell can be mitagted by adding an API Gateway that centrally enforces security for all the requests entering the microservices application, including authentication, authorization, throttling, and message content validation for known security threats.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
@@ -103,9 +98,8 @@
       }
     },
     {
-      "code": "NDE",
+      "code": "NEDE",
       "extendedName": "Non-Encrypted Data Exposure",
-      "smellTypeDescription": "The Non-Encrypted Data Exposure smell occurs when a microservice-based application accidentally exposes sensitive data, e.g., because it was stored without any encryption in the data storage, or because the employed protection mechanisms are affected by security vulnerabilities or flaws. When sensitive data is exposed, its Confidentiality and Integrity can get violated because it could be acquired or modified by an intruder who gets direct access to the microservices forming an application. As a result, the intruder may access or manipulate, e.g., some credentials for accessing other systems or business-critical data.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
         {"category": "SECURITY", "name": "Integrity", "impactsPositively": 0},
@@ -113,7 +107,7 @@
       ],
       "refactoring": {
         "name": "Encrypt all Sensitive Data at Rest",
-        "refactor": "Development teams can mitigate the effects of this smell if they Encrypt all Sensitive Data at Rest, viz., when data is not actively moving from device to device or network to network, e.g., when data is stored on a hard drive. The microservice-based architectural style enables development teams to separate functions from data in each of the microservices forming an application. As a recommendation, all sensitive data should always be encrypted, and it should be decrypted only when it needs to be used. Most database management systems provide features for automatic encryption and disk-level encryption features are available at the operating-system level. Application-level encryption is another option, in which the application itself encrypts the data before passing it over to the file system or a database. Finally, if a caching technology is used and the data is encrypted in the database, then development teams need to ensure that the same level of encryption is applied to such caching technology. At the same time, development teams should also keep in mind that encryption is a resource-intensive operation that could have a considerable impact on the application's performance. As not all data needs the same level of security, and since in a microservice-based application it is common to have multiple data stores, development teams must perform a proper analysis to identify the critical ones and encrypt them.",
+        "refactor": "The effects of this smell can be mitigated by encrypting all sensitive data. Encryption should be applied to <template file-name> with: <template - description>.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -124,13 +118,12 @@
     {
       "code": "UT",
       "extendedName": "Unauthenticated Traffic",
-      "smellTypeDescription": "The Unauthenticated Traffic smell occurs in a microservice-based application not only when there are unauthenticated API requests coming from external systems, but also when there are unauthenticated requests between the microservices of the application themselves. To ensure Authenticity in microservice-based applications, it is critical to ensure that each request is authenticated and authorized. Therefore, it is necessary to have mechanisms that allow the authentication of traffic coming from outside the application, as well as that corresponding to messages between its microservices. It is indeed crucial each microservice can authenticate each other, especially when the interactions are due to some user transactions and a microservice is passing the logged-in user context to another microservice. The problem here is that no information is typically shared among microservices, and the user context must be passed explicitly from one microservice to another. The challenge is hence to build trust between two interacting microservices, in such a way that the receiving microservice can accept the user context passed from the calling one. Therefore, a way is needed to verify that the user context (and, more generally, the data) passed between microservices has not been modified. If the traffic is not authenticated, there is actually no guarantee that this is the case, and microservices are exposed to security attacks that may result in, e.g., tampering with data, denial of service, or elevation of privileges.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 0}
       ],
       "refactoring": {
         "name": "Use Mutual TLS + OpenID Connect",
-        "refactor": "Development teams can mitigate the effects of this smell by Using Mutual TLS and OpenID Connect. Mutual TLS enables authentication between any two interacting services since it encrypts the data in transit and ensures its integrity and confidentiality. OpenID Connect is the most used mechanism to manage user authentication. It is based on the use of an ID token, typically a JSON Web Token that contains authenticated user information, including user claims and other relevant attributes. The user ID token enables microservices to verify the user identity based on the authentication performed by an authorization server, as well as to obtain basic profile information about the end-user in an interoperable and REST-like manner. OpenID Connect hence provides a distributed identity mechanism for traffic authentication, which is also recognized to be easy to use, self-contained, and easy to replicate.",
+        "refactor": "The effects of this smell can be mitigated by using (i) Mutual TLS and (ii) OpenID Connect. (i) Mutual TLS enables authentication between any two interacting services. (ii) OpenID Connect is the most used mechanism to manage user authentication and it is based on the use of an ID token, typically a JSON Web Token.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -143,7 +136,6 @@
     {
       "code": "MUA",
       "extendedName": "Multiple User Authentication",
-      "smellTypeDescription": "The Multiple User Authentication smell occurs when a microservice-based application provides multiple access points to handle user authentication. Each access point constitutes a potential attack vector that can be exploited by an intruder to authenticate as an end-user and having multiple access points hence results in increasing the attack surface to violate Authenticity in a microservice-based application. The use of multiple access points for user authentication also results in maintainability and usability issues, since user login is to be developed, maintained, and used in multiple parts of the application.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 0},
         {"category": "MAINTAINABILITY", "name": "Modifiability", "impactsPositively": 0},
@@ -151,7 +143,7 @@
       ],
       "refactoring": {
         "name": "Use Single Sign-On",
-        "refactor": "Development teams can mitigate the effects of this smell if they Use a Single Sign-On. The single sign-on approach suggests having a single entry point to handle user authentication and to enforce security for all the user requests entering the microservice-based application. This approach facilitates log storage and auditing tasks, allowing the detection of abnormal situations that may occur. Single sign-on can actually be achieved if (i) we Add an API Gateway acting as a single entry point to the application, if not already there, and if (ii) we Use OpenID Connect to share the user context among the microservices. Both refactorings not only help implementing the single sign-on to mitigate the effects of the Multiple User Authentication smell, but also contribute mitigating the effects of other smells. Indeed, we already discussed how the use of an API gateway helps mitigating the Publicly Accessible Microservices smell, as well as how OpenID Connect enables mitigating the effects of the Unauthenticated Traffic smell.",
+        "refactor": "The effects of this smell, detected in <template deployment-file-name>, can be mitigated with the use of Single Sign-On. This can be achieved by: (i) adding an API Gateway acting as a single entry point to the application; (ii) using OpenID Connect to share the user context among the microservices.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
@@ -165,14 +157,13 @@
     {
       "code": "IAC",
       "extendedName": "Insufficient Access Control",
-      "smellTypeDescription": "The Insufficient Access Control smell occurs whenever a microservice-based application does not enact access control in one or more of its microservices, hence possibly violating the Confidentiality of the data and business functions of the microservices where access control is lacking. If this smell is present, microservices can get exposed to, eg the confused deputy problem, with attackers that can trick a service and get data that they should not be able to get. At the same time, microservices are not suitable for traditional identity control models, since client details and permissions need to be verified as and when a request is sent, and they need a way to automatically decide whether to allow or reject calls between services. In addition, microservices require development teams to establish and maintain the identity of users without introducing extra latency and contention with frequent calls to a centralized service.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
         {"category": "MAINTAINABILITY", "name": "Analysability", "impactsPositively": 0}
       ],
       "refactoring": {
         "name": "Use OAuth 2.0",
-        "refactor": "The effects of this smell can be mitigated if development teams use OAuth 2.0. Open Authorization (OAuth) 2.0 is the most used mechanism to manage access delegation. OAuth 2.0 is a token-based security framework for delegated access control that lets a resource owner grant a client access to a particular resource on their behalf. This access is for a limited time and with limited scope. OAuth 2.0 is hence a natural candidate to enforce access control in a microservice-based application at each level, therein including controlling the accesses to each microservice.",
+        "refactor": "The effects of this smell, detected missing access control in <template daployment-file-name>, can be mitigated through the use of Open Authorization (OAuth) 2.0.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "MAINTAINABILITY", "name": "Reusability", "impactsPositively": 1}
@@ -182,7 +173,6 @@
     {
       "code": "CA",
       "extendedName": "Centralized Authorization",
-      "smellTypeDescription": "In a microservice-based application, authorization can be enforced at the “edge” of the application (e.g., with the API gateway), by each microservice of the application, or both. The Centralized Authorization smell occurs when the microservice-based application only handles authorization in one component, typically at the “edge” of the application, while it does not enact any fine-grained authorization control at the microservices level. Such a kind of centralized authorization diminishes the advantages of having a distributed solution, such as that given by microservices, and it reduces performance and efficiency since the central authorization point tends to become a bottleneck. A Centralized Authorization may also result in violating Authenticity in microservice-based applications. For instance, when authorization is managed only at the edge, microservices are exposed to the so-called “confused deputy problem”: they trust the gateway based on its mere identity, exposing the microservices in an application to misuse if they are compromised. It is worth noting that the “confused deputy problem” here occurs in a different way from when there is Insufficient Access Control, as here a centralized authorization results in an invoked microservice trusting its invoker without enacting any further authorization. In the case of Insufficient Access Control, instead, it is the invoker that has access to too many resources, hence potentially exposing such resources to attacks.",
       "propertiesAffected": [
         {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 0},
         {"category": "PERFORMANCE_EFFICIENCY", "name": "Time behaviour", "impactsPositively": 0},
@@ -190,33 +180,9 @@
       ],
       "refactoring": {
         "name": " Use Decentralized Authorization",
-        "refactor": "Development teams can refactor the microservice-based application to mitigate the Centralized Authorization smell by enacting a decentralized authorization approach. They can indeed Use Decentralized Authorization by simply developing a token-based authorization mechanism. This is achieved by transmitting an access token together with each request to a microservice, and access to such microservice is granted to the caller only if a known and correct token is passed. In this way, authorization can be enforced also at the microservices level, as it gives each microservice more control to enforce its own access-control policies. JSON Web Token (JWT) is the most used mechanism to implement such refactoring. A JWT is a standard for safely passing claims or data attributed to a user within an environment, which ensures that a man in the middle cannot change its content because the issuer of the JWT actually signs it.",
+        "refactor": "The effects of this smell, detected missing access control in <template daployment-file-name>, can be mitigated by using Decentralized Authorization which can be achieved by developing a token-based authorization mechanism. JSON Web Token (JWT) is the most used mechanism to implement such refactoring.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
-          {"category": "MAINTAINABILITY", "name": "Testability", "impactsPositively": 0},
-          {"category": "MAINTAINABILITY", "name": "Modularity", "impactsPositively": 1},
-          {"category": "PERFORMANCE_EFFICIENCY", "name": "Resource utilization", "impactsPositively": 0}
-        ]
-      }
-    },
-    {
-      "code": "IAC, CA",
-      "extendedName": "Insufficient Access Control - Centralized Authorization",
-      "smellTypeDescription": "When constructing a microservice-based architecture, ensuring the confidentiality and authenticity of data and services is paramount. The challenge arises when there's \"Insufficient Access Control\" (IAC) or when a \"Centralized Authorization\" (CA) model is in place. The IAC smell is evident when individual microservices within the application lack their own access control mechanisms, which could lead to unauthorized data exposure. On the other hand, CA is present when authorization is managed by a single component, creating bottlenecks and potentially compromising authenticity due to over-reliance on the component's identity, leading to the \"confused deputy problem.\"",
-      "propertiesAffected": [
-        {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 0},
-        {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 0},
-        {"category": "PERFORMANCE_EFFICIENCY", "name": "Time behaviour", "impactsPositively": 0},
-        {"category": "MAINTAINABILITY", "name": "Testability", "impactsPositively": 1},
-        {"category": "MAINTAINABILITY", "name": "Analysability", "impactsPositively": 0}
-      ],
-      "refactoring": {
-        "name": " Specify security schemes in the OpenAPI specifications for all the microservices",
-        "refactor": "To mitigate the security smells of Insufficient Access Control (IAC) and Centralized Authorization (CA) in a microservice-based application, it is crucial to establish robust security measures. The approach should begin with defining OAuth 2.0 and JWT-based security schemes within the OpenAPI specifications for all microservices, creating a strong contract for authentication and authorization. Subsequently, every microservice must take responsibility for its own authorization checks by validating the access tokens passed with each request, thereby aligning with the required permissions for the operations sought. Additionally, employing JSON Web Tokens (JWTs) as the standard method for transferring access credentials ensures that these tokens, when issued by a trusted authority, are verified by each microservice. This verification is essential to maintaining the integrity of communication between services and upholding the principles of distributed systems architecture. The combination of these practices not only enhances the security posture but also preserves the confidentiality and authenticity of the data and services within the application.",
-        "propertiesAffected": [
-          {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
-          {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
-          {"category": "MAINTAINABILITY", "name": "Reusability", "impactsPositively": 1},
           {"category": "MAINTAINABILITY", "name": "Testability", "impactsPositively": 0},
           {"category": "MAINTAINABILITY", "name": "Modularity", "impactsPositively": 1},
           {"category": "PERFORMANCE_EFFICIENCY", "name": "Resource utilization", "impactsPositively": 0}

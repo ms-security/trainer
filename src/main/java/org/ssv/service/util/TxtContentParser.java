@@ -37,7 +37,6 @@ public class TxtContentParser implements ContentParser {
                         .code(code)
                         .description(matcher.group(2).trim())
                         .extendedName(detail.getExtendedName())
-                        .smellTypeDescription(detail.getSmellTypeDescription())
                         .propertiesAffected(detail.getPropertiesAffected())
                         .refactoring(detail.getRefactoring())
                         .status(SmellStatus.UNFIXED)

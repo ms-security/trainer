@@ -98,10 +98,6 @@ const SmellPage = () => {
                     <h3 className="smellPage-refactorName">Refactoring - {smell?.refactoring.name}</h3>
                     <p className="smellPage-refactorDescription">{smell?.refactoring.refactor}</p>
                 </div>
-                <div id="smell-description" className="smellPage-smellDefinition">
-                    <h3 className="smellPage-smellDefinitionTitle">Smell Description - {smell?.extendedName}</h3>
-                    <p className="smellPage-smellDefinitionDescription">{smell?.smellTypeDescription}</p>
-                </div>
                 <div id="impact-smell-refactoring" className="smellPage-properties">
                     <div className="smellPage-smellImpact">
                         <h3 className="smellPage-propertiesSmellImpact">Smell Impact</h3>
@@ -149,7 +145,6 @@ const SmellPage = () => {
                 <ul>
                     <li><a href="#analysis-output">Analysis Output</a></li>
                     <li><a href="#refactoring">Refactoring</a></li>
-                    <li><a href="#smell-description">Smell Description</a></li>
                     <li><a href="#impact-smell-refactoring">Smell & Refactor Impacts</a></li>
                 </ul>
             </nav>
