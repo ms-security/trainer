@@ -27,6 +27,7 @@
     width: 100%;
     overflow-y: auto;
     border-left: 2px solid #ccc;
+    cursor: pointer;
 }
 
 .grid-microservice-manager {
