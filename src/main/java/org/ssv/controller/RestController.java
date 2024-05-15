@@ -10,6 +10,7 @@ import org.ssv.service.AnalysisService;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.TriageService;
 import org.ssv.service.util.ContentParser;
+import org.ssv.service.util.JsonContentParser;
 import org.ssv.service.util.TxtContentParser;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,8 +34,10 @@ public class RestController {
             return ResponseEntity.badRequest().body(Analysis.builder().id("-1").build());
         }
         try{
+            //TO DO In factories
             String content = new String(file.getBytes(), StandardCharsets.UTF_8);
-            ContentParser parser = new TxtContentParser();
+            //ContentParser parser = new TxtContentParser();
+            ContentParser parser = new JsonContentParser();
             Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(name, date);
             List<Smell> smells = parser.parseContent(content, analysis);
             analysis.setSmells(smells);
