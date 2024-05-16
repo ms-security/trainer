@@ -34,7 +34,7 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
     // Validates the file extension and selects the file if valid
     const handleFileValidation = (file: File) => {
         // Check the file extension
-        const validExtensions = ['.txt'];
+        const validExtensions = ['.txt', '.json'];
         const fileExtension = file.name.split('.').pop();
 
         if (fileExtension && validExtensions.includes('.' + fileExtension.toLowerCase())) {
@@ -43,7 +43,7 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
             setAnalysisName(file.name.replace(/\.[^/.]+$/, "")); // Remove file extension from name
         } else {
             // If the file is not a .txt, display an error message
-            alert("Only .txt files are allowed!");
+            alert("Only .txt and .json files are allowed!");
             setIsFilePicked(false);
         }
     };
@@ -98,7 +98,7 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
                         ref={fileInputRef}
                         type="file"
                         onChange={handleFileChange}
-                        accept=".txt"
+                        accept=".txt, .json"
                         id="file-input"
                         style={{ display: 'none' }}
                     />

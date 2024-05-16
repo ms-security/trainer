@@ -56,6 +56,9 @@ public class Smell {
     @Column(name = "is_checked")
     private boolean isChecked;
 
+    @Column(name = "output_Analysis")
+    private String outputAnalysis;
+
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "smell_quality",
