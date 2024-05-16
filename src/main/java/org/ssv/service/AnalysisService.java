@@ -36,22 +36,37 @@ public class AnalysisService {
     @Transactional
     public void saveAnalysis(Analysis analysis) {
         try {
+            // Salva l'analisi, Hibernate dovrebbe gestire automaticamente il salvataggio delle entità correlate
+            analysisRepository.save(analysis);
+        } catch (Exception e) {
+            System.out.println("Error saving analysis: service problem -- " + e.getMessage());
+            throw e;
+        }
+    }
+
+   /* @Transactional
+    public void saveAnalysis(Analysis analysis) {
+        try {
             analysisRepository.save(analysis);
             try {
                 for (Smell smell : analysis.getSmells()) {
                     if (smell.getRefactoring() != null && smell.getRefactoring().getPropertiesAffected() != null) {
                         for (QualityAttribute qa : smell.getRefactoring().getPropertiesAffected()) {
                             if (qa.getId() == 0) {  // Verifica se l'id non è già impostato
+                                System.out.println("Saving Quality Attribute Refactor with ID: " + qa.getId());
                                 qualityAttributeRepository.save(qa);
                             }
                         }
                         for (QualityAttribute qa : smell.getPropertiesAffected()) {
                             if (qa.getId() == 0) {  // Verifica se l'id non è già impostato
+                                System.out.println("Saving Quality Attribute Affected with ID: " + qa.getId());
                                 qualityAttributeRepository.save(qa);
                             }
                         }
+                        System.out.println("Saving Refactoring with ID: " + smell.getRefactoring().getId());
                         refactoringRepository.save(smell.getRefactoring());
                     }
+                    System.out.println("Saving Smell with ID: " + smell.getId());
                     smellRepository.save(smell);
                 }
             }
@@ -62,7 +77,7 @@ public class AnalysisService {
         catch (Exception e) {
             System.out.println("Error saving analysis: service problem -- " + e.getMessage());
         }
-    }
+    }*/
 
     // Get all analyses
     public List<Analysis> getAllAnalyses() {

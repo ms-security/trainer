@@ -35,18 +35,19 @@ public class TxtContentParser implements ContentParser {
             if (detail != null) {
                 Smell newSmell = Smell.builder()
                         .code(code)
+                        .id(++i)
                         .description(matcher.group(2).trim())
                         .extendedName(detail.getExtendedName())
                         .propertiesAffected(detail.getPropertiesAffected())
                         .refactoring(detail.getRefactoring())
                         .status(SmellStatus.UNFIXED)
                         .analysis(analysis)
+                        .analysisId(analysis.getId())
                         .build();
                 smells.add(newSmell);
             }
             else
                 LOGGER.error("Smell detail not found for code: ", code);
-
         }
         return smells;
     }

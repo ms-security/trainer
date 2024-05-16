@@ -5,22 +5,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.ssv.database.SmellId;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Smell")
+@Table(name = "smell")
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@IdClass(SmellId.class)
 public class Smell {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private int id;
+
+    @Id
+    @Column(name = "analysis_id", nullable = false, insertable = false, updatable = false)
+    private String analysisId;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "analysis_id", nullable = false)
+    @JoinColumn(name = "analysis", nullable = false)
     private Analysis analysis;
 
     @JsonProperty("name")
@@ -37,11 +44,11 @@ public class Smell {
     @JoinColumn(name = "microservice_id", nullable = true)
     private Microservice microservice;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "effort_time_id")
     private EffortTime effortTime;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "refactoring_id")
     private Refactoring refactoring;
 
@@ -59,19 +66,16 @@ public class Smell {
     @Column(name = "output_Analysis")
     private String outputAnalysis;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "smell_quality",
-            joinColumns = @JoinColumn(name = "smell_id"),
+            joinColumns = {
+                    @JoinColumn(name = "smell_id", referencedColumnName = "id"),
+                    @JoinColumn(name = "smell_analysis", referencedColumnName = "analysis_id")
+            },
             inverseJoinColumns = @JoinColumn(name = "quality_attribute_id")
     )
     private List<QualityAttribute> propertiesAffected;
 
-    public String toString() {
-        return "Smell{" +
-                "id=" + id +
-                ", code='" + code + '\'' +
-                ", analysis_id=" + (analysis != null ? analysis.getId() : "null") +
-                '}';
-    }
 }
+

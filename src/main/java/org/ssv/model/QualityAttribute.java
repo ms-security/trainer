@@ -15,6 +15,7 @@ import javax.persistence.*;
 public abstract class QualityAttribute implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private int id;
 
     @Column(name = "name")

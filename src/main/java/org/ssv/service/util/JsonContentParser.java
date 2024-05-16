@@ -26,26 +26,27 @@ public class JsonContentParser implements ContentParser {
         } catch (IOException e) {
             throw new InvalidContentException("Invalid JSON content");
         }
-
+        int i = 0;
         List<Smell> smells = new ArrayList<>();
         for (Map<String, Object> jsonObject : jsonList) {
             String outputAnalysis = (String) jsonObject.get("analysis");
             List<String> smellCodes = (List<String>) jsonObject.get("smells");
             String description = (String) jsonObject.get("description");
-            int i = 0;
             for (String smellCode : smellCodes) {
                 SmellDetail detail = FactoryAnalysis.getInstance().findSmellDetailByCode(smellCode);
                 Smell smell = Smell.builder()
                         .outputAnalysis(outputAnalysis)
+                        .id(++i)
                         .code(smellCode)
                         .description(description)
                         .analysis(analysis)
+                        .analysisId(analysis.getId())
                         .propertiesAffected(detail.getPropertiesAffected())
                         .refactoring(detail.getRefactoring())
                         .status(SmellStatus.UNFIXED)
                         .extendedName(detail.getExtendedName())
                         .build();
-
+                System.out.println("Smell: " + smell.getId() + "analysis " + smell.getAnalysisId());
                 smells.add(smell);
             }
         }

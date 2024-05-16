@@ -22,9 +22,9 @@ function HomePage() {
     };
 
     // Function to handle a new analysis added by the upload component
-    const handleNewAnalysis = async (file: File, name: string, date: string) => {
+    const handleNewAnalysis = async (file: File, name: string, date: string, extension: string) => {
         try {
-            await addAnalysis(file, name, date);
+            await addAnalysis(file, name, date, extension);
             setIsUploadVisible(!isUploadVisible);
         } catch (error) {
         if(error instanceof Error)

@@ -8,7 +8,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "EffortTime")
+@Table(name = "effort_time")
 @Data
 @SuperBuilder
 @NoArgsConstructor

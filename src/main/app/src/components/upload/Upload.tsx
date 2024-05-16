@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface UploadProps {
     onClose: () => void; // Function to call when closing the upload modal
-    onNewAnalysis: (file: File, name: string, date: string) => void; // Function to handle a new analysis object
+    onNewAnalysis: (file: File, name: string, date: string, extension: string) => void; // Function to handle a new analysis object
 }
 
 // The Upload component allows the user to upload files for analysis
@@ -62,8 +62,8 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
     const handleSubmission = () =>{
         if (selectedFile && analysisName) {
             const currentDate = new Date().toISOString(); // Get the current date
-            // Use the newAnalysis method from WebController to submit the file
-            onNewAnalysis(selectedFile, analysisName, currentDate); // Pass the analysis back to the parent component
+            const fileExtension = selectedFile.name.split('.').pop() || '';
+            onNewAnalysis(selectedFile, analysisName, currentDate, fileExtension);
         } else {
             alert('Please select a file and enter a name for the analysis.');
         }
