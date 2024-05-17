@@ -38,20 +38,24 @@ public class AnalysisService {
         try {
             analysisRepository.save(analysis);
             try {
+                int i = 0;
                 for (Smell smell : analysis.getSmells()) {
+                    //System.out.println("\n\n");
                     if (smell.getRefactoring() != null && smell.getRefactoring().getPropertiesAffected() != null) {
                         for (QualityAttribute qa : smell.getRefactoring().getPropertiesAffected()) {
-                            if (qa.getId() == 0) {  // Verifica se l'id non è già impostato
-                                qualityAttributeRepository.save(qa);
-                            }
+                            //System.out.println("Saving quality attribute refactoring: " + qa);
+                            qualityAttributeRepository.save(qa);
                         }
                         for (QualityAttribute qa : smell.getPropertiesAffected()) {
                             if (qa.getId() == 0) {  // Verifica se l'id non è già impostato
+                                //System.out.println("Saving quality attribute smell: " + qa);
                                 qualityAttributeRepository.save(qa);
                             }
                         }
+                        //System.out.println("\nSaving refactoring: " + smell.getRefactoring() + "\t" + ++i);
                         refactoringRepository.save(smell.getRefactoring());
                     }
+                    //System.out.println("Saving smell: " + smell + "\t" + i);
                     smellRepository.save(smell);
                 }
             }

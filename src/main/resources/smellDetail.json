@@ -10,7 +10,7 @@
       ],
       "refactoring": {
         "name": "Apply Least Privilege Principle",
-        "refactor": "The microservice <template nome microservice> should have the least amount of access privileges they need to suitably perform their business function.",
+        "refactor": "The microservice <template> should have the least amount of access privileges they need to suitably perform their business function.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -30,7 +30,7 @@
       ],
       "refactoring": {
         "name": "Encrypt Secrets at Rest",
-        "refactor": "The secrets detected in <template pod-name> should be encrypted at Rest.",
+        "refactor": "The secrets detected in <template> should be encrypted at Rest.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -49,7 +49,7 @@
       ],
       "refactoring": {
         "name": "Use of Mutual Transport Layer Security",
-        "refactor": "The effects of this smell, detected in pod <template pod-name>, can be mitigated with the Use of Mutual Transport Layer Security. It provides a bidirectional encryption channel that ensures integrity and confidentiality in service-to-service comunications.",
+        "refactor": "The effects of this smell, detected in pod <template>, can be mitigated with the Use of Mutual Transport Layer Security. It provides a bidirectional encryption channel that ensures integrity and confidentiality in service-to-service comunications.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -68,7 +68,7 @@
       ],
       "refactoring": {
         "name": "Use of Established Encryption Technologies",
-        "refactor": "The use of own encryption solutions in <template script-python> can cause Confidentiality, Integrity, and Authenticity issues. Replace this encryption method with established and well tested encryption algorithms.",
+        "refactor": "The use of own encryption solutions in <template> can cause Confidentiality, Integrity, and Authenticity issues. Replace this encryption method with established and well tested encryption algorithms.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -107,7 +107,7 @@
       ],
       "refactoring": {
         "name": "Encrypt all Sensitive Data at Rest",
-        "refactor": "The effects of this smell can be mitigated by encrypting all sensitive data. Encryption should be applied to <template file-name> with: <template - description>.",
+        "refactor": "The effects of this smell can be mitigated by encrypting all sensitive data. Encryption should be applied to <template> with: <template - description>.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -143,7 +143,7 @@
       ],
       "refactoring": {
         "name": "Use Single Sign-On",
-        "refactor": "The effects of this smell, detected in <template deployment-file-name>, can be mitigated with the use of Single Sign-On. This can be achieved by: (i) adding an API Gateway acting as a single entry point to the application; (ii) using OpenID Connect to share the user context among the microservices.",
+        "refactor": "The effects of this smell, detected in <template>, can be mitigated with the use of Single Sign-On. This can be achieved by: (i) adding an API Gateway acting as a single entry point to the application; (ii) using OpenID Connect to share the user context among the microservices.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
@@ -163,7 +163,7 @@
       ],
       "refactoring": {
         "name": "Use OAuth 2.0",
-        "refactor": "The effects of this smell, detected missing access control in <template daployment-file-name>, can be mitigated through the use of Open Authorization (OAuth) 2.0.",
+        "refactor": "The effects of this smell, detected missing access control in <template>, can be mitigated through the use of Open Authorization (OAuth) 2.0.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "MAINTAINABILITY", "name": "Reusability", "impactsPositively": 1}
@@ -180,7 +180,7 @@
       ],
       "refactoring": {
         "name": " Use Decentralized Authorization",
-        "refactor": "The effects of this smell, detected missing access control in <template daployment-file-name>, can be mitigated by using Decentralized Authorization which can be achieved by developing a token-based authorization mechanism. JSON Web Token (JWT) is the most used mechanism to implement such refactoring.",
+        "refactor": "The effects of this smell, detected missing access control in <template>, can be mitigated by using Decentralized Authorization which can be achieved by developing a token-based authorization mechanism. JSON Web Token (JWT) is the most used mechanism to implement such refactoring.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
           {"category": "MAINTAINABILITY", "name": "Testability", "impactsPositively": 0},

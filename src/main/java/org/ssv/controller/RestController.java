@@ -13,7 +13,6 @@ import org.ssv.service.util.ContentParser;
 import org.ssv.service.util.JsonContentParser;
 import org.ssv.service.util.TxtContentParser;
 
-import javax.persistence.EntityNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class RestController {
             //ContentParser parser = new TxtContentParser();
             ContentParser parser = new JsonContentParser();
             Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(name, date);
+
             List<Smell> smells = parser.parseContent(content, analysis);
             analysis.setSmells(smells);
 
@@ -47,7 +47,6 @@ public class RestController {
             } catch (Exception e){
                 System.out.println("Controller : Error saving analysis: " + e.getMessage());
             }
-            //AnalysisDatabaseSingleton.getInstance().addAnalysis(analysis); //hashmap
 
             return ResponseEntity.ok().body(analysis);
         } catch (InvalidContentException e){
