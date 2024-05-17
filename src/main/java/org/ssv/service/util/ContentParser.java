@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class ContentParser {
-    //private String fileName;
 
     abstract public List<Smell> parseContent(String content, Analysis analysis) throws InvalidContentException, SQLException;
 
@@ -24,27 +23,27 @@ public abstract class ContentParser {
             case "OCC":
                 fileName = extractOCCFileName(description);
                 break;
-            case "PAM":
-                break;
             case "MUA":
+                fileName = extractMUAFileName(description);
                 break;
             case "NSC":
                 fileName = extractNSCFileName(description);
                 break;
             case "NEDE":
+                fileName = extractNEDEFileName(description);
+                break;
+            case "HS":
+                fileName = extractHSFileName(description);
                 break;
             case "IAC":
             case "CA":
                 fileName = extractIacCaFileName(description);
                 break;
+            case "PAM":
             case "UT":
                 break;
-            case "HS":
-                fileName = extractHSFileName(description);
-                break;
             default:
-                System.out.println("Invalid smell code: " + code);
-                //throw new IllegalArgumentException("Invalid smell code: " + code);
+                throw new IllegalArgumentException("Invalid smell code: " + code);
         }
 
         return updateRefactor(refactoring, fileName);
@@ -75,21 +74,16 @@ public abstract class ContentParser {
     }
 
     private String extractHSFileName(String description) {
-        System.out.println("description: " + description);
         Pattern podPattern = Pattern.compile("Detected secret in pod (\\S+),"); // First pattern: "Detected secret in pod"
         Matcher matcher = podPattern.matcher(description);
         if (matcher.find()) {
-            System.out.println("Matched pod pattern");
             return matcher.group(1);
         }
         Pattern filePattern = Pattern.compile("File: (\\S+)"); // Second pattern: "File:"
         matcher = filePattern.matcher(description);
         if (matcher.find()) {
-            System.out.println("Matched file pattern");
             return matcher.group(1);
         }
-
-        System.out.println("No pattern matched");
         return null;
     }
 
@@ -98,7 +92,6 @@ public abstract class ContentParser {
         Pattern pattern = Pattern.compile("specified in (\\S+)");
         Matcher matcher = pattern.matcher(description);
         if (matcher.find()) {
-            System.out.println("fileName: " + matcher.group(1));
             return matcher.group(1);
         }
         return null;
@@ -114,8 +107,25 @@ public abstract class ContentParser {
     }
 
     private String extractOCCFileName(String description) {
-        System.out.println("OCC - description: " + description);
         Pattern pattern = Pattern.compile("Potential usage of custom crypto code in (\\S+)");
+        Matcher matcher = pattern.matcher(description);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
+    }
+
+    private String extractMUAFileName(String description) {
+        Pattern pattern = Pattern.compile("Basic http authorization in (\\S+),");
+        Matcher matcher = pattern.matcher(description);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
+    }
+
+    private String extractNEDEFileName(String description) {
+        Pattern pattern = Pattern.compile("File: (\\S+)");
         Matcher matcher = pattern.matcher(description);
         if (matcher.find()) {
             return matcher.group(1);
