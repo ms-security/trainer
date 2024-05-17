@@ -1,4 +1,4 @@
-package org.ssv.database.jpaRepositories;
+package org.ssv.service.database.jpaRepositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.ssv.model.QualityAttribute;

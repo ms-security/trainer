@@ -46,7 +46,6 @@ public class JsonContentParser implements ContentParser {
                         .status(SmellStatus.UNFIXED)
                         .extendedName(detail.getExtendedName())
                         .build();
-                System.out.println("Smell: " + smell.getId() + "analysis " + smell.getAnalysisId());
                 smells.add(smell);
             }
         }

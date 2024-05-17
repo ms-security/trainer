@@ -1,6 +1,7 @@
 package org.ssv.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
@@ -29,5 +30,6 @@ public class Microservice {
             joinColumns = @JoinColumn(name = "microservice_id"),
             inverseJoinColumns = @JoinColumn(name = "quality_attribute_id")
     )
+    @JsonDeserialize(contentAs = QualityAttributeMS.class)
     private List<QualityAttribute> qualityAttributes;
 }

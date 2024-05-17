@@ -1,11 +1,9 @@
-package org.ssv.service;
+package org.ssv.service.database.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.ssv.database.jpaRepositories.EffortTimeRepositoryJpa;
+import org.ssv.service.database.jpaRepositories.EffortTimeRepositoryJpa;
 import org.ssv.model.EffortTime;
-
-import java.util.List;
 
 @Service
 public class EffortTimeService {

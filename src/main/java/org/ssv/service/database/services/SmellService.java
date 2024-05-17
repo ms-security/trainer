@@ -1,12 +1,14 @@
-package org.ssv.service;
+package org.ssv.service.database.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.ssv.database.jpaRepositories.SmellRepositoryJpa;
-import org.ssv.model.Analysis;
+import org.ssv.service.database.SmellId;
+import org.ssv.service.database.jpaRepositories.SmellRepositoryJpa;
+import org.ssv.model.Microservice;
 import org.ssv.model.Smell;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SmellService {
@@ -26,6 +28,16 @@ public class SmellService {
     // Fetch smells for a given analysis
     public List<Smell> findByAnalysis(String analysisId) {
         return smellRepository.findByAnalysisId(analysisId);
+    }
+
+    public Smell findSmellById(String analysisId, int id) {
+        SmellId smellId = new SmellId(id, analysisId);
+        Optional<Smell> smell = smellRepository.findById(smellId);
+        return smell.orElse(null);
+    }
+
+    public List<Smell> findByMicroservice(Microservice microservice){
+        return smellRepository.findByMicroservice(microservice);
     }
 }
 

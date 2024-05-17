@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("org.ssv.database.jpaRepositories")
+@EnableJpaRepositories("org.ssv.service.database.jpaRepositories")
 public class Main
 {
     public static void main( String[] args ){SpringApplication.run(Main.class, args);}
