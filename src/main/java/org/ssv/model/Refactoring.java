@@ -26,6 +26,9 @@ public class Refactoring implements Serializable {
     @Column(name = "refactor", nullable = false)
     private String refactor;
 
+    @Column(name = "related_file_name")
+    private String relatedFileName;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "refactoring_quality",

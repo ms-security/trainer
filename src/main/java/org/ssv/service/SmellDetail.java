@@ -14,7 +14,6 @@ import java.util.List;
 public class SmellDetail implements Serializable {
     private String code;
     private String extendedName;
-    private String smellTypeDescription;
     @JsonDeserialize(contentAs = QualityAttributeSR.class)
     private List<QualityAttribute> propertiesAffected;
     private Refactoring refactoring;
