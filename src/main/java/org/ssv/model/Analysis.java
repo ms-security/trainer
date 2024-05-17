@@ -11,7 +11,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Analysis")
+@Table(name = "analysis")
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -34,22 +34,11 @@ public class Analysis {
     @Column(name = "is_triage_valid")
     private boolean isTriageValid;
 
-    @OneToMany(mappedBy = "analysis",  fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "analysisId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Smell> smells;
 
-    @OneToMany(mappedBy = "analysis",  fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Microservice> microservices;
-
-    public Analysis(String id, String name, LocalDateTime date) {
-        this.id = id;
-        System.out.println("Costruttore Analysis id: " + id);
-        this.name = name;
-        this.smells = new ArrayList<>();
-        this.date = date;
-        this.microservices = new ArrayList<>();
-        isFavorite = false;
-        isTriageValid = false;
-    }
 
     @Override
     public String toString() {

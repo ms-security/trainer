@@ -10,13 +10,14 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Refactoring")
+@Table(name = "refactoring")
 @Data
 @SuperBuilder
 @NoArgsConstructor
 public class Refactoring implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private int id;
 
     @Column(name = "name", nullable = false)
@@ -28,7 +29,7 @@ public class Refactoring implements Serializable {
     @Column(name = "related_file_name")
     private String relatedFileName;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "refactoring_quality",
             joinColumns = @JoinColumn(name = "refactoring_id"),

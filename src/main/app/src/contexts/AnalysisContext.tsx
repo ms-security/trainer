@@ -12,7 +12,7 @@ interface AnalysisContextType {
     setFilters: (newFilters: SmellFilter) => void;
     fetchAnalyses: () => Promise<void>;
     fetchAnalysisById: (id: String) => Promise<Analysis | undefined>;
-    addAnalysis: (file: File, name: string, date: string) => Promise<void>;
+    addAnalysis: (file: File, name: string, date: string, extension: string) => Promise<void>;
     deleteAnalysis: (analysisId: String) => Promise<void>;
     toggleFavoriteStatus: (analysisId: String) => Promise<void>;
     addMicroservice: (data: any, analysisId: String) => Promise<void>;
@@ -46,8 +46,8 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     }, []);
 
-    const addAnalysis = async (file: File, name: string, date: string) => {
-        const analysis = await WebController.newAnalysis(file, name, date);
+    const addAnalysis = async (file: File, name: string, date: string, extension: string) => {
+        const analysis = await WebController.newAnalysis(file, name, date, extension);
         setAnalyses(prev => [...prev, analysis]);
     };
 

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class JsonContentParser extends ContentParser {
 
@@ -28,9 +27,6 @@ public class JsonContentParser extends ContentParser {
         } catch (IOException e) {
             throw new InvalidContentException("Invalid JSON content");
         }
-
-        System.out.println("jsonList size " + jsonList.size());
-
         int i = 0;
         List<Smell> smells = new ArrayList<>();
         for (Map<String, Object> jsonObject : jsonList) {
@@ -39,11 +35,6 @@ public class JsonContentParser extends ContentParser {
             String description = (String) jsonObject.get("description");
 
             for (String smellCode : smellCodes) {
-                System.out.println("smell " + i + "  code " + smellCode);
-                if (Objects.equals(smellCode, "OCC")) {
-                    System.out.println("OCC smell " + i);
-                }
-
                 SmellDetail detail = FactoryAnalysis.getInstance().findSmellDetailByCode(smellCode);
 
                 System.out.println("smell  " + i + "  refactoring description " + detail.getRefactoring().getRefactor());
@@ -51,17 +42,17 @@ public class JsonContentParser extends ContentParser {
                 Refactoring refactoring = assignTemplateValues(smellCode, description, detail.getRefactoring());
 
                 Smell smell = Smell.builder()
-                        //.outputAnalysis(outputAnalysis)
+                        .outputAnalysis(outputAnalysis)
+                        .id(++i)
                         .code(smellCode)
                         .description(description)
                         .analysis(analysis)
+                        .analysisId(analysis.getId())
                         .propertiesAffected(detail.getPropertiesAffected())
                         .refactoring(refactoring)
                         .status(SmellStatus.UNFIXED)
                         .extendedName(detail.getExtendedName())
                         .build();
-
-                System.out.println("smell +++++ " + ++i + "  refactoring description " + smell.getRefactoring().getRefactor());
 
                 smells.add(smell);
             }

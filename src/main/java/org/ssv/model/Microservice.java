@@ -6,12 +6,13 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Microservice")
+@Table(name = "microservice")
 @Data
 public class Microservice {
 
     @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "analysis_id", nullable = false)
     private Analysis analysis;
 
     @Id
@@ -22,7 +23,7 @@ public class Microservice {
     @Column(name = "relevance", nullable = false)
     private Relevance relevance;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(
             name = "microservice_quality",
             joinColumns = @JoinColumn(name = "microservice_id"),

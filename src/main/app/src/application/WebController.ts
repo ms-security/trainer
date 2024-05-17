@@ -3,11 +3,12 @@ import {Microservice} from "../interfaces/Microservice";
 import {EffortTime} from "../interfaces/EffortTime";
 
 export default class WebController{
-    static async newAnalysis(file: File, name: string, date: string): Promise<Analysis> {
+    static async newAnalysis(file: File, name: string, date: string, extension: string): Promise<Analysis> {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("name", name);
         formData.append("date", date);
+        formData.append("extension", extension);
         const response = await fetch('http://localhost:8080/analysis', {
             method: 'POST',
             body: formData

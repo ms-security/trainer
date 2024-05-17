@@ -24,8 +24,8 @@ public class SmellService {
     }
 
     // Fetch smells for a given analysis
-    public List<Smell> findByAnalysis(Analysis analysis) {
-        return smellRepository.findByAnalysis(analysis);
+    public List<Smell> findByAnalysis(String analysisId) {
+        return smellRepository.findByAnalysisId(analysisId);
     }
 }
 
