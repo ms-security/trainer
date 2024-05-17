@@ -9,11 +9,6 @@ import org.ssv.model.*;
 import org.ssv.service.AnalysisService;
 import org.ssv.service.FactoryAnalysis;
 import org.ssv.service.TriageService;
-import org.ssv.service.util.ContentParser;
-import org.ssv.service.util.JsonContentParser;
-import org.ssv.service.util.TxtContentParser;
-
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

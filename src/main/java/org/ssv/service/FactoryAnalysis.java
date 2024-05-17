@@ -50,6 +50,7 @@ public class FactoryAnalysis {
         switch (extension) {
             case "txt": parser = new TxtContentParser(); break;
             case "json": parser = new JsonContentParser(); break;
+            default: throw new InvalidContentException("Invalid file extension");
         }
         Analysis analysis = Analysis.builder()
                 .id(analysisId)
