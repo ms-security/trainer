@@ -11,10 +11,10 @@ import org.ssv.model.*;
 public class TriageService {
 
     private static final UrgencyCode[][] URGENCY_MATRIX = {
-            {UrgencyCode.Ø, UrgencyCode.l, UrgencyCode.L, UrgencyCode.m},
-            {UrgencyCode.l, UrgencyCode.L, UrgencyCode.m, UrgencyCode.M},
-            {UrgencyCode.L, UrgencyCode.m, UrgencyCode.M, UrgencyCode.h},
-            {UrgencyCode.m, UrgencyCode.M, UrgencyCode.h, UrgencyCode.H}
+            {UrgencyCode.Ø, UrgencyCode.L, UrgencyCode.LL, UrgencyCode.M},
+            {UrgencyCode.L, UrgencyCode.LL, UrgencyCode.M, UrgencyCode.MM},
+            {UrgencyCode.LL, UrgencyCode.M, UrgencyCode.MM, UrgencyCode.H},
+            {UrgencyCode.M, UrgencyCode.MM, UrgencyCode.H, UrgencyCode.HH}
     };
     public UrgencyCode urgencyCodeCalculator(Microservice microservice, Smell smell){
         Relevance highestRelevance = Relevance.NONE;

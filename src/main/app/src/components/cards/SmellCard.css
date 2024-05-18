@@ -51,13 +51,13 @@
     background-color: grey; /* Default color for undefined urgency */
 }
 
-.urgency-indicator.Ø { background-color: darkgreen; }
-.urgency-indicator.l { background-color: lightgreen; }
-.urgency-indicator.L { background-color: yellowgreen; }
-.urgency-indicator.m { background-color: yellow; }
-.urgency-indicator.M { background-color: orange; }
-.urgency-indicator.h { background-color: lightcoral; }
-.urgency-indicator.H { background-color: darkred; }
+.urgency-indicator.Ø { background-color: lightblue; }
+.urgency-indicator.L { background-color: lightgreen; }
+.urgency-indicator.LL { background-color: yellowgreen; }
+.urgency-indicator.M { background-color: yellow; }
+.urgency-indicator.MM { background-color: orange; }
+.urgency-indicator.H { background-color: red; }
+.urgency-indicator.HH { background-color: firebrick; }
 
 .smell-content h3 {
     margin: 0;

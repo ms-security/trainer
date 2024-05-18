@@ -20,22 +20,27 @@
     font-size: 20px;
 }
 
+.smellPage-statusDropdown{
+    margin: 2px 10px 2px auto;
+}
+
+.smellPage-statusDropdown select {
+    border: 2px solid white;
+    font-size: 16px;
+    padding: 10px 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+}
+
 .urgency-indicator {
     height: 20px;
     width: 20px;
-    margin-left: auto; /* Pushes the indicator to the right */
+    margin-left: 20px; /* Pushes the indicator to the right */
     margin-right: 20px; /* Adds space between the indicator and the analysis name */
     border-radius: 50%;
     background-color: grey; /* Default color for undefined urgency */
 }
-
-.urgency-indicator.Ø { background-color: darkgreen; }
-.urgency-indicator.l { background-color: lightgreen; }
-.urgency-indicator.L { background-color: yellowgreen; }
-.urgency-indicator.m { background-color: yellow; }
-.urgency-indicator.M { background-color: orange; }
-.urgency-indicator.h { background-color: lightcoral; }
-.urgency-indicator.H { background-color: darkred; }
 
 .smellPage-microserviceBanner{
     height: fit-content;
@@ -78,7 +83,7 @@
 .smellPage-sidebar {
     grid-area: sidebar;
     height: 100%;
-    background-color: lightseagreen;
+    background-color: white;
     overflow-y: auto;
 }
 
@@ -94,9 +99,10 @@
     grid-area: toc;
     height: fit-content;
     margin: 20px 10px 2px 10px;
-    background-color: lightgrey;
+    background-color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
+    border: 1px solid black;
     text-align: left;
     overflow-y: auto;
 }
@@ -112,6 +118,15 @@
     flex-direction: column;
 }
 
+.smellPage-smellIndex-fixed {
+    text-align: end;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+    border-bottom: 1px solid black;
+}
+
 .smellPage-smellIndex{
     margin: 5px 10px 2px auto;
 }
@@ -125,6 +140,7 @@
     background-color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
+    border: 1px solid black;
     text-align: left;
     cursor: pointer;
 }
@@ -171,13 +187,14 @@
 }
 
 .smellPage-smellK{ /*box smell*/
-    width: fit-content;
+    width: 98%;
     height: fit-content;
     margin-top: 10px;
     padding: 5px;
-    background: lightgreen;
+    background: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
+    border: 1px solid black;
     white-space: pre-wrap; /* Keeps text format */
 }
 
@@ -197,13 +214,14 @@
 }
 
 .smellPage-refactoring { /*box refactoring*/
-    width: fit-content;
+    width: 98%;
     height: fit-content;
     margin-top: 10px;
     padding: 5px;
-    background: lightcyan;
+    background: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
+    border: 1px solid black
 }
 
 .smellPage-refactorName {
@@ -219,6 +237,15 @@
     margin-bottom: 0;
     font-size: 16px;
     text-align: left;
+}
+
+.file-name-box {
+    display: inline-block;
+    background-color: lightgrey;
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
 }
 
 .smellPage-smellDefinition{
@@ -248,6 +275,7 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border: 1px solid black;
 }
 
 .smellPage-propertiesSmellImpact, .smellPage-propertiesRefactoringImpact {

@@ -63,26 +63,28 @@
 }
 
 .smell {
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 25px;
     margin-left: 5px;
     color: black;
-    font-size: 10px;
+    font-size: 15px;
     font-weight: bold;
     border: 2px solid;
     border-radius: 50%;
 }
 
-.red-smell { background-color: #ff5f56; }
-.orange-smell { background-color: #ffbd2e; }
-.yellow-smell { background-color: #fffc35; }
-.green-smell { background-color: #27c93f; }
-.lightblue-smell { background-color: #2ab2e2; }
-.blue-smell { background-color: #5956ff; }
+.red-smell { background-color: firebrick; }
+.orange-smell { background-color: red; }
+.yellow-smell { background-color: orange; }
+.green-smell { background-color: yellow; }
+.lightblue-smell { background-color: yellowgreen; }
+.blue-smell { background-color: lightgreen; }
+.blank-smell { background-color: lightblue; }
+.undefined-smell { background-color: lightgrey }
 
 .delete-icon {
     position: absolute;

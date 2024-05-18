@@ -33,16 +33,16 @@ function HomePage() {
     };
 
     // Function for handling click events on an analysis card
-    const handleAnalysisClick = (analysisId: String) => {
+    const handleAnalysisClick = (analysisId: string) => {
         navigate(`/analysis/${analysisId}`);
     };
 
     // Placeholder function to handle changes in analysis favorite status
-    const handleFavoriteChange = async (analysisId: String) => {
+    const handleFavoriteChange = async (analysisId: string) => {
         await toggleFavoriteStatus(analysisId);
     };
 
-    const handleDeleteAnalysis = async (analysisId: String) => {
+    const handleDeleteAnalysis = async (analysisId: string) => {
         if (window.confirm("Are you sure you want to delete this analysis?")) {
             await deleteAnalysis(analysisId);
         }
@@ -75,6 +75,7 @@ function HomePage() {
                     analyses.map((analysis) => (
                         <AnalysisCard
                             name={analysis.name}
+                            smells={analysis.smells}
                             date={analysis.date}
                             isFavorite={analysis.isFavorite}
                             isTriageValid={analysis.isTriageValid}
