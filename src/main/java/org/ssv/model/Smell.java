@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.ssv.service.database.SmellId;
+import org.ssv.service.SmellId;
 
 import javax.persistence.*;
 import java.util.List;

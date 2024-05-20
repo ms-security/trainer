@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.*;
 import org.ssv.service.*;
+import org.ssv.service.database.FacadeService;
 import org.ssv.service.database.services.*;
 
 import java.sql.SQLException;
@@ -17,22 +18,7 @@ import java.util.List;
 public class RestController {
 
     @Autowired
-    private AnalysisService analysisService;
-
-    @Autowired
-    private EffortTimeService effortTimeService;
-
-    @Autowired
-    private MicroserviceService microserviceService;
-
-    @Autowired
-    private RefactoringService refactoringService;
-
-    @Autowired
-    private SmellService smellService;
-
-    @Autowired
-    private QualityAttributeService qualityAttributeService;
+    private FacadeService facadeService;
 
     @PostMapping("/analysis")
     public ResponseEntity<Analysis> analysis(@RequestParam("file") MultipartFile file,
@@ -45,7 +31,7 @@ public class RestController {
         try{
             Analysis analysis = FactoryAnalysis.getInstance().createAnalysis(file, name, date, extension);
             try{
-                analysisService.saveAnalysis(analysis); // persistent db
+                facadeService.saveAnalysis(analysis); // persistent db
             } catch (Exception e){
                 System.out.println("Controller : Error saving analysis: " + e.getMessage());
             }
@@ -58,29 +44,29 @@ public class RestController {
     }
 
     @GetMapping("/analysis")
-    public ResponseEntity<ArrayList<Analysis>> analysis() throws SQLException {
-        ArrayList<Analysis> analyses = (ArrayList<Analysis>) analysisService.getAllAnalyses();
+    public ResponseEntity<List<Analysis>> analysis() throws SQLException {
+        List<Analysis> analyses = facadeService.getAllAnalyses();
         return ResponseEntity.ok().body(analyses);
     }
 
     @GetMapping("/analysis/{analysisId}")
     public ResponseEntity<Analysis> getAnalysis(@PathVariable String analysisId) {
-        Analysis analysis = analysisService.findById(analysisId);
+        Analysis analysis = facadeService.findAnalysisById(analysisId);
         return analysis != null ? ResponseEntity.ok().body(analysis) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/analysis/{analysisId}")
     public ResponseEntity<Void> deleteAnalysis(@PathVariable String analysisId){
-        boolean isRemoved = analysisService.deleteById(analysisId);
+        boolean isRemoved = facadeService.deleteAnalysisById(analysisId);
         return isRemoved ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/analysis/{analysisId}/favorite")
     public ResponseEntity<Analysis> favoriteAnalysis(@PathVariable String analysisId) {
-        Analysis analysis = analysisService.findById(analysisId);
+        Analysis analysis = facadeService.findAnalysisById(analysisId);
         if(analysis != null) {
             analysis.setFavorite(!analysis.isFavorite());
-            analysisService.saveAnalysis(analysis);
+            facadeService.saveAnalysis(analysis);
             return ResponseEntity.ok().body(analysis);
         } else {
             return ResponseEntity.notFound().build();
@@ -89,16 +75,11 @@ public class RestController {
     
     @PostMapping("/microservices/{analysisId}")
     public ResponseEntity<Microservice> addMicroservice(@PathVariable String analysisId, @RequestBody Microservice microservice) {
-        Analysis analysis = analysisService.findById(analysisId);
-        if (analysis == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+        Analysis analysis = facadeService.findAnalysisById(analysisId);
+        if (analysis == null) {return ResponseEntity.notFound().build();}
         try {
             microservice.setAnalysis(analysis);
-            qualityAttributeService.saveQualityAttributes(microservice.getQualityAttributes());
-            microserviceService.saveMicroservice(microservice);
-            analysisService.saveAnalysis(analysis);
+            facadeService.saveMicroservice(microservice);;
             return ResponseEntity.ok().body(microservice);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -107,63 +88,49 @@ public class RestController {
 
     @PutMapping("/microservices/{analysisId}/{microserviceName}/{smellId}")
     public ResponseEntity<Void> assignMicroserviceToSmell(@PathVariable String analysisId, @PathVariable String microserviceName, @PathVariable int smellId) {
-        if (analysisService.findById(analysisId) == null) { return ResponseEntity.notFound().build(); }
+        if (facadeService.findAnalysisById(analysisId) == null) { return ResponseEntity.notFound().build(); }
 
-        Microservice microservice = microserviceService.findMicroserviceById(analysisId, microserviceName);
-        if (microservice == null) {
-            return ResponseEntity.notFound().build();
-        }
-        Smell smell = smellService.findSmellById(analysisId, smellId);
-        if (smell == null) {
-            return ResponseEntity.notFound().build();
-        }
+        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceName);
+        if (microservice == null) {return ResponseEntity.notFound().build();}
+
+        Smell smell = facadeService.findSmellById(analysisId, smellId);
+        if (smell == null) {return ResponseEntity.notFound().build();}
+
         TriageService triageService = new TriageService();
         smell.setUrgencyCode(triageService.urgencyCodeCalculator(microservice, smell));
         smell.setMicroservice(microservice);
-        smellService.saveSmell(smell);
+        facadeService.saveSmell(smell);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/microservices/{analysisId}")
     public ResponseEntity<Void> updateMicroservice(@PathVariable String analysisId, @RequestBody Microservice microserviceTmp) {
-        Analysis analysis = analysisService.findById(analysisId);
-        if (analysis == null) { return ResponseEntity.notFound().build(); }
-        Microservice microservice = microserviceService.findMicroserviceById(analysisId, microserviceTmp.getName());
-        if (microservice == null) {
-            return ResponseEntity.notFound().build();
-        }
-        microservice.setRelevance(microserviceTmp.getRelevance());
-        microservice.getQualityAttributes().clear();
-        qualityAttributeService.saveQualityAttributes(microservice.getQualityAttributes());
-        microserviceService.saveMicroservice(microservice);
-        microservice.setQualityAttributes(microserviceTmp.getQualityAttributes());
+        Analysis analysis = facadeService.findAnalysisById(analysisId);
+        if (analysis == null) { return ResponseEntity.notFound().build();}
+
+        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceTmp.getName());
+        if (microservice == null) {return ResponseEntity.notFound().build();}
+
+        facadeService.updateMicroservice(microservice, microserviceTmp);
         TriageService triageService = new TriageService();
         for (Smell smell : analysis.getSmells()) {
             if (smell.getMicroservice() != null && smell.getMicroservice().getName().equals(microservice.getName())){
                 smell.setUrgencyCode(triageService.urgencyCodeCalculator(microservice, smell));
+                facadeService.saveSmell(smell);
             }
         }
-        qualityAttributeService.saveQualityAttributes(microservice.getQualityAttributes());
-        microserviceService.saveMicroservice(microservice);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/microservices/{analysisId}/{microserviceName}")
     public ResponseEntity<Void> deleteMicroservice(@PathVariable String analysisId, @PathVariable String microserviceName) {
-        Analysis analysis = analysisService.findById(analysisId);
-        if (analysis == null) { return ResponseEntity.notFound().build(); }
-        Microservice microservice = microserviceService.findMicroserviceById(analysisId, microserviceName);
-        if (microservice == null) {
-            System.out.println("microservice not found");
-            return ResponseEntity.notFound().build();
-        }
-        List<Smell> smells = smellService.findByMicroservice(microservice);
-        for (Smell smell : smells) {
-            smell.setMicroservice(null);
-            smell.setUrgencyCode(null);
-            smellService.saveSmell(smell);
-        }
-        boolean removed = microserviceService.deleteMicroservice(microserviceName);
+        Analysis analysis = facadeService.findAnalysisById(analysisId);
+        if (analysis == null) { return ResponseEntity.notFound().build();}
+
+        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceName);
+        if (microservice == null) {return ResponseEntity.notFound().build();}
+
+        boolean removed = facadeService.deleteMicroservice(microservice);
         if (!removed) {
             return ResponseEntity.notFound().build();
         }
@@ -172,35 +139,32 @@ public class RestController {
 
     @PutMapping("/analysis/{analysisId}/smell/{smellId}/effortTime")
     public ResponseEntity<Void> setEffortTime(@PathVariable String analysisId, @PathVariable int smellId, @RequestBody EffortTime effortTime) {
-        Smell smell = smellService.findSmellById(analysisId, smellId);
-        if (smell == null) {
-            return ResponseEntity.notFound().build();
-        }
+        Smell smell = facadeService.findSmellById(analysisId, smellId);
+        if (smell == null) {return ResponseEntity.notFound().build();}
+
         smell.setEffortTime(effortTime);
-        effortTimeService.saveEffortTime(effortTime);
-        smellService.saveSmell(smell);
+        facadeService.saveEffortTime(effortTime);
+        facadeService.saveSmell(smell);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("analysis/{analysisId}/smell/{smellId}/checkbox")
     public ResponseEntity<Void> setCheckbox(@PathVariable String analysisId, @PathVariable int smellId, @RequestBody boolean checkbox) {
-        Smell smell = smellService.findSmellById(analysisId, smellId);
-        if (smell == null) {
-            return ResponseEntity.notFound().build();
-        }
+        Smell smell = facadeService.findSmellById(analysisId, smellId);
+        if (smell == null) {return ResponseEntity.notFound().build();}
+
         smell.setChecked(checkbox);
-        smellService.saveSmell(smell);
+        facadeService.saveSmell(smell);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("analysis/{analysisId}/smell/{smellId}/status")
     public ResponseEntity<Void> setStatus(@PathVariable String analysisId, @PathVariable int smellId, @RequestBody SmellStatus smellStatus) {
-        Smell smell = smellService.findSmellById(analysisId, smellId);
-        if (smell == null) {
-            return ResponseEntity.notFound().build();
-        }
+        Smell smell = facadeService.findSmellById(analysisId, smellId);
+        if (smell == null) {return ResponseEntity.notFound().build();}
+
         smell.setStatus(smellStatus);
-        smellService.saveSmell(smell);
+        facadeService.saveSmell(smell);
         return ResponseEntity.ok().build();
     }
 }

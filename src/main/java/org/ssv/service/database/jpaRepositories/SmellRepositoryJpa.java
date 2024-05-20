@@ -3,7 +3,7 @@ package org.ssv.service.database.jpaRepositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.ssv.model.Microservice;
 import org.ssv.model.Smell;
-import org.ssv.service.database.SmellId;
+import org.ssv.service.SmellId;
 
 import java.util.List;
 

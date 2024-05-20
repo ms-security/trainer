@@ -1,4 +1,4 @@
-package org.ssv.service.database;
+package org.ssv.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
