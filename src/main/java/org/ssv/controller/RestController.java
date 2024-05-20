@@ -55,6 +55,13 @@ public class RestController {
         return analysis != null ? ResponseEntity.ok().body(analysis) : ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/analysis/{analysisId}/smells/{smellId}")
+    public ResponseEntity<Smell> getSmell(@PathVariable String analysisId, @PathVariable int smellId) {
+        Smell smell = facadeService.findSmellById(analysisId, smellId);
+        return smell != null ? ResponseEntity.ok().body(smell) : ResponseEntity.notFound().build();
+
+    }
+
     @DeleteMapping("/analysis/{analysisId}")
     public ResponseEntity<Void> deleteAnalysis(@PathVariable String analysisId){
         boolean isRemoved = facadeService.deleteAnalysisById(analysisId);

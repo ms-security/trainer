@@ -10,7 +10,9 @@ import {Box, Modal} from "@mui/material";
 import {useAnalysis} from "../../contexts/AnalysisContext";
 import MicroserviceManager from "../../components/microserviceManager/MicroserviceManager";
 import {Microservice} from "../../interfaces/Microservice";
-import {Smell} from "../../interfaces/Smell";
+import {useFilter} from "../../hooks/useFilter";
+import queryString from "query-string";
+import {filterSmells, useParsedFiltersFromUrl} from "../../util/filterSmells";
 
 const style = {
     position: 'absolute',
@@ -27,10 +29,11 @@ const style = {
 const AnalysisPage = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice, updateMicroservice, deleteMicroservice, filters, changeCheckboxValue, changeSmellStatus} = useAnalysis();
+    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice, updateMicroservice, deleteMicroservice, changeCheckboxValue, changeSmellStatus} = useAnalysis();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
     const [showModal, setShowModal] = useState(false);
     const [currentMicroservice, setCurrentMicroservice] = useState<Microservice | undefined>(undefined);
+    const [filters, updateFilters] = useFilter(useParsedFiltersFromUrl());
 
     useEffect(() => {
         if (id) {
@@ -40,7 +43,8 @@ const AnalysisPage = () => {
 
     const handleSmellClick = (smellId: number) => {
         console.log("check params:", id, smellId);
-        navigate(`/analysis/${id}/smell/${smellId}`);
+        const queryStringified = queryString.stringify(filters, { arrayFormat: 'bracket' });
+        navigate(`/analysis/${id}/smell/${smellId}?${queryStringified}`);
     };
 
     const toggleModal = () => {
@@ -111,25 +115,7 @@ const AnalysisPage = () => {
         setShowModal(true);
     };
 
-    const filterSmells = (smells: Smell[]): Smell[] => {
-        return smells.filter(smell => {
-            if (filters.isChecked === true && !smell.checked) {
-                return false;
-            }
-            const matchUrgency =
-                !(filters.urgencyCode && filters.urgencyCode.length) || // Se l'array è vuoto, restituisci true
-                (!smell.urgencyCode && filters.urgencyCode.includes(undefined) ||
-                    (smell.urgencyCode && filters.urgencyCode.includes(smell.urgencyCode))
-                ); // Se lo smell ha un attributo urgencyCode, controlla se è incluso nell'array urgencyCodes
-            const matchStatus = filters.smellStatus?.length ? filters.smellStatus.includes(smell.status) : true;
-            const matchMicroservice = filters.microservice?.length ? filters.microservice.includes(smell.microservice?.name as string) : true;
-            const smellCodes = smell.name.split(', '); // Assumiamo che i codici siano separati da ", "
-            const matchSmellCode = filters.smellCodes?.length ? filters.smellCodes.some(code => smellCodes.includes(code)) : true;
 
-
-            return matchUrgency && matchStatus && matchMicroservice && matchSmellCode;
-        });
-    };
 
     const handleCheckboxChange = async (smellId: number, checkboxValue: boolean) => {
         console.log('Checkbox changed:', smellId, checkboxValue);
@@ -156,11 +142,13 @@ const AnalysisPage = () => {
             <div className="analysisPage-grid">
                 <aside className="grid-sidebar">
                     {analysis && <Sidebar
+                        filters={filters}
+                        updateFilters={updateFilters}
                         microservices={analysis?.microservices || []}
                     />}
                 </aside>
                 <div className="grid-smells-list">
-                    {analysis && filterSmells(analysis.smells).map(smell => (
+                    {analysis && filterSmells(analysis.smells, filters).map(smell => (
                         <SmellCard
                             key={smell.id}
                             smellName={smell.name}

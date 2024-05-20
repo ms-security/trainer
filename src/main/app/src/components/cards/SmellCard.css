@@ -149,11 +149,11 @@
 }
 
 .urgency-indicator.Ø { background-color: lightblue; }
-.urgency-indicator.L { background-color: lightgreen; }
+.urgency-indicator.LN { background-color: lightgreen; }
 .urgency-indicator.LL { background-color: yellowgreen; }
-.urgency-indicator.M { background-color: yellow; }
+.urgency-indicator.ML { background-color: yellow; }
 .urgency-indicator.MM { background-color: orange; }
-.urgency-indicator.H { background-color: red; }
+.urgency-indicator.HM { background-color: red; }
 .urgency-indicator.HH { background-color: firebrick; }
 
 .smell-content h3 {

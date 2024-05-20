@@ -74,6 +74,7 @@ function HomePage() {
                 {analyses.length > 0 ? (
                     analyses.map((analysis) => (
                         <AnalysisCard
+                            key={analysis.id}
                             name={analysis.name}
                             smells={analysis.smells}
                             date={analysis.date}

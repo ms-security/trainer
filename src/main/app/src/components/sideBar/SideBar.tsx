@@ -4,20 +4,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faAngleDown, faAngleRight, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import { Microservice } from "../../interfaces/Microservice";
 import {SmellStatus, UrgencyCode } from "../../interfaces/Smell";
-import { useAnalysis } from "../../contexts/AnalysisContext";
 import {SmellFilter} from "../../interfaces/SmellFilter";
+import {useFilter} from "../../hooks/useFilter";
+
 
 interface SidebarProps {
     microservices: Microservice[];
+    filters: SmellFilter;
+    updateFilters: (filters: Partial<SmellFilter>) => void;
 }
 
 const urgencyCodeDescriptions: Record<UrgencyCode | 'undefined', { color: string, description: string }> = {
     HH: { color: "dark-red", description: "High" },
-    H: { color: "light-coral", description: "Medium to High" },
+    HM: { color: "light-coral", description: "Medium to High" },
     MM: { color: "orange", description: "Medium" },
-    M: { color: "yellow", description: "Low to Medium" },
+    ML: { color: "yellow", description: "Low to Medium" },
     LL: { color: "yellow-green", description: "Low" },
-    L: { color: "light-green", description: "None to Low" },
+    LN: { color: "light-green", description: "None to Low" },
     Ø: { color: "darkgreen", description: "None" },
     undefined: { color: "gray", description: "Undefined" }
 };
@@ -43,22 +46,20 @@ const formatSmellStatus = (status : SmellStatus) => {
         .replace(/\b(\w)/g, char => char.toUpperCase()); // Capitalize the first letter of each word
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
+const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }) => {
     const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({ urgencyCodes: true });
-    const { filters, setFilters } = useAnalysis();
 
     const toggleSection = (section: string) => {
         setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
     };
 
     useEffect(() => {
-        // Assicurarsi che i filtri dei microservizi rimangano validi anche quando i microservizi cambiano
         const currentMicroserviceNames = new Set(microservices.map(m => m.name));
         const validMicroservices = (filters.microservice || []).filter(name => currentMicroserviceNames.has(name));
         if (validMicroservices.length !== (filters.microservice || []).length) {
-            setFilters({ ...filters, microservice: validMicroservices });
+            updateFilters({ ...filters, microservice: validMicroservices });
         }
-    }, [microservices, filters, setFilters]);
+    }, [microservices, filters, updateFilters]);
 
     const countActiveFilters = (filterKey: keyof SmellFilter): number => {
         const filterArray = filters[filterKey];
@@ -67,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
 
 
     const removeSectionFilters = (filterKey: keyof SmellFilter) => {
-        setFilters({
+        updateFilters({
             ...filters,
             [filterKey]: []
         });
@@ -88,7 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
         else {
             newUrgencyCodes.add(code);
         }
-        setFilters({ ...filters, urgencyCode: Array.from(newUrgencyCodes) });
+        updateFilters({ ...filters, urgencyCode: Array.from(newUrgencyCodes) });
     };
 
     const toggleSmellCode = (code: string) => {
@@ -98,11 +99,11 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
         } else {
             newSmellCodes.add(code);
         }
-        setFilters({ ...filters, smellCodes: Array.from(newSmellCodes) });
+        updateFilters({ ...filters, smellCodes: Array.from(newSmellCodes) });
     };
 
     const clearFilters = () => {
-        setFilters({
+        updateFilters({
             ...filters,
             isChecked: filters.isChecked !== undefined ? filters.isChecked : false,
             smellStatus: [],
@@ -126,7 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
         } else {
             newMicroservices.add(microserviceName);
         }
-        setFilters({ ...filters, microservice: Array.from(newMicroservices) });
+        updateFilters({ ...filters, microservice: Array.from(newMicroservices) });
     };
 
     const toggleSmellStatus = (status: SmellStatus) => {
@@ -136,15 +137,15 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices }) => {
         } else {
             newSmellStatus.add(status);
         }
-        setFilters({ ...filters, smellStatus: Array.from(newSmellStatus) });
+        updateFilters({ ...filters, smellStatus: Array.from(newSmellStatus) });
     };
 
 
     return (
         <div className="sidebar-wrapper">
             <div className="filter-controls">
-                <button className={!filters.isChecked ? "active" : ""} onClick={() => setFilters({ ...filters, isChecked: false })}>All smells</button>
-                <button className={filters.isChecked ? "active" : ""} onClick={() => setFilters({ ...filters, isChecked: true })}>Checked</button>
+                <button className={!filters.isChecked ? "active" : ""} onClick={() => updateFilters({ ...filters, isChecked: false })}>All smells</button>
+                <button className={filters.isChecked ? "active" : ""} onClick={() => updateFilters({ ...filters, isChecked: true })}>Checked</button>
             </div>
             <div className="filters-header">
                 <h2>Filters</h2>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import './SmellPage.css';
 import { Smell, UrgencyCode } from "../../interfaces/Smell";
@@ -9,23 +9,23 @@ import { Category } from "../../interfaces/QualityAttribute";
 import MicroserviceBanner from "../../components/microserviceBanner/MicroserviceBanner";
 import EffortTimeBanner from "../../components/effortTimeBanner/EffortTimeBanner";
 import { EffortTime } from "../../interfaces/EffortTime";
+import queryString from "query-string";
+import {SmellFilter} from "../../interfaces/SmellFilter";
+import {filterSmells, useParsedFiltersFromUrl} from "../../util/filterSmells";
 
 const SmellPage = () => {
     const { analysisId, smellId } = useParams<{ analysisId: string, smellId: string }>();
     const [smell, setSmell] = useState<Smell | undefined>();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
     const { getSmellById, fetchAnalysisById, addEffortTime, changeSmellStatus } = useAnalysis();
+    const filters = useParsedFiltersFromUrl()
     const navigate = useNavigate();
 
     useEffect(() => {
         console.log("Check Params:", analysisId, smellId);
         if (analysisId && smellId) {
             fetchAnalysisById(analysisId).then(setAnalysis);
-            console.log("Fetching smell for Analysis ID:");
-            const fetchedSmell = getSmellById(analysisId, parseInt(smellId));
-            console.log("Fetched Smell:", fetchedSmell);
-            setSmell(fetchedSmell);
-            console.log(fetchedSmell);
+            getSmellById(analysisId, parseInt(smellId)).then(setSmell);
         }
     }, [analysisId, smellId]);
 
@@ -34,8 +34,8 @@ const SmellPage = () => {
     };
 
     const handleSmellClick = (analysisId: string, smellId: number) => {
-        console.log("check params:", analysisId, smellId);
-        navigate(`/analysis/${analysisId}/smell/${smellId}`);
+        const queryStringified = queryString.stringify(filters, { arrayFormat: 'bracket' });
+        navigate(`/analysis/${analysisId}/smell/${smellId}?${queryStringified}`);
     };
 
     const handleEffortTimeChange = (newEffortTime: EffortTime) => {
@@ -50,7 +50,8 @@ const SmellPage = () => {
 
     const handleBackClick = (analysisId: string | undefined) => {
         console.log("check params:", analysisId);
-        navigate(`/analysis/${analysisId}`);
+        const queryStringified = queryString.stringify(filters, { arrayFormat: 'bracket' });
+        navigate(`/analysis/${analysisId}?${queryStringified}`);
     };
 
     const handleSmellStatusChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,9 +69,7 @@ const SmellPage = () => {
     };
 
     const replaceFileNamesWithSpans = (text: string | undefined, fileName: string | undefined) => {
-        console.log("Text:", text, "FileName:", fileName);
         if(!text || !fileName) return text;
-        console.log("Text:", text, "FileName:", fileName);
         const regex = /<([^>]+)>/g;
         const parts = text.split(regex);
         return parts.map((part, index) =>
@@ -108,7 +107,7 @@ const SmellPage = () => {
                         <div className="smellPage-smellIndex-fixed">
                             <h3 className="smellPage-smellIndex">Smell: {smell?.id} / {analysis?.smells.length}</h3>
                         </div>
-                        {analysis?.smells.map((smell) => (
+                        {analysis && filterSmells(analysis.smells, filters).map(smell => (
                             <div key={smell.id} className="smellPage-smellListCard"
                                  onClick={() => handleSmellClick(analysis?.id, smell.id)}>
                                 <div className="smellPage-smellList-scripts">

@@ -48,11 +48,11 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
 
     const smellCounts = {
         'red-smell': countSmellsByUrgency(UrgencyCode.HH),
-        'orange-smell': countSmellsByUrgency(UrgencyCode.H),
+        'orange-smell': countSmellsByUrgency(UrgencyCode.HM),
         'yellow-smell': countSmellsByUrgency(UrgencyCode.MM),
-        'green-smell': countSmellsByUrgency(UrgencyCode.M),
+        'green-smell': countSmellsByUrgency(UrgencyCode.ML),
         'lightblue-smell': countSmellsByUrgency(UrgencyCode.LL),
-        'blue-smell': countSmellsByUrgency(UrgencyCode.L),
+        'blue-smell': countSmellsByUrgency(UrgencyCode.LN),
         'blank-smell': countSmellsByUrgency(UrgencyCode.Ø),
         'undefined-smell': countSmellsByUrgency(null)
     };
