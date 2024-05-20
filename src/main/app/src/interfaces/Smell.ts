@@ -20,11 +20,11 @@ export interface Smell {
 
 export enum UrgencyCode {
     HH = "HH",
-    H = "H",
+    HM = "HM",
     MM = "MM",
-    M = "M",
+    ML = "ML",
     LL = "LL",
-    L = "L",
+    LN = "LN",
     Ø = "Ø"
 }
 

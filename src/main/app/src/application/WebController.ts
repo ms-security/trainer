@@ -1,6 +1,7 @@
 import {Analysis} from "../interfaces/Analysis";
 import {Microservice} from "../interfaces/Microservice";
 import {EffortTime} from "../interfaces/EffortTime";
+import {Smell} from "../interfaces/Smell";
 
 export default class WebController{
     static async newAnalysis(file: File, name: string, date: string, extension: string): Promise<Analysis> {
@@ -177,6 +178,20 @@ export default class WebController{
             throw new Error('Failed to change smell status');
         }
         console.log('Smell status changed successfully');
+    }
+
+    static async fetchSmellById(analysisId: string, smellId: number): Promise<Smell> {
+        const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch smell from the server');
+        }
+        const smell: Smell = await response.json();
+        return smell;
     }
 
 }

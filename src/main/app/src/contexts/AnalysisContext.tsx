@@ -8,8 +8,6 @@ import {SmellFilter} from "../interfaces/SmellFilter";
 
 interface AnalysisContextType {
     analyses: Analysis[];
-    filters: SmellFilter;
-    setFilters: (newFilters: SmellFilter) => void;
     fetchAnalyses: () => Promise<void>;
     fetchAnalysisById: (id: string) => Promise<Analysis | undefined>;
     addAnalysis: (file: File, name: string, date: string, extension: string) => Promise<void>;
@@ -17,7 +15,7 @@ interface AnalysisContextType {
     toggleFavoriteStatus: (analysisId: string) => Promise<void>;
     addMicroservice: (data: any, analysisId: string) => Promise<void>;
     updateMicroservice: (data: any, analysisId: string) => Promise<void>;
-    getSmellById: (analysisId: string, smellId: number) => Smell | undefined;
+    getSmellById: (analysisId: string, smellId: number) => Promise<Smell | undefined>;
     addSmellToMicroservice: (analysisId: string, microserviceId: string, smellId: number) => Promise<void>;
     deleteMicroservice: (analysisId: string, microserviceName: string) => Promise<void>;
     addEffortTime: (analysisId: string, smellId: number, effortTime: EffortTime) => Promise<void>;
@@ -35,7 +33,6 @@ export const useAnalysis = () => {
 
 export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const [analyses, setAnalyses] = useState<Analysis[]>([]);
-    const [filters, setFilters] = useState<SmellFilter>({});
 
     const fetchAnalyses = useCallback(async () => {
         try {
@@ -130,14 +127,15 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const getSmellById = useCallback((analysisId: string, smellId: number) => {
-        const analysis = analyses.find(a => a.id === analysisId);
-        console.log("ciao ddw");
-        if (analysis) {
-            return analysis.smells.find(s => s.id === smellId);
+    const getSmellById = async (analysisId: string, smellId: number): Promise<Smell | undefined> => {
+        try {
+            const analysis = await WebController.fetchAnalysis(analysisId);
+            return analysis.smells.find(smell => smell.id === smellId);
+        } catch (error) {
+            console.error('Failed to get smell by ID:', error);
+            return undefined;
         }
-        return undefined;
-    }, [analyses]);
+    }
 
     const addEffortTime = async (analysisId: string, smellId: number, effortTime: EffortTime) => {
         try {
@@ -177,8 +175,6 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
     return (
         <AnalysisContext.Provider value={{
             analyses,
-            filters,
-            setFilters,
             fetchAnalyses,
             addAnalysis,
             fetchAnalysisById,
