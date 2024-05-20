@@ -114,10 +114,10 @@ const SmellPage = () => {
                                 <div className="smellPage-smellList-scripts">
                                     <h3 className="smellPage-smellCardTitle">{smell.name}</h3>
                                     <p className="smellPage-smellCardMicroservice">{"Microservice: " + smell.microservice?.name || ''}</p>
-                                    <p className="smellPage-smellList-effortTime">
-                                        {smell.effortTime ? `${smell.effortTime.value} ${smell.effortTime.unitOfTime}` : ''}
-                                    </p>
                                 </div>
+                                <p className="smellPage-smellList-effortTime">
+                                    {smell.effortTime ? `${smell.effortTime.value} ${smell.effortTime.unitOfTime}` : ''}
+                                </p>
                                 <div className={getUrgencyClass(smell?.urgencyCode)}></div>
                             </div>
                         ))}
@@ -176,15 +176,6 @@ const SmellPage = () => {
                         </div>
                     </div>
                 </main>
-
-                <nav className="smellPage-toc">
-                    <h3 className="smellPage-tocTitle">Table of Contents</h3>
-                    <ul>
-                        <li><a href="#analysis-output">Analysis Output</a></li>
-                        <li><a href="#refactoring">Refactoring</a></li>
-                        <li><a href="#impact-smell-refactoring">Smell & Refactor Impacts</a></li>
-                    </ul>
-                </nav>
             </div>
         </div>
     );

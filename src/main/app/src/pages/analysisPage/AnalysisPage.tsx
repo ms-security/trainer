@@ -164,11 +164,14 @@ const AnalysisPage = () => {
                         <SmellCard
                             key={smell.id}
                             smellName={smell.name}
+                            extendedName={smell.extendedName}
+                            outputAnalysis={smell.outputAnalysis}
                             smellId={smell.id}
                             smellDescription={smell.description}
                             urgencyCode={smell.urgencyCode}
                             isChecked={smell.checked}
                             smellStatus={smell.status}
+                            effortTime={smell.effortTime}
                             onClick={() => handleSmellClick(smell.id)}
                             microservices={analysis.microservices || []}
                             onAssignMicroservice={handleAssignMicroserviceToSmell}

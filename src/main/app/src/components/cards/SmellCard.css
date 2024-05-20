@@ -1,7 +1,104 @@
-.smell-card {
+.smellCard-container {
     height: 130px;
     display: flex;
     flex-direction: column;
+    margin: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.smellCard-extendedName-mainPart-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+}
+
+.smellCard-checkBox-text-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container {
+    margin-right: 20px;
+}
+
+.smellCard-mainPart-container {
+    flex-grow: 1;
+}
+
+.smellCard-extendedName {
+    width: fit-content;
+    margin: 0;
+    padding: 5px;
+    background-color: white;
+    border: 1px solid #b3daff;
+    border-radius: 10px;
+    font-size: 10px;
+    color: black;
+    display: inline-block;
+}
+
+.smellCard-text {
+    text-align: left;
+    padding-left: 10px;
+    border-left: 2px solid #e6f7ff;
+}
+
+.smellCard-smellDescription {
+    margin: 10px 0 10px 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.smellCard-container-info {
+    display: flex;
+    align-items: center;
+}
+
+.importance-status {
+    display: flex;
+    align-items: center;
+}
+
+.status-dropdown select, .microservice-dropdown select {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.status-dropdown {
+    margin-right: 10px; /* Space between the status dropdown and urgency indicator */
+}
+
+.urgency-indicator {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: grey;
+}
+
+.urgency-indicator.Ø { background-color: lightblue; }
+.urgency-indicator.L { background-color: lightgreen; }
+.urgency-indicator.LL { background-color: yellowgreen; }
+.urgency-indicator.M { background-color: yellow; }
+.urgency-indicator.MM { background-color: orange; }
+.urgency-indicator.H { background-color: red; }
+.urgency-indicator.HH { background-color: firebrick; }
+
+.microservice-dropdown {
+    min-width: 150px;
+}
+
+
+
+/*.smell-card {
+    height: 130px;
+    display: flex;
     justify-content: space-between;
     margin: 10px;
     padding: 5px;
@@ -25,7 +122,7 @@
 .smell-description {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3; /* Number of lines to display */
+    -webkit-line-clamp: 3;
     margin: 2px 36px 2px;
     text-align: left;
     overflow: hidden;
@@ -48,7 +145,7 @@
     width: 20px;
     margin-right: 10px;
     border-radius: 50%;
-    background-color: grey; /* Default color for undefined urgency */
+    background-color: grey;
 }
 
 .urgency-indicator.Ø { background-color: lightblue; }
@@ -79,5 +176,7 @@
 
 .checkbox-container input[type="checkbox"] {
     transform: scale(1.5);
-    margin-left: 10px; /* Space before the checkbox */
-}
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}*/

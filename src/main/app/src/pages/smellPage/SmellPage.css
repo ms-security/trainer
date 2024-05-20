@@ -21,7 +21,7 @@
 }
 
 .smellPage-statusDropdown{
-    margin: 2px 10px 2px auto;
+    margin: 2px 0 2px auto;
 }
 
 .smellPage-statusDropdown select {
@@ -73,9 +73,9 @@
 {/********************************************************************************/}
 
 .smellPage-layout { /*container pagina totale*/
-    display: grid; /* Using grid layout */
-    grid-template-areas: 'sidebar main toc';
-    grid-template-columns: 30% 50% 20%;
+    display: grid;
+    grid-template-areas: 'sidebar main';
+    grid-template-columns: 30% 70%;
     margin-top: 0;
     height: calc(100vh - 120px);
 }
@@ -93,24 +93,6 @@
     background-color: white;
     overflow-y: auto;
     padding: 0 20px 0 20px;
-}
-
-.smellPage-toc{
-    grid-area: toc;
-    height: fit-content;
-    margin: 20px 10px 2px 10px;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    border-radius: 8px;
-    border: 1px solid black;
-    text-align: left;
-    overflow-y: auto;
-}
-
-.smellPage-tocTitle{
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .smellPage-sidebarContent {
@@ -136,7 +118,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    margin: 5px 2px;
+    margin: 5px 20px 2px 20px;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 8px;
@@ -174,22 +156,12 @@
 }
 
 .smellPage-smellTitle{
-    margin: 0;
-}
-
-.smellPage-smellRefactor-container { /*container box smell & box refactoring*/
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    margin-left: 20px;
-    margin-right: 20px;
-    overflow: visible;
+    margin: 0 30px 0 30px;
 }
 
 .smellPage-smellK{ /*box smell*/
-    width: 98%;
     height: fit-content;
-    margin-top: 10px;
+    margin: 10px 30px 0 30px;
     padding: 5px;
     background: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -214,9 +186,8 @@
 }
 
 .smellPage-refactoring { /*box refactoring*/
-    width: 98%;
     height: fit-content;
-    margin-top: 10px;
+    margin: 10px 30px 0 30px;
     padding: 5px;
     background: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -247,18 +218,6 @@
     border-radius: 4px;
     font-family: monospace;
 }
-
-.smellPage-smellDefinition{
-    width: fit-content;
-    height: fit-content;
-    margin-top: 10px;
-    padding: 5px;
-    background: lightseagreen;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    border-radius: 8px;
-}
-
-
 /************************************************/
 
 .smellPage-properties {
@@ -266,8 +225,7 @@
     grid-template-columns: repeat(2, 1fr); /* Two columns of equal width */
     column-gap: 20px;
     row-gap: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px 30px 20px 30px;
 }
 
 .smellPage-smellImpact, .smellPage-refactoringImpact {

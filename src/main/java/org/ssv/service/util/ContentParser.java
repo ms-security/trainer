@@ -52,7 +52,7 @@ public abstract class ContentParser {
     private Refactoring updateRefactor(Refactoring refactoring, String fileName) {
         String refactor = refactoring.getRefactor();
         if (fileName != null) {
-            refactor = refactor.replace("template", fileName);
+            refactor = refactor.replace("file_name", fileName);
         }
         return Refactoring.builder()
             .refactor(refactor)
@@ -128,7 +128,7 @@ public abstract class ContentParser {
     }
 
     private String extractNEDEFileName(String description) {
-        Pattern pattern = Pattern.compile("File: (\\S+)");
+        Pattern pattern = Pattern.compile("File: (\\S+):");
         Matcher matcher = pattern.matcher(description);
         if (matcher.find()) {
             return matcher.group(1);
