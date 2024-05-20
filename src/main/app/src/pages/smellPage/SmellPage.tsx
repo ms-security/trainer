@@ -134,6 +134,7 @@ const SmellPage = () => {
                         <h3 className="smellPage-refactorName">Refactoring - {smell?.refactoring.name}</h3>
                         <p className="smellPage-refactorDescription">{replaceFileNamesWithSpans(smell?.refactoring.refactor, smell?.refactoring.relatedFileName)}</p>
                     </div>
+
                     <div id="impact-smell-refactoring" className="smellPage-properties">
                         <div className="smellPage-smellImpact">
                             <h3 className="smellPage-propertiesSmellImpact">Smell Impact</h3>
