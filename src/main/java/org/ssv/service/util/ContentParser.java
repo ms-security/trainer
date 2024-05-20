@@ -50,18 +50,16 @@ public abstract class ContentParser {
     }
 
     private Refactoring updateRefactor(Refactoring refactoring, String fileName) {
+        String refactor = refactoring.getRefactor();
         if (fileName != null) {
-            String refactor = refactoring.getRefactor();
             refactor = refactor.replace("template", fileName);
-
-            return Refactoring.builder()
-                    .refactor(refactor)
-                    .name(refactoring.getName())
-                    .propertiesAffected(refactoring.getPropertiesAffected())
-                    .relatedFileName(fileName)
-                    .build();
         }
-        return null;
+        return Refactoring.builder()
+            .refactor(refactor)
+            .name(refactoring.getName())
+            .propertiesAffected(refactoring.getPropertiesAffected())
+            .relatedFileName(fileName)
+            .build();
     }
 
     private String extractUPMFileName(String description) {
@@ -109,6 +107,11 @@ public abstract class ContentParser {
     private String extractOCCFileName(String description) {
         Pattern pattern = Pattern.compile("Potential usage of custom crypto code in (\\S+)");
         Matcher matcher = pattern.matcher(description);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        pattern = Pattern.compile("Sonarqube found potential problems in (\\S+)");
+        matcher = pattern.matcher(description);
         if (matcher.find()) {
             return matcher.group(1);
         }
