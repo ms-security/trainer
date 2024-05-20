@@ -10,7 +10,7 @@
       ],
       "refactoring": {
         "name": "Apply Least Privilege Principle",
-        "refactor": "The microservice <template> should have the least amount of access privileges they need to suitably perform their business function.",
+        "refactor": "The microservice associated with <template> should have the least amount of access privileges they need to suitably perform their business function.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -179,7 +179,7 @@
         {"category": "MAINTAINABILITY", "name": "Testability", "impactsPositively": 1}
       ],
       "refactoring": {
-        "name": " Use Decentralized Authorization",
+        "name": "Use Decentralized Authorization",
         "refactor": "The effects of this smell, detected missing access control in <template>, can be mitigated by using Decentralized Authorization which can be achieved by developing a token-based authorization mechanism. JSON Web Token (JWT) is the most used mechanism to implement such refactoring.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},

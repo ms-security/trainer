@@ -7,6 +7,7 @@ export interface Smell {
     id: number,
     name: string,
     description: string;
+    outputAnalysis: string;
     status: SmellStatus;
     refactoring: Refactoring;
     extendedName: string;
@@ -18,12 +19,12 @@ export interface Smell {
 }
 
 export enum UrgencyCode {
+    HH = "HH",
     H = "H",
-    h = "h",
+    MM = "MM",
     M = "M",
-    m = "m",
+    LL = "LL",
     L = "L",
-    l = "l",
     Ø = "Ø"
 }
 

@@ -179,7 +179,6 @@
     font-weight: bold;
 }
 
-
 .color-dot {
     height: 10px;
     width: 10px;
@@ -187,11 +186,11 @@
     margin-right: 10px;
 }
 
-.color-dot.dark-red { background-color: darkred; }
-.color-dot.light-coral { background-color: lightcoral; }
+.color-dot.dark-red { background-color: firebrick; }
+.color-dot.light-coral { background-color: red; }
 .color-dot.orange { background-color: orange; }
 .color-dot.yellow { background-color: yellow; }
 .color-dot.yellow-green { background-color: yellowgreen; }
 .color-dot.light-green { background-color: lightgreen; }
-.color-dot.darkgreen { background-color: darkgreen; }
+.color-dot.darkgreen { background-color: lightblue; }
 .color-dot.gray { background-color: gray; }

@@ -12,12 +12,12 @@ interface SidebarProps {
 }
 
 const urgencyCodeDescriptions: Record<UrgencyCode | 'undefined', { color: string, description: string }> = {
-    H: { color: "dark-red", description: "High" },
-    h: { color: "light-coral", description: "Medium to High" },
-    M: { color: "orange", description: "Medium" },
-    m: { color: "yellow", description: "Low to Medium" },
-    L: { color: "yellow-green", description: "Low" },
-    l: { color: "light-green", description: "None to Low" },
+    HH: { color: "dark-red", description: "High" },
+    H: { color: "light-coral", description: "Medium to High" },
+    MM: { color: "orange", description: "Medium" },
+    M: { color: "yellow", description: "Low to Medium" },
+    LL: { color: "yellow-green", description: "Low" },
+    L: { color: "light-green", description: "None to Low" },
     Ø: { color: "darkgreen", description: "None" },
     undefined: { color: "gray", description: "Undefined" }
 };
@@ -31,7 +31,7 @@ const smellCodeDescriptions: Record<string, string> = {
     CA: "Centralized Authorization",
     MUA: "Multiple User Authentication",
     UT: "Unauthenticated Traffic",
-    NDE: "Non-Encrypted Data Exposure",
+    NEDE: "Non-Encrypted Data Exposure",
     PAM: "Publicly Accessible Microservices"
 };
 
