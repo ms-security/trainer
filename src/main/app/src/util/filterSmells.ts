@@ -1,10 +1,38 @@
-import {Smell} from "../interfaces/Smell";
+import {Smell, UrgencyCode} from "../interfaces/Smell";
 import {SmellFilter} from "../interfaces/SmellFilter";
 import queryString from "query-string";
 import {useLocation} from "react-router-dom";
+import {EffortTime, UnitOfTime} from "../interfaces/EffortTime";
 
-export const filterSmells = (smells: Smell[], filters: SmellFilter) => {
-    return smells.filter(smell => {
+const urgencyOrder: UrgencyCode[] = [
+    UrgencyCode.HH,
+    UrgencyCode.HM,
+    UrgencyCode.MM,
+    UrgencyCode.ML,
+    UrgencyCode.LL,
+    UrgencyCode.LN,
+    UrgencyCode.Ø
+];
+
+const unitToMinutes = (unit: UnitOfTime): number => {
+    switch (unit) {
+        case UnitOfTime.MIN:
+            return 1;
+        case UnitOfTime.H:
+            return 60;
+        case UnitOfTime.D:
+            return 1440;
+        default:
+            return 0;
+    }
+};
+
+const convertEffortTimeToMinutes = (effortTime?: EffortTime): number => {
+    if (!effortTime) return Number.MAX_SAFE_INTEGER;
+    return effortTime.value * unitToMinutes(effortTime.unitOfTime);
+};
+export const filterSmells = (smells: Smell[], filters: SmellFilter): Smell[] => {
+    let filteredSmells = smells.filter(smell => {
         if (filters.isChecked === true && !smell.checked) {
             return false;
         }
@@ -26,6 +54,36 @@ export const filterSmells = (smells: Smell[], filters: SmellFilter) => {
 
         return isVisibleBasedOnStatus && matchUrgency && matchStatus && matchMicroservice && matchSmellCode;
     });
+
+    if (filters.sortBy) {
+        switch (filters.sortBy) {
+            case 'urgencyTop':
+                filteredSmells.sort((a, b) => {
+                    if (a.urgencyCode === undefined) return 1;
+                    if (b.urgencyCode === undefined) return -1;
+                    return urgencyOrder.indexOf(a.urgencyCode) - urgencyOrder.indexOf(b.urgencyCode);
+                });
+                break;
+            case 'urgencyBottom':
+                filteredSmells.sort((a, b) => {
+                    if (a.urgencyCode === undefined) return 1;
+                    if (b.urgencyCode === undefined) return -1;
+                    return urgencyOrder.indexOf(b.urgencyCode) - urgencyOrder.indexOf(a.urgencyCode);
+                });
+                break;
+            case 'effortTop':
+                filteredSmells.sort((a, b) => convertEffortTimeToMinutes(b.effortTime) - convertEffortTimeToMinutes(a.effortTime));
+                break;
+            case 'effortBottom':
+                filteredSmells.sort((a, b) => convertEffortTimeToMinutes(a.effortTime) - convertEffortTimeToMinutes(b.effortTime));
+                break;
+            case 'none':
+            default:
+                break;
+        }
+    }
+
+    return filteredSmells;
 };
 
 export const useParsedFiltersFromUrl = (): SmellFilter => {

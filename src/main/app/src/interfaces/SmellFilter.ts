@@ -6,4 +6,5 @@ export interface SmellFilter {
     microservice?: string[];
     isChecked?: boolean;
     smellCodes?: string[];
+    sortBy?: 'none' | 'urgencyTop' | 'urgencyBottom' | 'effortTop' | 'effortBottom';
 }

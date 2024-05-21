@@ -26,10 +26,8 @@
     grid-area: smells;
     height: 100%;
     width: 100%;
-    overflow: hidden;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
 }
 
 .smells-list-header {
@@ -38,6 +36,12 @@
     padding: 20px 40px; /* Increased padding for height */
     border-bottom: 1px solid #ccc;
     background-color: #f4f4f4;
+}
+
+.smells-list-content {
+    overflow-y: auto;
+    height: calc(100% - 60px); /* 66px is the height of the header */
+    padding: 0 40px 0 40px;
 }
 
 .smells-list-header button {
@@ -55,10 +59,6 @@
 }
 
 
-.smells-list-content {
-    overflow-y: auto;
-    padding: 0 40px 0 40px;
-}
 /*
 .grid-microservice-manager {
     grid-area: microservice;
