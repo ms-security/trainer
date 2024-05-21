@@ -13,6 +13,8 @@ import {Microservice} from "../../interfaces/Microservice";
 import {useFilter} from "../../hooks/useFilter";
 import queryString from "query-string";
 import {filterSmells, useParsedFiltersFromUrl} from "../../util/filterSmells";
+import {EffortTime} from "../../interfaces/EffortTime";
+import {Smell} from "../../interfaces/Smell";
 
 const style = {
     position: 'absolute',
@@ -150,20 +152,11 @@ const AnalysisPage = () => {
                 <div className="grid-smells-list">
                     {analysis && filterSmells(analysis.smells, filters).map(smell => (
                         <SmellCard
-                            key={smell.id}
-                            smellName={smell.name}
-                            extendedName={smell.extendedName}
-                            outputAnalysis={smell.outputAnalysis}
-                            smellId={smell.id}
-                            smellDescription={smell.description}
-                            urgencyCode={smell.urgencyCode}
+                            smell={smell}
                             isChecked={smell.checked}
-                            smellStatus={smell.status}
-                            effortTime={smell.effortTime}
                             onClick={() => handleSmellClick(smell.id)}
                             microservices={analysis.microservices || []}
                             onAssignMicroservice={handleAssignMicroserviceToSmell}
-                            smellMicroservice={smell.microservice}
                             onCheckboxChange={handleCheckboxChange}
                             onStatusChange={handleSmellStatusChange}
                         />
