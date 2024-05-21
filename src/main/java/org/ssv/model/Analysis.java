@@ -30,25 +30,9 @@ public class Analysis {
     @Column(name = "is_favorite")
     private boolean isFavorite;
 
-    @JsonProperty("isTriageValid")
-    @Column(name = "is_triage_valid")
-    private boolean isTriageValid;
-
     @OneToMany(mappedBy = "analysisId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Smell> smells;
 
     @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Microservice> microservices;
-
-    @Override
-    public String toString() {
-        return "Analysis{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", date=" + date +
-                ", isFavorite=" + isFavorite +
-                ", isTriageValid=" + isTriageValid +
-                ", smells_count=" + (smells != null ? smells.size() : "null") +
-                '}';
-    }
 }

@@ -6,7 +6,6 @@ export interface Analysis {
     smells: Smell[];
     name: string;
     isFavorite: boolean;
-    isTriageValid: boolean;
     date: string
     microservices: Microservice[];
 }

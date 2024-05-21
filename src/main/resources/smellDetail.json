@@ -49,7 +49,7 @@
       ],
       "refactoring": {
         "name": "Use of Mutual Transport Layer Security",
-        "refactor": "The effects of this smell, detected in pod <file_name>, can be mitigated with the Use of Mutual Transport Layer Security. It provides a bidirectional encryption channel that ensures integrity and confidentiality in service-to-service comunications.",
+        "refactor": "The microservices in pod <file_name> should use Mutual Transport Layer Security (MTLS). MTLS provides a bidirectional encryption channel that ensures integrity and confidentiality in service-to-service comunications.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -68,7 +68,7 @@
       ],
       "refactoring": {
         "name": "Use of Established Encryption Technologies",
-        "refactor": "The use of own encryption solutions in <file_name> can cause Confidentiality, Integrity, and Authenticity issues. Replace this encryption method with established and well tested encryption algorithms.",
+        "refactor": "The own encryption solutions used in <file_name> should be replaced by reusing established encryption technologies.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -86,7 +86,7 @@
       ],
       "refactoring": {
         "name": "Add an API Gateway",
-        "refactor": "The effects of this smell can be mitagted by adding an API Gateway that centrally enforces security for all the requests entering the microservices application, including authentication, authorization, throttling, and message content validation for known security threats.",
+        "refactor": "An API Gateway should be used to centrally enforce security for all the requests entering the microservices application (e.g., authentication, authorization, throttling, and message content validation).",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
@@ -107,7 +107,7 @@
       ],
       "refactoring": {
         "name": "Encrypt all Sensitive Data at Rest",
-        "refactor": "The effects of this smell can be mitigated by encrypting all sensitive data. Encryption should be applied to <file_name>.",
+        "refactor": "All the sensitive data handled by the microservices in <file_name> should be suitably encrypted.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -123,7 +123,7 @@
       ],
       "refactoring": {
         "name": "Use Mutual TLS + OpenID Connect",
-        "refactor": "The effects of this smell can be mitigated by using (i) Mutual TLS and (ii) OpenID Connect. (i) Mutual TLS enables authentication between any two interacting services. (ii) OpenID Connect is the most used mechanism to manage user authentication and it is based on the use of an ID token, typically a JSON Web Token.",
+        "refactor": "The microservices in <file_name> should rely on Mutual TLS (which enables authentication between any two interacting services) and OpenID Connect (which manages user authentication, typically based on JSON Web Tokens).",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Integrity", "impactsPositively": 1},
@@ -143,7 +143,7 @@
       ],
       "refactoring": {
         "name": "Use Single Sign-On",
-        "refactor": "The effects of this smell, detected in <file_name>, can be mitigated with the use of Single Sign-On. This can be achieved by: (i) adding an API Gateway acting as a single entry point to the application; (ii) using OpenID Connect to share the user context among the microservices.",
+        "refactor": "The microservices in <file_name> should use a single sign-on. This can be achieved by: (i) adding an API Gateway acting as a single entry point to the application; (ii) using OpenID Connect to share the user context among the microservices.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
@@ -163,7 +163,7 @@
       ],
       "refactoring": {
         "name": "Use OAuth 2.0",
-        "refactor": "The effects of this smell, detected missing access control in <file_name>, can be mitigated through the use of Open Authorization (OAuth) 2.0.",
+        "refactor": "The missing access control in <file_name> should be mitigated by exploiting Open Authorization (OAuth) 2.0.",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Confidentiality", "impactsPositively": 1},
           {"category": "MAINTAINABILITY", "name": "Reusability", "impactsPositively": 1}
@@ -180,7 +180,7 @@
       ],
       "refactoring": {
         "name": "Use Decentralized Authorization",
-        "refactor": "The effects of this smell, detected missing access control in <file_name>, can be mitigated by using Decentralized Authorization which can be achieved by developing a token-based authorization mechanism. JSON Web Token (JWT) is the most used mechanism to implement such refactoring.",
+        "refactor": "The authorization for the microservices in <file_name> should be decentralized through token-based authorization mechanism, e.g., JSON Web Token (JWT).",
         "propertiesAffected": [
           {"category": "SECURITY", "name": "Authenticity", "impactsPositively": 1},
           {"category": "MAINTAINABILITY", "name": "Testability", "impactsPositively": 0},

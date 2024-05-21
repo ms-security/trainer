@@ -44,7 +44,6 @@
     display: inline-flex;
     align-items: center; /* Vertically center the icon */
     justify-content: center; /* Horizontally center the icon */
-    padding: 15px 25px;
     border: none;
     background-color: transparent;
     color: #4CAF50;
@@ -76,4 +75,12 @@
 .no-analysis-message {
     font-size: 1.5em;
     color: #666;
+}
+
+.star-filter {
+    color: #4CAF50;
+}
+
+.star-filter.active {
+    color: gold;
 }
