@@ -30,17 +30,6 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                                                    }) => {
     const formattedDate = date.slice(0, 10);
 
-    const urgencyToColor = {
-        HH: 'red-smell',
-        H: 'orange-smell',
-        MM: 'yellow-smell',
-        M: 'green-smell',
-        LL: 'lightblue-smell',
-        L: 'blue-smell',
-        Ø: 'blank-smell',
-        null: 'undefined-smell'
-    };
-
     // Function to count smells by urgency
     const countSmellsByUrgency = (urgency?: UrgencyCode | null) => {
         return smells.filter(smell => smell.urgencyCode === urgency).length;

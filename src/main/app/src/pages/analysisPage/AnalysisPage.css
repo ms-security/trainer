@@ -7,16 +7,17 @@
 .analysisPage-grid {
     height: calc(100vh - 66px);
     display: grid;
-    grid-template-columns: 25% 50% 25%;
-    grid-template-areas: "sidebar smells microservice";
+    grid-template-columns: 25% 75%;
+    grid-template-areas: "sidebar smells";
     margin-top: 66px;
-    gap: 0;
+    gap: 0px;
     overflow: hidden;
 }
 
 .grid-sidebar {
     grid-area: sidebar;
     width: 100%;
+    border-left: 2px solid #ccc;
     height: 100%;
     overflow-y: auto;
 }
@@ -25,11 +26,40 @@
     grid-area: smells;
     height: 100%;
     width: 100%;
-    overflow-y: auto;
-    border-left: 2px solid #ccc;
+    overflow: hidden;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
+.smells-list-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 40px; /* Increased padding for height */
+    border-bottom: 1px solid #ccc;
+    background-color: #f4f4f4;
+}
+
+.smells-list-header button {
+    margin-right: 20px;
+}
+
+.smells-list-header .controls {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Pushes controls to the right */
+}
+
+.smells-list-header .controls span {
+    margin-right: 10px;
+}
+
+
+.smells-list-content {
+    overflow-y: auto;
+    padding: 0 40px 0 40px;
+}
+/*
 .grid-microservice-manager {
     grid-area: microservice;
     height: 100%;
@@ -37,3 +67,4 @@
     overflow-y: auto;
     border-left: 2px solid #ccc;
 }
+*/

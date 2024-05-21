@@ -5,7 +5,6 @@ import {faAngleDown, faAngleRight, faTimesCircle} from '@fortawesome/free-solid-
 import { Microservice } from "../../interfaces/Microservice";
 import {SmellStatus, UrgencyCode } from "../../interfaces/Smell";
 import {SmellFilter} from "../../interfaces/SmellFilter";
-import {useFilter} from "../../hooks/useFilter";
 
 
 interface SidebarProps {

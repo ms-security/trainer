@@ -10,7 +10,6 @@ import MicroserviceBanner from "../../components/microserviceBanner/Microservice
 import EffortTimeBanner from "../../components/effortTimeBanner/EffortTimeBanner";
 import { EffortTime } from "../../interfaces/EffortTime";
 import queryString from "query-string";
-import {SmellFilter} from "../../interfaces/SmellFilter";
 import {filterSmells, useParsedFiltersFromUrl} from "../../util/filterSmells";
 
 const SmellPage = () => {

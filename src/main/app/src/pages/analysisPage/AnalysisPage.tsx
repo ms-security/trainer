@@ -148,27 +148,43 @@ const AnalysisPage = () => {
                     />}
                 </aside>
                 <div className="grid-smells-list">
-                    {analysis && filterSmells(analysis.smells, filters).map(smell => (
-                        <SmellCard
-                            key={smell.id}
-                            smellName={smell.name}
-                            extendedName={smell.extendedName}
-                            outputAnalysis={smell.outputAnalysis}
-                            smellId={smell.id}
-                            smellDescription={smell.description}
-                            urgencyCode={smell.urgencyCode}
-                            isChecked={smell.checked}
-                            smellStatus={smell.status}
-                            effortTime={smell.effortTime}
-                            onClick={() => handleSmellClick(smell.id)}
-                            microservices={analysis.microservices || []}
-                            onAssignMicroservice={handleAssignMicroserviceToSmell}
-                            smellMicroservice={smell.microservice}
-                            onCheckboxChange={handleCheckboxChange}
-                            onStatusChange={handleSmellStatusChange}
-                        />
-                    ))}
+                    <div className="smells-list-header">
+                        <button>Add Microservice</button>
+                        <button>Microservices List</button>
+                        <div className="controls">
+                            <span>Sort By:</span>
+                            <select>
+                                <option value="urgency">Highest urgency</option>
+                                <option value="name">Name</option>
+                                <option value="status">Status</option>
+                            </select>
+                            <span>Smells: {analysis ? analysis.smells.length : 0}</span>
+                        </div>
+                    </div>
+                    <div className="smells-list-content">
+                        {analysis && filterSmells(analysis.smells, filters).map(smell => (
+                            <SmellCard
+                                key={smell.id}
+                                smellName={smell.name}
+                                extendedName={smell.extendedName}
+                                outputAnalysis={smell.outputAnalysis}
+                                smellId={smell.id}
+                                smellDescription={smell.description}
+                                urgencyCode={smell.urgencyCode}
+                                isChecked={smell.checked}
+                                smellStatus={smell.status}
+                                effortTime={smell.effortTime}
+                                onClick={() => handleSmellClick(smell.id)}
+                                microservices={analysis.microservices || []}
+                                onAssignMicroservice={handleAssignMicroserviceToSmell}
+                                smellMicroservice={smell.microservice}
+                                onCheckboxChange={handleCheckboxChange}
+                                onStatusChange={handleSmellStatusChange}
+                            />
+                        ))}
+                    </div>
                 </div>
+                {/*}
                 <div className="grid-microservice-manager">
                     {analysis && <MicroserviceManager
                         onClickModal={openAddModal}
@@ -177,6 +193,7 @@ const AnalysisPage = () => {
                         microservices={analysis.microservices}
                     />}
                 </div>
+                */}
             </div>
             <Modal
                 open={showModal}
