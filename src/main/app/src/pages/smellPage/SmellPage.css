@@ -33,7 +33,7 @@
     cursor: pointer; /* Cambia il cursore al passaggio del mouse */
 }
 
-.urgency-indicator {
+.smellPage-urgency-indicator {
     height: 20px;
     width: 20px;
     margin-left: 20px; /* Pushes the indicator to the right */
@@ -41,6 +41,14 @@
     border-radius: 50%;
     background-color: grey; /* Default color for undefined urgency */
 }
+
+.smellPage-urgency-indicator.Ø { background-color: lightblue; }
+.smellPage-urgency-indicator.LN { background-color: lightgreen; }
+.smellPage-urgency-indicator.LL { background-color: yellowgreen; }
+.smellPage-urgency-indicator.ML { background-color: yellow; }
+.smellPage-urgency-indicator.MM { background-color: orange; }
+.smellPage-urgency-indicator.HM { background-color: red; }
+.smellPage-urgency-indicator.HH { background-color: firebrick; }
 
 .smellPage-microserviceBanner{
     height: fit-content;

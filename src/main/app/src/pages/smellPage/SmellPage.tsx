@@ -29,7 +29,7 @@ const SmellPage = () => {
     }, [analysisId, smellId]);
 
     const getUrgencyClass = (code: UrgencyCode | undefined) => {
-        return code ? `urgency-indicator ${code}` : 'urgency-indicator'; // Append the urgency code as a class
+        return code ? `smellPage-urgency-indicator ${code}` : 'smellPage-urgency-indicator'; // Append the urgency code as a class
     };
 
     const handleSmellClick = (analysisId: string, smellId: number) => {
@@ -95,8 +95,7 @@ const SmellPage = () => {
                 <MicroserviceBanner microserviceName={smell?.microservice?.name} />
                 <EffortTimeBanner
                     effortTime={smell?.effortTime}
-                    onEffortTimeChange={handleEffortTimeChange}
-                />
+                    onEffortTimeChange={handleEffortTimeChange}/>
             </div>
             <hr className="smellPage-headerSeparator" />
 
