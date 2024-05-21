@@ -76,6 +76,27 @@ const SmellPage = () => {
         );
     };
 
+    const urgencyCodeToName = (code: UrgencyCode | undefined) => {
+        switch (code) {
+            case 'HH':
+                return 'High';
+            case 'HM':
+                return 'Medium to High';
+            case 'MM':
+                return 'Medium';
+            case 'ML':
+                return 'Low to Medium';
+            case 'LL':
+                return 'Low';
+            case 'LN':
+                return 'None to Low';
+            case 'Ø':
+                return 'None';
+            default:
+                return 'Undefined';
+        }
+    };
+
     return (
         <div className="smellPage">
             <TopBar />
@@ -91,8 +112,13 @@ const SmellPage = () => {
                         <option value="NOT_GOING_TO_FIX">Not going to fix</option>
                     </select>
                 </div>
-                <div className={getUrgencyClass(smell?.urgencyCode)}></div>
-                <MicroserviceBanner microserviceName={smell?.microservice?.name} />
+
+                <div className="smellPage-urgencyCode-container">
+                    <div className={getUrgencyClass(smell?.urgencyCode)}></div>
+                    <div className="smellPage-urgencyCode-text">{urgencyCodeToName(smell?.urgencyCode)}</div>
+                </div>
+
+                <MicroserviceBanner microserviceName={smell?.microservice?.name}/>
                 <EffortTimeBanner
                     effortTime={smell?.effortTime}
                     onEffortTimeChange={handleEffortTimeChange}/>

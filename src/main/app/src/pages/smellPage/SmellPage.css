@@ -33,11 +33,17 @@
     cursor: pointer; /* Cambia il cursore al passaggio del mouse */
 }
 
+.smellPage-urgencyCode-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
 .smellPage-urgency-indicator {
     height: 20px;
     width: 20px;
     margin-left: 20px; /* Pushes the indicator to the right */
-    margin-right: 20px; /* Adds space between the indicator and the analysis name */
+    margin-right: 10px; /* Adds space between the indicator and the analysis name */
     border-radius: 50%;
     background-color: grey; /* Default color for undefined urgency */
 }

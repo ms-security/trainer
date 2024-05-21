@@ -11,7 +11,6 @@ interface AnalysisCardProps {
     name: string;
     date: string;
     isFavorite: boolean;
-    isTriageValid: boolean;
     onFavoriteChange: () => void;
     onClick: () => void;
     onDelete: () => void;
@@ -22,7 +21,6 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                                                        name,
                                                        date,
                                                        isFavorite,
-                                                       isTriageValid,
                                                        onFavoriteChange,
                                                        onClick,
                                                        onDelete,
@@ -55,18 +53,9 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                         e.stopPropagation();
                         onFavoriteChange();
                     }}>
-                        <FontAwesomeIcon icon={isFavorite ? faStarSolid : faStarRegular} className={`star ${isFavorite ? "star-favorite" : ""}`} />
+                        <FontAwesomeIcon icon={isFavorite ? faStarSolid : faStarRegular} size="1x" className={`star ${isFavorite ? "star-favorite" : ""}`} />
                     </div>
-                    <h2 className="analysis-name">
-                        {name}
-                        {!isTriageValid && (
-                            <Tooltip title="To benefit from the triage for security smells, please enter information about the microservices.">
-                                <div className="triage-warning-icon">
-                                    <FontAwesomeIcon icon={faExclamationCircle} />
-                                </div>
-                            </Tooltip>
-                        )}
-                    </h2>
+                    <h2 className="analysis-name">{name}</h2>
                     <div className="delete-icon" onClick={(e) => {e.stopPropagation(); onDelete();}}>🗑️</div>
                 </div>
                 <h4 className="analysis-date">{formattedDate}</h4>

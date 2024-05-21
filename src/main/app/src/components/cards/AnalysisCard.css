@@ -6,15 +6,17 @@
     margin-top: 30px;
     margin-left: 30px;
     padding: 10px;
-    background: lightgrey;
+    background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: black 1px solid;
     cursor: pointer;
 }
 
 .parent_name_favorite {
     width: auto;
     display: flex;
+    align-items: center;
     margin-top: 0;
 }
 
@@ -42,7 +44,7 @@
 .analysis-name {
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    margin: 0 0 0 10px;
     font-size: 20px;
     font-weight: bold;
 }
