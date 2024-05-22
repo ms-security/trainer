@@ -2,8 +2,10 @@ package org.ssv.service.util;
 
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
+import org.ssv.model.Microservice;
 import org.ssv.model.Refactoring;
 import org.ssv.model.Smell;
+import org.ssv.service.TriageService;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -132,6 +134,17 @@ public abstract class ContentParser {
         Matcher matcher = pattern.matcher(description);
         if (matcher.find()) {
             return matcher.group(1);
+        }
+        return null;
+    }
+
+    public Microservice assignMicroserviceByFileName(String smellCode, String fileName) {
+        if(smellCode.equals("UPM") || smellCode.equals("NSC") || smellCode.equals("UT") || smellCode.equals("CA") ||
+                smellCode.equals("IAC") || smellCode.equals("NEDE") || smellCode.equals("MUA")) {
+
+            return Microservice.builder()
+                .name(fileName)
+                .build();
         }
         return null;
     }
