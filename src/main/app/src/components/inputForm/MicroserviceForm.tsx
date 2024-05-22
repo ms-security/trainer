@@ -4,7 +4,6 @@ import { Category, QualityAttributeMS, Relevance } from "../../interfaces/Qualit
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import './MicroserviceForm.css';
-
 interface MicroserviceFormProps {
     onAddMicroservice: (data: any) => void;
     onUpdateMicroservice?: (data: any) => void;
