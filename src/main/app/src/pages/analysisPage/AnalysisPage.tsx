@@ -205,16 +205,6 @@ const AnalysisPage = () => {
                         ))}
                     </div>
                 </div>
-                {/*}
-                <div className="grid-microservice-manager">
-                    {analysis && <MicroserviceManager
-                        onClickModal={openAddModal}
-                        onEditMicroservice={openEditModal}
-                        deleteMicroservice={handleDeleteMicroservice}
-                        microservices={analysis.microservices}
-                    />}
-                </div>
-                */}
             </div>
             <Modal
                 open={showModal}

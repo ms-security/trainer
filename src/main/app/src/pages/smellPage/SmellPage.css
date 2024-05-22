@@ -141,6 +141,17 @@
     cursor: pointer;
 }
 
+.smellPage-smellListCard:hover {
+    border: 3px solid #8aadb8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.smellPage-smellListCard.active {
+    border: 3px solid #FFD700; /* Giallo dorato per evidenziare l'elemento attivo */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Ombra più scura per l'elemento attivo */
+    background-color: #FFFACD; /* Giallo chiaro come colore di sfondo per l'elemento attivo */
+}
+
 .smellPage-smellList-scripts {
     display: flex;
     flex-direction: column;

@@ -11,6 +11,11 @@
     overflow: hidden; /* Ensure content is hidden if it overflows */
 }
 
+.smellCard-container:hover {
+    border: 3px solid #8aadb8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
 .smellCard-extendedName-mainPart-container {
     width: 100%;
     display: flex;
@@ -41,10 +46,9 @@
 .smellCard-extendedName {
     width: fit-content;
     margin: 0 0 10px 10px;
-    padding: 5px;
+    padding: 5px 5px 2px 5px;
     background-color: white;
-    border: 1px solid #b3daff;
-    border-radius: 10px;
+    border-bottom: 2px solid #b3daff;
     font-size: 15px;
     color: black;
     display: inline-block;
@@ -71,6 +75,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.smellCard-text p:first-child {
+    font-weight: bold;
 }
 
 .smellCard-container-info {

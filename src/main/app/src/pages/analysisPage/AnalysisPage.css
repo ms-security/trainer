@@ -10,7 +10,7 @@
     grid-template-columns: 25% 75%;
     grid-template-areas: "sidebar smells";
     margin-top: 66px;
-    gap: 0px;
+    gap: 0;
     overflow: hidden;
 }
 
@@ -36,13 +36,13 @@
     align-items: center;
     margin-right: 57px;
     margin-left: 40px;
-    padding: 20px 0 20px 0; /* Increased padding for height */
+    padding: 20px 0 10px 0; /* Increased padding for height */
     border-bottom: 2px solid lightblue;
 }
 
 .smells-list-content {
     overflow-y: auto;
-    height: calc(100% - 60px); /* 66px is the height of the header */
+    height: calc(100% - 70px); /* 66px is the height of the header */
     padding: 0 40px 0 40px;
 }
 
@@ -88,14 +88,3 @@
     background-color: #fff;
     cursor: pointer;
 }
-
-
-/*
-.grid-microservice-manager {
-    grid-area: microservice;
-    height: 100%;
-    width: 100%;
-    overflow-y: auto;
-    border-left: 2px solid #ccc;
-}
-*/

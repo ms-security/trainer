@@ -3,14 +3,30 @@ import './MicroserviceBanner.css';
 
 interface MicroserviceBannerProps {
     microserviceName: string | undefined;
+    microservices: string[];
+    onMicroserviceChange: (newMicroserviceName: string) => void;
 }
 
-// Assumi che il componente riceva il nome del microservizio come prop
-const MicroserviceBanner: React.FC<MicroserviceBannerProps> = ({ microserviceName }) => {
+const MicroserviceBanner: React.FC<MicroserviceBannerProps> = ({
+                                                                   microserviceName,
+                                                                   microservices,
+                                                                   onMicroserviceChange
+                                                               }) => {
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        onMicroserviceChange(event.target.value);
+    };
+
     return (
-        <div className={`microservice-banner ${microserviceName ? 'associated' : 'no-association'}`}>
-            {"MicroService: " +microserviceName || 'No MicroService associated'}
-        </div>
+        <select
+            className={`microservice-select ${!microserviceName ? 'no-association' : 'associated'}`}
+            value={microserviceName || ''}
+            onChange={handleSelectChange}
+        >
+            <option value="">{microserviceName || 'Select a MicroService'}</option>
+            {microservices.map(ms => (
+                ms !== microserviceName && <option key={ms} value={ms}>{ms}</option>
+            ))}
+        </select>
     );
 };
 

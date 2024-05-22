@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import './SmellPage.css';
 import { Smell, UrgencyCode } from "../../interfaces/Smell";
@@ -10,14 +10,14 @@ import MicroserviceBanner from "../../components/microserviceBanner/Microservice
 import EffortTimeBanner from "../../components/effortTimeBanner/EffortTimeBanner";
 import { EffortTime } from "../../interfaces/EffortTime";
 import queryString from "query-string";
-import {filterSmells, useParsedFiltersFromUrl} from "../../util/filterSmells";
+import { filterSmells, useParsedFiltersFromUrl } from "../../util/filterSmells";
 
 const SmellPage = () => {
     const { analysisId, smellId } = useParams<{ analysisId: string, smellId: string }>();
     const [smell, setSmell] = useState<Smell | undefined>();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
-    const { getSmellById, fetchAnalysisById, addEffortTime, changeSmellStatus } = useAnalysis();
-    const filters = useParsedFiltersFromUrl()
+    const { getSmellById, fetchAnalysisById, addEffortTime, changeSmellStatus, addSmellToMicroservice } = useAnalysis();
+    const filters = useParsedFiltersFromUrl();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,7 +29,7 @@ const SmellPage = () => {
     }, [analysisId, smellId]);
 
     const getUrgencyClass = (code: UrgencyCode | undefined) => {
-        return code ? `smellPage-urgency-indicator ${code}` : 'smellPage-urgency-indicator'; // Append the urgency code as a class
+        return code ? `smellPage-urgency-indicator ${code}` : 'smellPage-urgency-indicator';
     };
 
     const handleSmellClick = (analysisId: string, smellId: number) => {
@@ -37,13 +37,13 @@ const SmellPage = () => {
         navigate(`/analysis/${analysisId}/smell/${smellId}?${queryStringified}`);
     };
 
-    const handleEffortTimeChange = (newEffortTime: EffortTime) => {
-        if (smell) {
-            const updatedSmell = { ...smell, effortTime: newEffortTime };
+    const handleEffortTimeChange = async (newEffortTime: EffortTime) => {
+        if (analysisId && smellId) {
+            await addEffortTime(analysisId, parseInt(smellId), newEffortTime);
+            const updatedAnalysis = await fetchAnalysisById(analysisId);
+            setAnalysis(updatedAnalysis);
+            const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
             setSmell(updatedSmell);
-            if (analysisId && smellId) {
-                addEffortTime(analysisId, parseInt(smellId), newEffortTime);
-            }
         }
     };
 
@@ -68,13 +68,24 @@ const SmellPage = () => {
     };
 
     const replaceFileNamesWithSpans = (text: string | undefined, fileName: string | undefined) => {
-        if(!text || !fileName) return text;
+        if (!text || !fileName) return text;
         const regex = /<([^>]+)>/g;
         const parts = text.split(regex);
         return parts.map((part, index) =>
             index % 2 === 1 ? <span className="file-name-box" key={index}>{fileName}</span> : part
         );
     };
+
+    const handleMicroserviceAssignment = async (newMicroserviceName: string) => {
+        console.log("Nuovo microservizio selezionato:", newMicroserviceName);
+        if (analysisId && smellId) {
+            await addSmellToMicroservice(analysisId, newMicroserviceName, parseInt(smellId) );
+            const updatedAnalysis = await fetchAnalysisById(analysisId);
+            setAnalysis(updatedAnalysis);
+            const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
+            setSmell(updatedSmell);
+        }
+    }
 
     const urgencyCodeToName = (code: UrgencyCode | undefined) => {
         switch (code) {
@@ -112,16 +123,17 @@ const SmellPage = () => {
                         <option value="NOT_GOING_TO_FIX">Not going to fix</option>
                     </select>
                 </div>
-
                 <div className="smellPage-urgencyCode-container">
                     <div className={getUrgencyClass(smell?.urgencyCode)}></div>
                     <div className="smellPage-urgencyCode-text">{urgencyCodeToName(smell?.urgencyCode)}</div>
                 </div>
-
-                <MicroserviceBanner microserviceName={smell?.microservice?.name}/>
+                <MicroserviceBanner
+                    microserviceName={smell?.microservice?.name}
+                    microservices={analysis?.microservices.map(ms => ms.name) || []}
+                    onMicroserviceChange={handleMicroserviceAssignment}/>
                 <EffortTimeBanner
                     effortTime={smell?.effortTime}
-                    onEffortTimeChange={handleEffortTimeChange}/>
+                    onEffortTimeChange={handleEffortTimeChange} />
             </div>
             <hr className="smellPage-headerSeparator" />
 
@@ -130,18 +142,19 @@ const SmellPage = () => {
                     <div className="smellPage-sidebarContent">
                         <div className="smellPage-smellIndex-fixed">
                             <h3 className="smellPage-smellIndex">Smell: {smell?.id} / {analysis?.smells.length}</h3>
-                        </div>
-                        {analysis && filterSmells(analysis.smells, filters).map(smell => (
-                            <div key={smell.id} className="smellPage-smellListCard"
-                                 onClick={() => handleSmellClick(analysis?.id, smell.id)}>
+                        </div> {analysis && filterSmells(analysis.smells, filters).map(smellItem => (
+                            <div
+                                key={smellItem.id}
+                                className={`smellPage-smellListCard ${smellItem.id === smell?.id ? 'active' : ''}`}
+                                onClick={() => handleSmellClick(analysis?.id, smellItem.id)}>
                                 <div className="smellPage-smellList-scripts">
-                                    <h3 className="smellPage-smellCardTitle">{smell.name}</h3>
-                                    <p className="smellPage-smellCardMicroservice">{"Microservice: " + smell.microservice?.name || ''}</p>
+                                    <h3 className="smellPage-smellCardTitle">{smellItem.name}</h3>
+                                    <p className="smellPage-smellCardMicroservice">{"Microservice: " + smellItem.microservice?.name || ''}</p>
                                 </div>
                                 <p className="smellPage-smellList-effortTime">
-                                    {smell.effortTime ? `${smell.effortTime.value} ${smell.effortTime.unitOfTime}` : ''}
+                                    {smellItem.effortTime ? `${smellItem.effortTime.value} ${smellItem.effortTime.unitOfTime}` : ''}
                                 </p>
-                                <div className={getUrgencyClass(smell?.urgencyCode)}></div>
+                                <div className={getUrgencyClass(smellItem?.urgencyCode)}></div>
                             </div>
                         ))}
                     </div>
@@ -165,7 +178,7 @@ const SmellPage = () => {
                                 const filteredAttributes = smell?.propertiesAffected.filter(attribute => attribute.category === category);
                                 return filteredAttributes && filteredAttributes.length > 0 && (
                                     <div key={category}>
-                                        <h4 className="smellPage-propertyCategory">{category}</h4>
+                                        <h4 className="smellPage-propertyCategory">{category.replace(/_/g, ' ')}</h4>
                                         {filteredAttributes.map((attribute) => (
                                             <div key={attribute.name} className="smellPage-property">
                                                 <span className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}>
@@ -184,7 +197,7 @@ const SmellPage = () => {
                                 const filteredRefactoringAttributes = smell?.refactoring.propertiesAffected.filter(attribute => attribute.category === category);
                                 return filteredRefactoringAttributes && filteredRefactoringAttributes.length > 0 && (
                                     <div key={category}>
-                                        <h4 className="smellPage-propertyCategory">{category}</h4>
+                                        <h4 className="smellPage-propertyCategory">{category.replace(/_/g, ' ')}</h4>
                                         {filteredRefactoringAttributes.map((attribute) => (
                                             <div key={attribute.name} className="smellPage-property">
                                                 <span className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}>
