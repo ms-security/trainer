@@ -1,0 +1,60 @@
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    padding: 10px;
+    border: 2px solid lightblue;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-button:hover, .dropdown-button.focus{
+    background-color: #eff7fa;
+    font-weight: bold;
+}
+
+.dropdown-arrow {
+    margin-left: 10px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    min-width: 160px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover,
+.dropdown-item.selected {
+    background-color: #f1f1f1;
+}
+
+.microservice-details-container {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 10px); /* Positioning the details container to the right of the dropdown menu */
+    z-index: 1000;
+    padding: 10px;
+}
+
+

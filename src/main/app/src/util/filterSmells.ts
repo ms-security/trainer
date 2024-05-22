@@ -59,23 +59,39 @@ export const filterSmells = (smells: Smell[], filters: SmellFilter): Smell[] => 
         switch (filters.sortBy) {
             case 'urgencyTop':
                 filteredSmells.sort((a, b) => {
-                    if (a.urgencyCode === undefined) return 1;
-                    if (b.urgencyCode === undefined) return -1;
+                    if (!a.urgencyCode && !b.urgencyCode) return 0;
+                    if (!a.urgencyCode) return 1;
+                    if (!b.urgencyCode) return -1;
                     return urgencyOrder.indexOf(a.urgencyCode) - urgencyOrder.indexOf(b.urgencyCode);
                 });
                 break;
             case 'urgencyBottom':
                 filteredSmells.sort((a, b) => {
-                    if (a.urgencyCode === undefined) return 1;
-                    if (b.urgencyCode === undefined) return -1;
+                    if (!a.urgencyCode && !b.urgencyCode) return 0;
+                    if (!a.urgencyCode) return 1;
+                    if (!b.urgencyCode) return -1;
                     return urgencyOrder.indexOf(b.urgencyCode) - urgencyOrder.indexOf(a.urgencyCode);
                 });
                 break;
             case 'effortTop':
-                filteredSmells.sort((a, b) => convertEffortTimeToMinutes(b.effortTime) - convertEffortTimeToMinutes(a.effortTime));
+                filteredSmells.sort((a, b) => {
+                    const effortA = convertEffortTimeToMinutes(a.effortTime);
+                    const effortB = convertEffortTimeToMinutes(b.effortTime);
+                    if (effortA === Number.MAX_SAFE_INTEGER && effortB === Number.MAX_SAFE_INTEGER) return 0;
+                    if (effortA === Number.MAX_SAFE_INTEGER) return 1;
+                    if (effortB === Number.MAX_SAFE_INTEGER) return -1;
+                    return effortB - effortA;
+                });
                 break;
             case 'effortBottom':
-                filteredSmells.sort((a, b) => convertEffortTimeToMinutes(a.effortTime) - convertEffortTimeToMinutes(b.effortTime));
+                filteredSmells.sort((a, b) => {
+                    const effortA = convertEffortTimeToMinutes(a.effortTime);
+                    const effortB = convertEffortTimeToMinutes(b.effortTime);
+                    if (effortA === Number.MAX_SAFE_INTEGER && effortB === Number.MAX_SAFE_INTEGER) return 0;
+                    if (effortA === Number.MAX_SAFE_INTEGER) return 1;
+                    if (effortB === Number.MAX_SAFE_INTEGER) return -1;
+                    return effortA - effortB;
+                });
                 break;
             case 'none':
             default:

@@ -15,8 +15,10 @@ import queryString from "query-string";
 import {filterSmells, useParsedFiltersFromUrl} from "../../util/filterSmells";
 import {EffortTime} from "../../interfaces/EffortTime";
 import {Smell} from "../../interfaces/Smell";
+import {calculateTotalEffortTime} from "../../util/calculateTotalEffortTime";
+import MicroserviceDropdown from "../../components/microserviceDropdown/MicroserviceDropdown";
 
-const style = {
+ const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -141,7 +143,14 @@ const AnalysisPage = () => {
             ...filters,
             sortBy: e.target.value as 'none' | 'urgencyTop' | 'urgencyBottom' | 'effortTop' | 'effortBottom'
         });
+    }
+
+    const handleMicroserviceSelect = (microservice: Microservice) => {
+        setCurrentMicroservice(microservice);
     };
+
+    const totalEffortTime = analysis ? calculateTotalEffortTime(analysis.smells) : "0min";
+
 
     // Render the analysis page container
     return (
@@ -157,23 +166,34 @@ const AnalysisPage = () => {
                 </aside>
                 <div className="grid-smells-list">
                     <div className="smells-list-header">
-                        <button onClick={openAddModal}>Add Microservice</button>
-                        <button>Microservices List</button>
+                        <button className= "analysis-page-addButtonMicroservice" onClick={openAddModal}>Add Microservice</button>
+                        {analysis && (
+                            <MicroserviceDropdown
+                                microservices={analysis.microservices}
+                                onSelect={handleMicroserviceSelect}
+                                onEditMicroservice={openEditModal}
+                                deleteMicroservice={handleDeleteMicroservice}
+                            />
+                        )}
                         <div className="controls">
-                            <span>Sort By:</span>
-                            <select value={filters.sortBy || 'none'} onChange={handleSortChange}>
+                            <span className="sort-by-label">Sort By:</span>
+                            <select className="sort-by-select" value={filters.sortBy || 'none'} onChange={handleSortChange}>
                                 <option value="none">None</option>
                                 <option value="urgencyTop">Highest urgency</option>
                                 <option value="urgencyBottom">Lowest urgency</option>
                                 <option value="effortTop">Highest effort</option>
                                 <option value="effortBottom">Lowest effort</option>
                             </select>
-                            <span>Smells: {analysis ? analysis.smells.length : 0}</span>
+                            <span className="total-effort-time">Total effort:</span>
+                            {totalEffortTime}
+                            <span className="smells-count">Smells: </span>
+                            {analysis ? analysis.smells.length : 0}
                         </div>
                     </div>
                     <div className="smells-list-content">
                         {analysis && filterSmells(analysis.smells, filters).map(smell => (
                             <SmellCard
+                                key={smell.id}
                                 smell={smell}
                                 isChecked={smell.checked}
                                 onClick={() => handleSmellClick(smell.id)}

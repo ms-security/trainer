@@ -1,0 +1,73 @@
+.microservice-details {
+    margin-top: 5px;
+    background-color: #f9f9f9; /* Sfondo per dettagli espansi */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.relevance-label {
+    font-weight: bold;
+}
+
+.relevance-high {
+    color: red;
+}
+
+.relevance-medium {
+    color: orange;
+}
+
+.relevance-low {
+    color: green;
+}
+
+.quality-attributes {
+    display: flex;
+    flex-direction: column;
+    background-color: #eef;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.quality-attribute {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.attribute-name {
+    font-weight: bold;
+}
+
+.attribute-relevance {
+    margin-left: 10px; /* Distanza tra nome attributo e importanza */
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between; /* Distribuisce uniformemente lo spazio */
+    width: 100%; /* Occupa tutta la larghezza del contenitore */
+    color: white;
+}
+
+.edit-button, .delete-button {
+    flex: 1; /* Occupa metà dello spazio disponibile ciascuno */
+    margin: 5px; /* Mantiene una piccola distanza tra i bottoni */
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-button {
+    color: white;
+    background-color: #007BFF; /* Blu per il bottone Edit */
+}
+
+.delete-button {
+    color: white;
+    background-color: #DC3545; /* Rosso per il bottone Delete */
+}

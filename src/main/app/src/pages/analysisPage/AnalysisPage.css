@@ -17,9 +17,10 @@
 .grid-sidebar {
     grid-area: sidebar;
     width: 100%;
-    border-left: 2px solid #ccc;
+    border-right: 1px solid lightblue;
     height: 100%;
     overflow-y: auto;
+
 }
 
 .grid-smells-list {
@@ -33,9 +34,10 @@
 .smells-list-header {
     display: flex;
     align-items: center;
-    padding: 20px 40px; /* Increased padding for height */
-    border-bottom: 1px solid #ccc;
-    background-color: #f4f4f4;
+    margin-right: 57px;
+    margin-left: 40px;
+    padding: 20px 0 20px 0; /* Increased padding for height */
+    border-bottom: 2px solid lightblue;
 }
 
 .smells-list-content {
@@ -44,8 +46,18 @@
     padding: 0 40px 0 40px;
 }
 
-.smells-list-header button {
+.analysis-page-addButtonMicroservice {
     margin-right: 20px;
+    border: 2px solid lightblue;
+    border-radius: 10px;
+    padding: 10px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: transparent;
+}
+
+.analysis-page-addButtonMicroservice:hover {
+    background-color: #eff7fa;
 }
 
 .smells-list-header .controls {
@@ -55,7 +67,26 @@
 }
 
 .smells-list-header .controls span {
+    margin-left: 50px;
+}
+
+.sort-by-label {
+    font-weight: bold;
     margin-right: 10px;
+}
+
+.total-effort-time,
+.smells-count {
+    font-weight: bold;
+    margin-right: 5px ;
+}
+
+.smells-list-header .sort-by-select {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
 }
 
 
