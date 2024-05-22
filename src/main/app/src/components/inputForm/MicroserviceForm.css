@@ -1,15 +1,15 @@
-form {
+.microservice-form{
     display: flex;
     flex-direction: column;
     gap: 0.5em;
 }
 
-label {
+.inputNameLabel-form, .Microservice-relevance-label {
     font-weight: bold;
     font-style: oblique;
 }
 
-input {
+.input-form {
     padding: 0.3em;
     border: 1px solid #ccc;
     border-radius: 4px;

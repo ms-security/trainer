@@ -141,8 +141,8 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Microservice Name:</label>
+            <form className= "microservice-form" onSubmit={handleSubmit}>
+                <label className= "inputNameLabel-form" htmlFor="name">Microservice Name:</label>
                 <input
                     id="name"
                     name="name"
@@ -150,7 +150,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
                     value={newMicroservice.name}
                     onChange={handleInputChange}
                     readOnly={!!initialData}
-                    className={nameError ? 'input-error' : ''}
+                    className={nameError ? 'input-error-form' : 'input-form'}
                 />
 
                 {nameError && (
@@ -161,7 +161,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
                 )}
 
                 <div className="relevance-section-form">
-                    <label>Microservice's Relevance:</label>
+                    <label className="Microservice-relevance-label">Microservice's Relevance:</label>
                     <div className="relevance-buttons-form">
                         {Object.values(Relevance).map(level => (
                             <button

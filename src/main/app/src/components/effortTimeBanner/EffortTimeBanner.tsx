@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+    import React, {useEffect, useState} from 'react';
 import './EffortTimeBanner.css';
 import { EffortTime, UnitOfTime } from "../../interfaces/EffortTime";
 
@@ -13,21 +13,19 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
     const [unitOfTime, setUnitOfTime] = useState<string>('');
 
     useEffect(() => {
-        // Chiudi il form e resetta i valori quando il smell cambia
         setShowForm(false);
         setValue(effortTime ? effortTime.value.toString() : '');
         setUnitOfTime(effortTime ? effortTime.unitOfTime : '');
-    }, [effortTime]); // Dipendenze: aggiorna questi effetti quando `effortTime` cambia
+    }, [effortTime]);
 
 
-    // Funzione per aprire il form e impostare i valori iniziali
     const openForm = () => {
         if (effortTime) {
             setValue(effortTime.value.toString());
             setUnitOfTime(effortTime.unitOfTime.toLowerCase());
         } else {
-            setValue('');  // Resetta il valore se effortTime non è definito
-            setUnitOfTime('');  // Resetta l'unità di misura se non definita
+            setValue('');
+            setUnitOfTime('');
         }
         setShowForm(true);
     };
