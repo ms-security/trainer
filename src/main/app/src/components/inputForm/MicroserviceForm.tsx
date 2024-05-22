@@ -1,9 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { Microservice } from "../../interfaces/Microservice";
 import { Category, QualityAttributeMS, Relevance } from "../../interfaces/QualityAttribute";
-import './MicroserviceForm.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import './MicroserviceForm.css';
 
 interface MicroserviceFormProps {
     onAddMicroservice: (data: any) => void;

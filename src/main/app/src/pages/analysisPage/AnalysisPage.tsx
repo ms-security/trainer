@@ -8,13 +8,10 @@ import './AnalysisPage.css';
 import MicroserviceForm from "../../components/inputForm/MicroserviceForm";
 import {Box, Modal} from "@mui/material";
 import {useAnalysis} from "../../contexts/AnalysisContext";
-import MicroserviceManager from "../../components/microserviceManager/MicroserviceManager";
 import {Microservice} from "../../interfaces/Microservice";
 import {useFilter} from "../../hooks/useFilter";
 import queryString from "query-string";
 import {filterSmells, useParsedFiltersFromUrl} from "../../util/filterSmells";
-import {EffortTime} from "../../interfaces/EffortTime";
-import {Smell} from "../../interfaces/Smell";
 import {calculateTotalEffortTime} from "../../util/calculateTotalEffortTime";
 import MicroserviceDropdown from "../../components/microserviceDropdown/MicroserviceDropdown";
 

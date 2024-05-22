@@ -132,6 +132,7 @@ const SmellPage = () => {
                     microservices={analysis?.microservices.map(ms => ms.name) || []}
                     onMicroserviceChange={handleMicroserviceAssignment}/>
                 <EffortTimeBanner
+                    key={smell?.id}
                     effortTime={smell?.effortTime}
                     onEffortTimeChange={handleEffortTimeChange} />
             </div>

@@ -143,8 +143,8 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
     return (
         <div className="sidebar-wrapper">
             <div className="filter-controls">
-                <button className={!filters.isChecked ? "active" : ""} onClick={() => updateFilters({ ...filters, isChecked: false })}>All smells</button>
-                <button className={filters.isChecked ? "active" : ""} onClick={() => updateFilters({ ...filters, isChecked: true })}>Checked</button>
+                <button className={!filters.isChecked ? "active" : "not-active"} onClick={() => updateFilters({ ...filters, isChecked: false })}>All smells</button>
+                <button className={filters.isChecked ? "active" : "not-active   "} onClick={() => updateFilters({ ...filters, isChecked: true })}>Checked</button>
             </div>
             <div className="filters-header">
                 <h2>Filters</h2>
@@ -168,7 +168,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
                     {openSections['urgencyCodes'] && (
                         <div className="accordion-content">
                             {Object.entries(urgencyCodeDescriptions).map(([code, { color, description }]) => (
-                                <div key={code} className={`option ${filters.urgencyCode?.includes(code as UrgencyCode) || (code === 'undefined' && filters.urgencyCode?.includes(undefined)) ? 'selected' : ''}`} onClick={() => toggleUrgencyCode(code as UrgencyCode)}>
+                                <div key={code} className={`option ${filters.urgencyCode?.includes(code as UrgencyCode) || (code === 'undefined' && filters.urgencyCode?.includes(undefined)) ? 'selected' : 'not-selected'}`} onClick={() => toggleUrgencyCode(code as UrgencyCode)}>
                                     <span className={`color-dot ${color}`}></span>
                                     <span>{description}</span>
                                 </div>

@@ -34,9 +34,10 @@
 .filter-controls button {
     margin: 0; /* Remove margin between buttons */
     border-radius: 0; /* Remove individual border-radius */
-    padding: 12px 24px;
+    padding: 12px 18px;
+    font-weight: bold;
     border: none;
-    font-size: 0.8rem;
+    font-size: 1rem;
     cursor: pointer;
 }
 
@@ -51,11 +52,17 @@
 }
 
 .filter-controls button.active {
-    background-color: gray;
+    background-color: #449ccc;
+    color: white;
+}/* Darker blue when active */
+
+.filter-controls button.not-active {
+    background-color: white;
+    color: #449ccc;
 }/* Darker blue when active */
 
 .filter-controls button:hover:not(.active) {
-    background-color: lightgrey; /* Same as active state for hover on inactive buttons */
+    background-color: #c4f1dd; /* Same as active state for hover on inactive buttons */
 }
 
 
@@ -155,6 +162,7 @@
 .accordion-content .option {
     display: flex;
     align-items: center;
+    margin-bottom: 1px;
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
@@ -162,9 +170,13 @@
     transition: background-color 0.2s, border-color 0.2s;
 }
 
+.accordion-content .option.not-selected:hover{
+    border: 2px solid #8aadb8;
+}
+
 .accordion-content .option.selected {
-    background-color: #add8e6;
-    border-color: #000;
+    background-color: #eff7fa;
+    border: 2px solid #8aadb8;
 }
 
 .accordion-content.smellCode .option span:first-child {
