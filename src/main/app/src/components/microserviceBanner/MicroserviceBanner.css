@@ -1,21 +1,33 @@
-.microservice-banner {
+.microservice-select, .effortTime-banner {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: fit-content; /* mantiene la larghezza basata sul contenuto */
     margin-right: 10px;
     padding: 0.5em 1em;
-    border-radius: 4px;
+    border-radius: 5px;
+    font-size: 1em; /* assicurati che entrambi utilizzino la stessa dimensione di font */
     font-weight: bold;
+    line-height: 1.2; /* aggiungi una line-height se necessario per ulteriore controllo dell'altezza */
     color: black;
+    background: white;
+    border: 2px solid lightblue;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
 }
 
-.microservice-banner.associated {
-    background-color: white;
+.microservice-select:hover, .effortTime-banner:hover {
+    background-color: #eff7fa;
 }
 
-.microservice-banner.no-association {
-    background-color: yellow;
-    position: relative;
+.microservice-select:focus, .effortTime-banner:focus {
+    outline: none; /* rimuove l'outline al focus */
 }
 
+.no-association {
+    border: 3px solid yellow; /* gestione del bordo per non associati */
+}
+
+.effortTime-banner.not-set {
+    border: 3px solid yellow; /* assicurati che entrambi i banner non settati abbiano lo stesso stile di bordo */
+}
