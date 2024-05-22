@@ -3,12 +3,17 @@ package org.ssv.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "microservice")
 @Data
+@SuperBuilder
+@NoArgsConstructor
 public class Microservice {
 
     @JsonIgnore
