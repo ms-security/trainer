@@ -117,7 +117,8 @@ export default class WebController{
     }
 
     static async deleteMicroservice(analysisId: string, microserviceName: string) {
-        const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceName}`, {
+        const encodedMicroserviceName = encodeURIComponent(microserviceName);
+        const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${encodedMicroserviceName}`, {
             method: 'DELETE'
         });
         if (!response.ok) {

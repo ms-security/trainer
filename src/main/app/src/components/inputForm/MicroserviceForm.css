@@ -1,0 +1,135 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+label {
+    font-weight: bold;
+    font-style: oblique;
+}
+
+input {
+    padding: 0.3em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.8em;
+}
+
+.relevance-section-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.relevance-buttons-form {
+    display: flex;
+    gap: 0;
+    margin-top: 0.5em;
+}
+
+.relevance-button-form:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.relevance-button-form:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.relevance-button-form {
+    padding: 0.4em 0.5em;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 0.7em;
+}
+
+.relevance-button-form.selected-form.none-form {
+    background-color: #007BFF;
+    color: #fff;
+    border-color: #007BFF;
+}
+
+.relevance-button-form.selected-form.low-form {
+    background-color: green;
+    color: #fff;
+    border-color: green;
+}
+
+.relevance-button-form.selected-form.medium-form {
+    background-color: orange;
+    color: #fff;
+    border-color: orange;
+}
+
+.relevance-button-form.selected-form.high-form {
+    background-color: red;
+    color: #fff;
+    border-color: red;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5em;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 0.5em;
+    font-size: 0.8em;
+}
+
+.quality-attribute-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.input-error {
+    border: 1px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.error-icon {
+    margin-right: 5px;
+}
+
+.attribute-name-form {
+    font-style: italic;
+    width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.attribute-relevance-form {
+    margin-left: 10px;
+    width: 40%;
+    text-align: right;
+}
+
+.submit-button-form {
+    padding: 0.4em 1em;
+    font-size: 0.9em;
+    background-color: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: center;
+    border: 2px solid lightblue;
+}
+
+.submit-button-form:hover {
+    background-color: #eff7fa;
+}

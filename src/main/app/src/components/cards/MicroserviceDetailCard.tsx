@@ -24,6 +24,7 @@ const MicroserviceDetailsCard: React.FC<MicroserviceDetailsCardProps> = ({ micro
 
     return (
         <div className="microservice-details">
+            <h2>{microservice.name}</h2>    
             <p className="relevance-label">Relevance: <span className={getRelevanceColor(microservice.relevance)}>{microservice.relevance}</span></p>
             {microservice.qualityAttributes.length > 0 && (
                 <div className="quality-attributes">

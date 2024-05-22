@@ -23,11 +23,11 @@ import MicroserviceDropdown from "../../components/microserviceDropdown/Microser
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400, // Set the width of the modal or use a percentage
+    width: 500, // Set the width of the modal or use a percentage
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4, // Padding inside the modal
+    p: 2, // Padding inside the modal
 };
 
 const AnalysisPage = () => {
@@ -101,7 +101,6 @@ const AnalysisPage = () => {
 
     const handleDeleteMicroservice = async (microserviceName: string) => {
         if (analysis) {
-            console.log('Deleting microservice:', microserviceName);
             await deleteMicroservice(analysis.id, microserviceName);
             // Assume that deleteMicroservice updates the analysis context, so refetch it
             const updatedAnalysis = await fetchAnalysisById(analysis.id);
@@ -225,8 +224,9 @@ const AnalysisPage = () => {
                 <Box sx={style}>
                     <MicroserviceForm
                         onAddMicroservice={handleAddMicroservice}
-                        onUpdateMicroservice={handleUpdateMicroservice}  // Aggiungi la gestione dell'update qui
-                        initialData={currentMicroservice}  // Passa i dati iniziali se in modalità modifica
+                        onUpdateMicroservice={handleUpdateMicroservice}
+                        initialData={currentMicroservice}
+                        microservicesList={analysis?.microservices || []}
                     />
                 </Box>
             </Modal>

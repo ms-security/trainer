@@ -8,8 +8,6 @@ export const calculateTotalEffortTime = (smells: Smell[]) => {
         return total + minutes;
     }, 0);
 
-    console.log('Total minutes:', totalMinutes);
-
     if (totalMinutes >= 1440) {
         const days = Math.floor(totalMinutes / 1440);
         return `${days}d`;
@@ -22,7 +20,6 @@ export const calculateTotalEffortTime = (smells: Smell[]) => {
 };
 const convertEffortTimeToMinutes = (effortTime?: EffortTime): number => {
     if (!effortTime) return 0;
-    console.log('Effort time:', effortTime);
     return effortTime.value * unitToMinutes(effortTime.unitOfTime);
 };
 

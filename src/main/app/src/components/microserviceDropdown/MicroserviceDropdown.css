@@ -31,17 +31,19 @@
     z-index: 1000;
     max-height: 300px;
     overflow-y: auto;
-    min-width: 160px;
+    width: 100%;
     border: 1px solid #ccc;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 10px 0;
 }
 
 .dropdown-item {
     padding: 10px 20px;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dropdown-item:hover,
@@ -51,10 +53,8 @@
 
 .microservice-details-container {
     position: absolute;
-    top: 0;
-    left: calc(100% + 10px); /* Positioning the details container to the right of the dropdown menu */
+    left: calc(100% + 2px); /* Positioning the details container to the right of the dropdown menu */
     z-index: 1000;
-    padding: 10px;
 }
 
 

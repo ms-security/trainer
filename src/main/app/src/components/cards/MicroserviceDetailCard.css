@@ -4,6 +4,7 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    width: 300px;
 }
 
 .relevance-label {
@@ -36,14 +37,22 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
+    width: 100%;
 }
 
 .attribute-name {
     font-weight: bold;
+    width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
 }
 
 .attribute-relevance {
     margin-left: 10px; /* Distanza tra nome attributo e importanza */
+    width: 40%;
+    text-align: right;
 }
 
 .action-buttons {

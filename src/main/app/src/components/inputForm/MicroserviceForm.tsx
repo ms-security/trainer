@@ -1,11 +1,15 @@
-import React, {useState, ChangeEvent, FormEvent, useEffect} from 'react';
-import { Microservice} from "../../interfaces/Microservice";
-import {Category, QualityAttributeMS, Relevance} from "../../interfaces/QualityAttribute";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { Microservice } from "../../interfaces/Microservice";
+import { Category, QualityAttributeMS, Relevance } from "../../interfaces/QualityAttribute";
+import './MicroserviceForm.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface MicroserviceFormProps {
     onAddMicroservice: (data: any) => void;
-    onUpdateMicroservice?: (data: any) => void;  // Nuova funzione per l'update
-    initialData?: Microservice;  // Dati iniziali per la modifica
+    onUpdateMicroservice?: (data: any) => void;
+    initialData?: Microservice;
+    microservicesList?: Microservice[];
 }
 
 const qualityAttributes: QualityAttributeMS[] = [
@@ -22,18 +26,39 @@ const qualityAttributes: QualityAttributeMS[] = [
     { name: 'Testability', relevance: Relevance.NONE, category: Category.MAINTAINABILITY }
 ];
 
-const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, onUpdateMicroservice, initialData }) => {
+const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, onUpdateMicroservice, initialData, microservicesList }) => {
     const [newMicroservice, setNewMicroservice] = useState<Microservice>(initialData || {
         name: '',
         relevance: Relevance.NONE,
         qualityAttributes: [...qualityAttributes]
     });
+    const [nameError, setNameError] = useState<string>('');
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setNewMicroservice(prev => ({
             ...prev,
             [name]: value
+        }));
+        validateName(value);
+    };
+
+    const validateName = (name: string) => {
+        if (name.trim() === '') {
+            setNameError('Microservice name cannot be empty.');
+        } else if (name.length > 20) {
+            setNameError('Microservice name cannot be longer than 20 characters.');
+        } else if (microservicesList?.some(ms => ms.name === name)) {
+            setNameError('Microservice name already exists.');
+        } else {
+            setNameError('');
+        }
+    };
+
+    const handleRelevanceChange = (value: Relevance) => {
+        setNewMicroservice(prev => ({
+            ...prev,
+            relevance: value
         }));
     };
 
@@ -64,8 +89,12 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+        if (nameError) {
+            return;
+        }
+        const trimmedName = newMicroservice.name.trim();
         const dataToSend = {
-            name: newMicroservice.name,
+            name: trimmedName,
             relevance: newMicroservice.relevance,
             qualityAttributes: newMicroservice.qualityAttributes
                 .filter(attr => attr.relevance !== Relevance.NONE)
@@ -88,19 +117,22 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
         const filteredAttributes = newMicroservice.qualityAttributes.filter(attr => attr.category === category);
         return (
             <fieldset>
-                <legend>{category}</legend>
-                {filteredAttributes.map((attr, index) => (
-                    <div key={attr.name}>
-                        <label htmlFor={`quality-${attr.name}`}>{attr.name}:</label>
-                        <select
-                            id={`quality-${attr.name}`}
-                            value={attr.relevance}
-                            onChange={(e) => handleQualityChange(attr.name, e.target.value as Relevance)}
-                        >
+                <legend>{category.replace(/_/g, ' ')}</legend>
+                {filteredAttributes.map((attr) => (
+                    <div key={attr.name} className="quality-attribute-form">
+                        <span className="attribute-name-form">{attr.name}:</span>
+                        <div className="relevance-buttons-form">
                             {Object.values(Relevance).map(level => (
-                                <option key={level} value={level}>{level}</option>
+                                <button
+                                    key={level}
+                                    type="button"
+                                    className={`relevance-button-form ${attr.relevance === level ? `${level.toLowerCase()}-form selected-form` : ''}`}
+                                    onClick={() => handleQualityChange(attr.name, level)}
+                                >
+                                    {level}
+                                </button>
                             ))}
-                        </select>
+                        </div>
                     </div>
                 ))}
             </fieldset>
@@ -118,26 +150,37 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
                     value={newMicroservice.name}
                     onChange={handleInputChange}
                     readOnly={!!initialData}
+                    className={nameError ? 'input-error' : ''}
                 />
 
-                <label htmlFor="relevance">Relevance:</label>
-                <select
-                    id="relevance"
-                    name="relevance"
-                    value={newMicroservice.relevance}
-                    onChange={handleInputChange}
-                >
-                    {Object.values(Relevance).map(level => (
-                        <option key={level} value={level}>{level}</option>
-                    ))}
-                </select>
+                {nameError && (
+                    <span className="error-message">
+                        <FontAwesomeIcon icon={faExclamationCircle} className="error-icon" />
+                        {nameError}
+                    </span>
+                )}
+
+                <div className="relevance-section-form">
+                    <label>Microservice's Relevance:</label>
+                    <div className="relevance-buttons-form">
+                        {Object.values(Relevance).map(level => (
+                            <button
+                                key={level}
+                                type="button"
+                                className={`relevance-button-form ${newMicroservice.relevance === level ? `${level.toLowerCase()}-form selected-form` : ''}`}
+                                onClick={() => handleRelevanceChange(level)}
+                            >
+                                {level}
+                            </button>
+                        ))}
+                    </div>
+                </div>
 
                 {renderCategoryGroup(Category.SECURITY)}
                 {renderCategoryGroup(Category.PERFORMANCE_EFFICIENCY)}
                 {renderCategoryGroup(Category.MAINTAINABILITY)}
 
-                <button type="submit">{initialData ? 'Update Microservice' : 'Add Microservice'}</button>
-            </form>
+                <button className="submit-button-form" type="submit" disabled={!!nameError || newMicroservice.name.trim() === ''}>{initialData ? 'Update Microservice' : 'Add Microservice'}</button>            </form>
         </div>
     );
 };

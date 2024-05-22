@@ -17,7 +17,12 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const toggleDropdown = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(prevIsOpen => {
+            if (prevIsOpen) {
+                setSelectedMicroservice(null);
+            }
+            return !prevIsOpen;
+        });
     };
 
 
@@ -25,7 +30,6 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
         if(selectedMicroservice?.name === microservice.name) {
             setSelectedMicroservice(null);
             return;
-
         }
         setSelectedMicroservice(microservice)
         onSelect(microservice);
@@ -34,7 +38,13 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
     const handleClickOutside = (event: MouseEvent) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
             setIsOpen(false);
+            setSelectedMicroservice(null);
         }
+    };
+
+    const handleDelete = (microserviceName: string) => {
+        deleteMicroservice(microserviceName);
+        setSelectedMicroservice(null);
     };
 
     useEffect(() => {
@@ -53,15 +63,19 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
             </button>
             {isOpen && (
                 <div className="dropdown-menu">
-                    {microservices.map((microservice) => (
-                        <div
-                            key={microservice.name}
-                            className={`dropdown-item ${selectedMicroservice?.name === microservice.name ? 'selected' : ''}`}
-                            onClick={() => handleSelect(microservice)}
-                        >
-                            {microservice.name}
-                        </div>
-                    ))}
+                    {microservices.length === 0 ? (
+                        <div className="dropdown-item no-microservices">No microservices</div>
+                    ) : (
+                        microservices.map((microservice, index) => (
+                            <div
+                                key={microservice.name}
+                                className={`dropdown-item ${selectedMicroservice?.name === microservice.name ? 'selected' : ''}`}
+                                onClick={() => handleSelect(microservice)}
+                            >
+                                {microservice.name}
+                            </div>
+                        ))
+                    )}
                 </div>
             )}
             {selectedMicroservice && (
@@ -69,7 +83,7 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
                     <MicroserviceDetailsCard
                         microservice={selectedMicroservice}
                         onEditMicroservice={onEditMicroservice}
-                        deleteMicroservice={deleteMicroservice}
+                        deleteMicroservice={handleDelete}
                     />
                 </div>
             )}

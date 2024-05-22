@@ -52,7 +52,7 @@ class TriageServiceTest {
         microservice.setRelevance(Relevance.MEDIUM);
 
         UrgencyCode result = triageService.urgencyCodeCalculator(microservice, smell);
-        assertEquals(UrgencyCode.h, result, "Expected h urgency for HIGH impact and MEDIUM microservice relevance");
+        assertEquals(UrgencyCode.HM, result, "Expected h urgency for HIGH impact and MEDIUM microservice relevance");
     }
 
     @Test
@@ -62,7 +62,7 @@ class TriageServiceTest {
         microservice.setRelevance(Relevance.LOW);
 
         UrgencyCode result = triageService.urgencyCodeCalculator(microservice, smell);
-        assertEquals(UrgencyCode.m, result, "Expected m urgency for MEDIUM impact and LOW microservice relevance");
+        assertEquals(UrgencyCode.ML, result, "Expected m urgency for MEDIUM impact and LOW microservice relevance");
     }
 
     @Test
