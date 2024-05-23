@@ -197,6 +197,7 @@ const AnalysisPage = () => {
                                 onAssignMicroservice={handleAssignMicroserviceToSmell}
                                 onCheckboxChange={handleCheckboxChange}
                                 onStatusChange={handleSmellStatusChange}
+                                currentFilterStatus={filters.smellStatus}
                             />
                         ))}
                     </div>

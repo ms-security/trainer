@@ -53,7 +53,8 @@ export const filterSmells = (smells: Smell[], filters: SmellFilter): Smell[] => 
         const matchSmellCode = filters.smellCodes?.length ? filters.smellCodes.includes(smell.name) : true;
 
         return isVisibleBasedOnStatus && matchUrgency && matchStatus && matchMicroservice && matchSmellCode;
-    });
+    })
+
 
     if (filters.sortBy) {
         switch (filters.sortBy) {

@@ -12,7 +12,8 @@ interface SmellCardProps {
     microservices: Microservice[],
     onAssignMicroservice: (smellId: number, microserviceName: string) => void,
     onCheckboxChange?: (smellId: number, checkboxValue: boolean) => void,
-    onStatusChange?: (smellId: number, newStatus: string) => Promise<void>,
+    onStatusChange: (smellId: number, newStatus: string) => Promise<void>,
+    currentFilterStatus?: SmellStatus[]
 }
 
 const SmellCard: React.FC<SmellCardProps> = ({
@@ -23,10 +24,12 @@ const SmellCard: React.FC<SmellCardProps> = ({
                                                  onClick,
                                                  onCheckboxChange,
                                                  onStatusChange,
+                                                 currentFilterStatus
                                              }) => {
 
     const [selectedMicroservice, setSelectedMicroservice] = useState(
         smell.microservice ? smell.microservice.name : '');
+    const [isRemoving, setIsRemoving] = useState(false);
 
 
     const getUrgencyClass = (code: UrgencyCode | undefined) => {
@@ -72,11 +75,15 @@ const SmellCard: React.FC<SmellCardProps> = ({
     };
 
     //Function to call when the status of a smell is changed
-    const handleSmellStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSmellStatusChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newStatus = e.target.value;
-        console.log('Status changed:', smell.id, newStatus);
-        if (onStatusChange) {
-            onStatusChange(smell.id, newStatus);
+        const shouldRemove = !currentFilterStatus?.includes(smell.status) || !currentFilterStatus?.includes(newStatus as SmellStatus);
+        if (shouldRemove) {
+            setIsRemoving(true);
+            await new Promise(resolve => setTimeout(resolve, 500)); // Wait for the transition to complete
+            await onStatusChange(smell.id, newStatus);
+        } else {
+            await onStatusChange(smell.id, newStatus);
         }
     };
 
@@ -85,7 +92,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
     }, [smell.microservice]);
 
     return (
-        <div className="smellCard-container" onClick={onClick}>
+        <div className={`smellCard-container ${isRemoving ? 'removing' : ''}`} onClick={onClick}>
             <div className="smellCard-checkBox-text-container">
                 <div className="checkbox-container" onClick={(e) => {
                     e.stopPropagation();
