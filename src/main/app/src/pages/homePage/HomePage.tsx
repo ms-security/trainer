@@ -12,6 +12,7 @@ import {
     faStar as faStarSolid
 } from "@fortawesome/free-solid-svg-icons";
 import { useAnalysis } from "../../contexts/AnalysisContext";
+import Tooltip from "@mui/material/Tooltip";
 
 function HomePage() {
     // State for managing the visibility of the upload component
@@ -74,13 +75,17 @@ function HomePage() {
                 </div>
                 <div className="buttons-container">
                     <button onClick={handleUploadButtonClick} className="action-btn upload-btn">
-                        <FontAwesomeIcon icon={faCirclePlus} />
+                        <Tooltip title="Add Analysis" arrow>
+                            <FontAwesomeIcon icon={faCirclePlus} />
+                        </Tooltip>
                     </button>
                     <button onClick={handleFavoriteFilterClick} className="action-btn filter-btn">
-                        <FontAwesomeIcon
-                            icon={isFavoriteFilterActive ? faStarSolid : faStarRegular}
-                            className={`star-filter ${isFavoriteFilterActive ? 'active' : ''}`}
-                        />
+                        <Tooltip title="Filter by favorite" arrow>
+                            <FontAwesomeIcon
+                                icon={isFavoriteFilterActive ? faStarSolid : faStarRegular}
+                                className={`star-filter ${isFavoriteFilterActive ? 'active' : ''}`}/>
+                        </Tooltip>
+
                     </button>
                 </div>
             </div>

@@ -31,7 +31,37 @@
 
 .effortTime-form {
     display: flex;
-    align-items: center;
-    padding: 10px;
-    margin-top: 5px; /* Aggiunto margine superiore per separazione */
+    background-color: #ffffff; /* Sfondo bianco per mantenere la semplicità */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leggera ombra per dare profondità */
+    width: auto; /* Mantiene la larghezza automatica per adattarsi al contenuto */
 }
+
+.effortTime-form input[type="number"],
+.effortTime-form select {
+    width: 150px;
+    margin-right: 10px;
+    padding: 8px; /* Comfortable padding for typing */
+    border: 1px solid #ccc; /* Bordi sottili e neutri */
+    border-radius: 4px; /* Angoli arrotondati */
+    font-size: 14px; /* Font leggibile */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+.effortTime-form button {
+    width: 100%;
+    margin-right: 10px;
+    padding: 10px; /* Padding comodo per il click */
+    background-color: #007BFF; /* Blu come colore primario */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer; /* Indica che è cliccabile */
+    transition: background-color 0.3s; /* Transizione fluida al cambio colore */
+}
+
+.effortTime-form button:hover {
+    background-color: #0056b3; /* Colore più scuro al passaggio del mouse */
+}
+

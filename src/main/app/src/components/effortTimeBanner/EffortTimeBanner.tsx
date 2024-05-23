@@ -1,4 +1,4 @@
-    import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './EffortTimeBanner.css';
 import { EffortTime, UnitOfTime } from "../../interfaces/EffortTime";
 
@@ -18,7 +18,6 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
         setUnitOfTime(effortTime ? effortTime.unitOfTime : '');
     }, [effortTime]);
 
-
     const openForm = () => {
         if (effortTime) {
             setValue(effortTime.value.toString());
@@ -33,9 +32,13 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (value && unitOfTime && Object.values(UnitOfTime).includes(unitOfTime.toUpperCase() as UnitOfTime)) {
-            const newEffortTime: EffortTime = { value: parseInt(value), unitOfTime: unitOfTime.toUpperCase() as UnitOfTime };
-            onEffortTimeChange(newEffortTime);
-            setShowForm(false);
+            if (parseInt(value) > 0) {
+                const newEffortTime: EffortTime = { value: parseInt(value), unitOfTime: unitOfTime.toUpperCase() as UnitOfTime };
+                onEffortTimeChange(newEffortTime);
+                setShowForm(false);
+            } else {
+                alert('Please enter a positive value.');
+            }
         } else {
             alert('Please enter a valid value and unit of measure: min, h, or d.');
         }
@@ -55,6 +58,7 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
                         value={value}
                         onChange={e => setValue(e.target.value)}
                         placeholder="Enter effort time value"
+                        min="1"
                     />
                     <select value={unitOfTime} onChange={e => setUnitOfTime(e.target.value)}>
                         <option value="">Select Unit</option>
@@ -63,7 +67,6 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
                         <option value="d">Days (d)</option>
                     </select>
                     <button type="submit">Update Effort Time</button>
-                    <button type="button" onClick={() => setShowForm(false)}>Cancel</button>
                 </form>
             )}
         </>

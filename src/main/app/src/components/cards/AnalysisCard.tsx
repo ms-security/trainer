@@ -3,10 +3,8 @@ import './AnalysisCard.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tooltip from '@mui/material/Tooltip';
 import { faExclamationCircle, faStar as faStarRegular, faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
-import {Smell, UrgencyCode} from "../../interfaces/Smell";
+import { Smell, UrgencyCode } from "../../interfaces/Smell";
 
-
-// Define the prop types for the AnalysisCard component
 interface AnalysisCardProps {
     name: string;
     date: string;
@@ -28,41 +26,49 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                                                    }) => {
     const formattedDate = date.slice(0, 10);
 
-    // Function to count smells by urgency
     const countSmellsByUrgency = (urgency?: UrgencyCode | null) => {
-        return smells.filter(smell => smell.urgencyCode === urgency).length;
+        return smells.filter(smell => smell.urgencyCode === urgency && smell.status === "UNFIXED").length;
+    };
+
+    const countNotFixedSmells = () => {
+        return smells.filter(smell => smell.status === "UNFIXED").length;
     };
 
     const smellCounts = {
-        'red-smell': countSmellsByUrgency(UrgencyCode.HH),
-        'orange-smell': countSmellsByUrgency(UrgencyCode.HM),
-        'yellow-smell': countSmellsByUrgency(UrgencyCode.MM),
-        'green-smell': countSmellsByUrgency(UrgencyCode.ML),
-        'lightblue-smell': countSmellsByUrgency(UrgencyCode.LL),
-        'blue-smell': countSmellsByUrgency(UrgencyCode.LN),
-        'blank-smell': countSmellsByUrgency(UrgencyCode.Ø),
-        'undefined-smell': countSmellsByUrgency(null)
+        'High': countSmellsByUrgency(UrgencyCode.HH),
+        'Medium-to-High': countSmellsByUrgency(UrgencyCode.HM),
+        'Medium': countSmellsByUrgency(UrgencyCode.MM),
+        'Low-to-Medium': countSmellsByUrgency(UrgencyCode.ML),
+        'Low': countSmellsByUrgency(UrgencyCode.LL),
+        'None-to-Low': countSmellsByUrgency(UrgencyCode.LN),
+        'None': countSmellsByUrgency(UrgencyCode.Ø),
+        'undefined': countSmellsByUrgency(null)
     };
 
-    // Render the analysis card
+    const totalNotFixedSmells = countNotFixedSmells();
+
     return (
         <div className="analysis-card" onClick={onClick}>
             <div className="parent_date_favorite">
                 <div className="parent_name_favorite">
-                    <div className="favorite-icon" onClick={(e) => {
-                        e.stopPropagation();
-                        onFavoriteChange();
-                    }}>
-                        <FontAwesomeIcon icon={isFavorite ? faStarSolid : faStarRegular} size="1x" className={`star ${isFavorite ? "star-favorite" : ""}`} />
+                    <div className="favorite-icon" onClick={e => { e.stopPropagation(); onFavoriteChange(); }}>
+                        <Tooltip title="Add to Favorites" arrow>
+                            <FontAwesomeIcon icon={isFavorite ? faStarSolid : faStarRegular} size="1x" className={`star ${isFavorite ? "star-favorite" : ""}`} />
+                        </Tooltip>
                     </div>
                     <h2 className="analysis-name">{name}</h2>
-                    <div className="delete-icon" onClick={(e) => {e.stopPropagation(); onDelete();}}>🗑️</div>
+                    <Tooltip title="Delete Analysis" arrow>
+                        <div className="delete-icon" onClick={e => { e.stopPropagation(); onDelete(); }}>🗑️</div>
+                    </Tooltip>
                 </div>
                 <h4 className="analysis-date">{formattedDate}</h4>
                 <div className="smells">
-                    {Object.entries(smellCounts).map(([colorClass, count]) => (
-                        <span key={colorClass} className={`smell ${colorClass}`}>{count}</span>
+                    {Object.entries(smellCounts).map(([urgencyClass, count]) => (
+                        <Tooltip title={urgencyClass.replaceAll('-', ' ')} arrow key={urgencyClass}>
+                            <span className={`smell ${urgencyClass}`}>{count}</span>
+                        </Tooltip>
                     ))}
+                    <div className="analysisCard-smellNumber">{totalNotFixedSmells} Smells</div>
                 </div>
             </div>
         </div>

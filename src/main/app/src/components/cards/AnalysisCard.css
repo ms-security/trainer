@@ -47,6 +47,7 @@
     margin: 0 0 0 10px;
     font-size: 20px;
     font-weight: bold;
+    border-bottom: 1px solid black;
 }
 
 .parent_date_favorite {
@@ -56,12 +57,15 @@
 }
 
 .analysis-date {
-    margin-top: 0;
+    margin: 10px 0 10px 0;
 }
 
 .smells {
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid lightgrey;
 }
 
 .smell {
@@ -79,14 +83,21 @@
     border-radius: 50%;
 }
 
-.red-smell { background-color: firebrick; }
-.orange-smell { background-color: red; }
-.yellow-smell { background-color: orange; }
-.green-smell { background-color: yellow; }
-.lightblue-smell { background-color: yellowgreen; }
-.blue-smell { background-color: lightgreen; }
-.blank-smell { background-color: lightblue; }
-.undefined-smell { background-color: lightgrey }
+.High { background-color: firebrick; }
+.Medium-to-High { background-color: red; }
+.Medium { background-color: orange; }
+.Low-to-Medium { background-color: yellow; }
+.Low { background-color: yellowgreen; }
+.None-to-Low { background-color: lightgreen; }
+.None { background-color: lightblue; }
+.undefined { background-color: lightgrey; margin-right: 0; }
+
+.analysisCard-smellNumber{
+    margin: 0 5px 0 20px;
+    padding: 3px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
 
 .delete-icon {
     position: absolute;
