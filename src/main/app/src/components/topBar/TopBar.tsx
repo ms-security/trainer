@@ -1,15 +1,22 @@
 // TopBar.tsx
 import React from 'react';
-import './TopBar.css'; // Assicurati di creare questo file CSS
+import './TopBar.css';
 import logoImage from './SSV_logo.png';
 import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHome, faQuestionCircle} from "@fortawesome/free-solid-svg-icons";
 
-const TopBar: React.FC = () => {
+interface TopBarProps {
+    onHomeClick?: () => void;  // Make this prop optional
+}
+
+const TopBar: React.FC<TopBarProps> = ({ onHomeClick }) => {
     const navigate = useNavigate();
 
     const handleHomeLogoClick = () => {
+        if (onHomeClick) {
+            onHomeClick();  // Call the sync function if provided
+        }
         navigate(`/`);
     };
     return (

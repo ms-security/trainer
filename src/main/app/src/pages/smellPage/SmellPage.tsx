@@ -17,24 +17,30 @@ const SmellPage = () => {
     const [smell, setSmell] = useState<Smell | undefined>();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
     const { getSmellById, fetchAnalysisById, addEffortTime, changeSmellStatus, addSmellToMicroservice } = useAnalysis();
+    const [localStatus, setLocalStatus] = useState<string | undefined>();
     const filters = useParsedFiltersFromUrl();
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("Check Params:", analysisId, smellId);
         if (analysisId && smellId) {
             fetchAnalysisById(analysisId).then(setAnalysis);
-            getSmellById(analysisId, parseInt(smellId)).then(setSmell);
+            getSmellById(analysisId, parseInt(smellId)).then(smell => {
+                setSmell(smell);
+                setLocalStatus(smell?.status);  // Initialize local status
+            });
         }
     }, [analysisId, smellId]);
+
 
     const getUrgencyClass = (code: UrgencyCode | undefined) => {
         return code ? `smellPage-urgency-indicator ${code}` : 'smellPage-urgency-indicator';
     };
 
     const handleSmellClick = (analysisId: string, smellId: number) => {
-        const queryStringified = queryString.stringify(filters, { arrayFormat: 'bracket' });
-        navigate(`/analysis/${analysisId}/smell/${smellId}?${queryStringified}`);
+        syncStatusWithBackend().then(() => {
+            const queryStringified = queryString.stringify(filters, {arrayFormat: 'bracket'});
+            navigate(`/analysis/${analysisId}/smell/${smellId}?${queryStringified}`);
+        });  // Sync status before navigating
     };
 
     const handleEffortTimeChange = async (newEffortTime: EffortTime) => {
@@ -48,21 +54,23 @@ const SmellPage = () => {
     };
 
     const handleBackClick = (analysisId: string | undefined) => {
-        console.log("check params:", analysisId);
-        const queryStringified = queryString.stringify(filters, { arrayFormat: 'bracket' });
-        navigate(`/analysis/${analysisId}?${queryStringified}`);
+        syncStatusWithBackend().then(() => {
+            const queryStringified = queryString.stringify(filters, { arrayFormat: 'bracket' });
+            navigate(`/analysis/${analysisId}?${queryStringified}`);
+        });  // Sync status before navigating
     };
 
-    const handleSmellStatusChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSmellStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newStatus = event.target.value;
-        console.log('Status changed:', smellId, newStatus);
-        if (analysis && smell) {
-            await changeSmellStatus(analysis.id, smell.id, newStatus);
+        setLocalStatus(newStatus);  // Update local status
+    };
+
+    const syncStatusWithBackend = async () => {
+        if (analysis && smell && localStatus && localStatus !== smell.status) {
+            await changeSmellStatus(analysis.id, smell.id, localStatus);
             const updatedAnalysis = await fetchAnalysisById(analysis.id);
             setAnalysis(updatedAnalysis);
-
-            // Update the smell in the local state
-            const updatedSmell = { ...smell, status: newStatus as Smell['status'] };
+            const updatedSmell = await getSmellById(analysis.id, smell.id);
             setSmell(updatedSmell);
         }
     };
@@ -110,12 +118,14 @@ const SmellPage = () => {
 
     return (
         <div className="smellPage">
-            <TopBar />
+            <TopBar
+                onHomeClick={syncStatusWithBackend}
+            />
             <div className="smellPage-header">
                 <h1 className="smellPage-backButton" onClick={() => handleBackClick(analysis?.id)}> ← </h1>
                 <h1 className="smellPage-analysisName">Analysis - {analysis?.name}</h1>
                 <div className="smellPage-statusDropdown">
-                    <select value={smell?.status} onClick={(e) => { e.stopPropagation(); }}
+                    <select value={localStatus} onClick={(e) => { e.stopPropagation(); }}
                             onChange={handleSmellStatusChange}>
                         <option value="UNFIXED">Not fixed</option>
                         <option value="FIXED">Fixed</option>
