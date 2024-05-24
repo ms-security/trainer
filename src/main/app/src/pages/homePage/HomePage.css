@@ -48,7 +48,6 @@
     background-color: transparent;
     color: #4CAF50;
     font-size: 50px;
-    border-radius: 5px;
     cursor: pointer;
     transition: color 0.3s;
 }
@@ -83,4 +82,12 @@
 
 .star-filter.active {
     color: gold;
+}
+
+.help-icon {
+    font-size: 50px;
+    padding-left: 2px;
+    padding-right: 2px;
+    cursor: pointer;
+    color: #4CAF50;
 }

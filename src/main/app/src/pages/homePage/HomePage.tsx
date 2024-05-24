@@ -6,33 +6,30 @@ import Upload from "../../components/upload/Upload";
 import AnalysisCard from "../../components/cards/AnalysisCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faCirclePlus,
-    faFilter,
-    faStar as faStarRegular,
-    faStar as faStarSolid
+    faCirclePlus, faQuestionCircle, faStar as faStarRegular, faStar as faStarSolid
 } from "@fortawesome/free-solid-svg-icons";
 import { useAnalysis } from "../../contexts/AnalysisContext";
 import Tooltip from "@mui/material/Tooltip";
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import HelpContent from "../../components/helpContent/HelpContent";
+import '../../components/helpContent/HelpContent.css';
 
 function HomePage() {
-    // State for managing the visibility of the upload component
     const [isUploadVisible, setIsUploadVisible] = useState(false);
-    // State for managing the favorite filter
     const [isFavoriteFilterActive, setIsFavoriteFilterActive] = useState(false);
+    const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const navigate = useNavigate();
     const { analyses, deleteAnalysis, toggleFavoriteStatus, addAnalysis } = useAnalysis();
 
-    // Function to toggle the visibility of the upload component
     const handleUploadButtonClick = () => {
         setIsUploadVisible(!isUploadVisible);
     };
 
-    // Function to toggle the favorite filter
     const handleFavoriteFilterClick = () => {
         setIsFavoriteFilterActive(!isFavoriteFilterActive);
     };
 
-    // Function to handle a new analysis added by the upload component
     const handleNewAnalysis = async (file: File, name: string, date: string, extension: string) => {
         try {
             await addAnalysis(file, name, date, extension);
@@ -43,27 +40,41 @@ function HomePage() {
         }
     };
 
-    // Function for handling click events on an analysis card
     const handleAnalysisClick = (analysisId: string) => {
         navigate(`/analysis/${analysisId}`);
     };
 
-    // Function to handle changes in analysis favorite status
     const handleFavoriteChange = async (analysisId: string) => {
         await toggleFavoriteStatus(analysisId);
     };
 
-    // Function to handle deleting an analysis
     const handleDeleteAnalysis = async (analysisId: string) => {
         if (window.confirm("Are you sure you want to delete this analysis?")) {
             await deleteAnalysis(analysisId);
         }
     };
 
-    // Filter analyses based on favorite status
-    const filteredAnalyses = isFavoriteFilterActive
-        ? analyses.filter(analysis => analysis.isFavorite)
-        : analyses;
+    const filteredAnalyses = isFavoriteFilterActive ? analyses.filter(analysis => analysis.isFavorite) : analyses;
+
+    const handleHelpIconClick = () => {
+        setIsHelpModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsHelpModalOpen(false);
+    };
+
+    const modalStyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 700,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     return (
         <div className="home-container">
@@ -81,17 +92,15 @@ function HomePage() {
                     </button>
                     <button onClick={handleFavoriteFilterClick} className="action-btn filter-btn">
                         <Tooltip title="Filter by favorite" arrow>
-                            <FontAwesomeIcon
-                                icon={isFavoriteFilterActive ? faStarSolid : faStarRegular}
-                                className={`star-filter ${isFavoriteFilterActive ? 'active' : ''}`}/>
+                            <FontAwesomeIcon icon={isFavoriteFilterActive ? faStarSolid : faStarRegular} className={`star-filter ${isFavoriteFilterActive ? 'active' : ''}`}/>
                         </Tooltip>
-
                     </button>
+                    <Tooltip title="Help" arrow>
+                        <FontAwesomeIcon icon={faQuestionCircle} className="help-icon" onClick={handleHelpIconClick} />
+                    </Tooltip>
                 </div>
             </div>
-            {/* Conditionally render the Upload component based on its visibility state */}
             {isUploadVisible && (<Upload onClose={() => setIsUploadVisible(false)} onNewAnalysis={handleNewAnalysis} />)}
-            {/* Grid container for analysis cards. If there are no analyses, show a message. */}
             <div className={`analysis-grid ${filteredAnalyses.length === 0 ? 'center-content' : ''}`}>
                 {filteredAnalyses.length > 0 ? (
                     filteredAnalyses.map((analysis) => (
@@ -110,6 +119,16 @@ function HomePage() {
                     <p className="no-analysis-message">No analysis uploaded. Upload an analysis to start.</p>
                 )}
             </div>
+            <Modal
+                open={isHelpModalOpen}
+                onClose={closeModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={modalStyle}>
+                    <HelpContent />
+                </Box>
+            </Modal>
         </div>
     );
 }

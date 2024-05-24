@@ -2,7 +2,12 @@ import React from 'react';
 import './AnalysisCard.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tooltip from '@mui/material/Tooltip';
-import { faExclamationCircle, faStar as faStarRegular, faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
+import {
+    faExclamationCircle,
+    faStar as faStarRegular,
+    faStar as faStarSolid,
+    faTrash
+} from "@fortawesome/free-solid-svg-icons";
 import { Smell, UrgencyCode } from "../../interfaces/Smell";
 
 interface AnalysisCardProps {
@@ -58,8 +63,11 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                     </div>
                     <h2 className="analysis-name">{name}</h2>
                     <Tooltip title="Delete Analysis" arrow>
-                        <div className="delete-icon" onClick={e => { e.stopPropagation(); onDelete(); }}>🗑️</div>
+                        <div className="delete-icon" onClick={e => { e.stopPropagation(); onDelete(); }}>
+                            <FontAwesomeIcon icon={faTrash} size="1x" />
+                        </div>
                     </Tooltip>
+
                 </div>
                 <h4 className="analysis-date">{formattedDate}</h4>
                 <div className="smells">
@@ -68,7 +76,9 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                             <span className={`smell ${urgencyClass}`}>{count}</span>
                         </Tooltip>
                     ))}
-                    <div className="analysisCard-smellNumber">{totalNotFixedSmells} Smells</div>
+                    <Tooltip title="Not Fixed Smells" arrow>
+                        <div className="analysisCard-smellNumber">{totalNotFixedSmells} Smells</div>
+                    </Tooltip>
                 </div>
             </div>
         </div>
