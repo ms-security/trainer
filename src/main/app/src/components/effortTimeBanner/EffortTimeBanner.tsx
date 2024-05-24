@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './EffortTimeBanner.css';
 import { EffortTime, UnitOfTime } from "../../interfaces/EffortTime";
 
@@ -11,6 +11,7 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
     const [showForm, setShowForm] = useState<boolean>(false);
     const [value, setValue] = useState<string>('');
     const [unitOfTime, setUnitOfTime] = useState<string>('');
+    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
         setShowForm(false);
@@ -44,6 +45,19 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
         }
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+        if (formRef.current && !formRef.current.contains(event.target as Node)) {
+            setShowForm(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
         <>
             {!showForm && (
@@ -52,7 +66,7 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
                 </div>
             )}
             {showForm && (
-                <form onSubmit={handleSubmit} className="effortTime-form">
+                <form ref={formRef} onSubmit={handleSubmit} className="effortTime-form" >
                     <input
                         type="number"
                         value={value}

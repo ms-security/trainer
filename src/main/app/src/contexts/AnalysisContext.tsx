@@ -17,6 +17,7 @@ interface AnalysisContextType {
     updateMicroservice: (data: any, analysisId: string) => Promise<void>;
     getSmellById: (analysisId: string, smellId: number) => Promise<Smell | undefined>;
     addSmellToMicroservice: (analysisId: string, microserviceId: number, smellId: number) => Promise<void>;
+    multipleAssignments: (analysisId: string, microserviceId: number, smellsId: number[]) => Promise<void>;
     deleteMicroservice: (analysisId: string, microserviceId: number) => Promise<void>;
     addEffortTime: (analysisId: string, smellId: number, effortTime: EffortTime) => Promise<void>;
     changeCheckboxValue: (analysisId: string, smellId: number, checkboxValue: boolean) => Promise<void>;
@@ -127,6 +128,15 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
+    const multipleAssignments = async (analysisId: string, microserviceId: number, smellsIds: number[]) => {
+        try{
+            await WebController.multipleMicroserviceAssignment(analysisId, microserviceId, smellsIds);
+            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
+            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
+        }catch (error) {
+            console.log('Failed to assign microservice to smells');
+        }
+    }
     const getSmellById = async (analysisId: string, smellId: number): Promise<Smell | undefined> => {
         try {
             const analysis = await WebController.fetchAnalysis(analysisId);
@@ -181,6 +191,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             deleteAnalysis,
             getSmellById,
             addSmellToMicroservice,
+            multipleAssignments,
             toggleFavoriteStatus,
             addMicroservice,
             updateMicroservice,

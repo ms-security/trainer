@@ -30,7 +30,7 @@ import MicroserviceDropdown from "../../components/microserviceDropdown/Microser
 const AnalysisPage = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice, updateMicroservice, deleteMicroservice, changeCheckboxValue, changeSmellStatus} = useAnalysis();
+    const { fetchAnalysisById, addMicroservice, addSmellToMicroservice, updateMicroservice, deleteMicroservice, changeCheckboxValue, changeSmellStatus, multipleAssignments} = useAnalysis();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
     const [showModal, setShowModal] = useState(false);
     const [currentMicroservice, setCurrentMicroservice] = useState<Microservice | undefined>(undefined);
@@ -96,6 +96,22 @@ const AnalysisPage = () => {
         }
     };
 
+    const handleMultipleAssignment = async (microserviceId: number, resultFileNames: string[]) : Promise<void> => {
+        if(analysis) {
+            try {
+                const smellIds = analysis.smells
+                    .filter(smell => resultFileNames.includes(smell.refactoring.relatedFileName))
+                    .map(smell => smell.id);
+
+                await multipleAssignments(analysis.id, microserviceId, smellIds);
+                const updatedAnalysis = await fetchAnalysisById(analysis.id);
+                setAnalysis(updatedAnalysis);
+            } catch (error){
+                console.log("Error assigning microservice to multiple smells");
+            }
+        }
+    }
+
     const handleDeleteMicroservice = async (microserviceId: number) => {
         if (analysis) {
             await deleteMicroservice(analysis.id, microserviceId);
@@ -145,8 +161,17 @@ const AnalysisPage = () => {
         setCurrentMicroservice(microservice);
     };
 
-    const totalEffortTime = analysis ? calculateTotalEffortTime(analysis.smells) : "0min";
+    const extractUniqueFilenames = (analysis: Analysis) => {
+        const filenamesSet = new Set<string>();
+        analysis.smells.forEach(smell => {
+            filenamesSet.add(smell.refactoring.relatedFileName);
+        });
+        return Array.from(filenamesSet);
+    };
 
+    const filenames = analysis ? extractUniqueFilenames(analysis) : []
+
+    const totalEffortTime = analysis ? calculateTotalEffortTime(analysis.smells) : "0min";
 
     // Render the analysis page container
     return (
@@ -169,6 +194,8 @@ const AnalysisPage = () => {
                                 onSelect={handleMicroserviceSelect}
                                 onEditMicroservice={openEditModal}
                                 deleteMicroservice={handleDeleteMicroservice}
+                                filenames={filenames}
+                                onAssignMicroservice={handleMultipleAssignment}
                             />
                         )}
                         <div className="controls">

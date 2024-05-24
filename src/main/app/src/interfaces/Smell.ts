@@ -1,5 +1,5 @@
 import {Microservice} from "./Microservice";
-import {Refactoring} from "./Refactor";
+import {Refactoring} from "./Refactoring";
 import {QualityAttributeSR} from "./QualityAttribute";
 import {EffortTime} from "./EffortTime";
 

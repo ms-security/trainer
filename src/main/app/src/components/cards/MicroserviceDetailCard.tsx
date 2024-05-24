@@ -6,9 +6,10 @@ interface MicroserviceDetailsCardProps {
     microservice: Microservice;
     onEditMicroservice: (microservice: Microservice) => void;
     deleteMicroservice: (microserviceId: number) => void;
+    onAssignToClick: () => void;
 }
 
-const MicroserviceDetailsCard: React.FC<MicroserviceDetailsCardProps> = ({ microservice , onEditMicroservice, deleteMicroservice}) => {
+const MicroserviceDetailsCard: React.FC<MicroserviceDetailsCardProps> = ({ microservice , onEditMicroservice, deleteMicroservice, onAssignToClick}) => {
     const getRelevanceColor = (relevance: string) => {
         switch (relevance) {
             case 'HIGH':
@@ -39,6 +40,7 @@ const MicroserviceDetailsCard: React.FC<MicroserviceDetailsCardProps> = ({ micro
             <div className="action-buttons">
                 <button className="edit-button" onClick={() => onEditMicroservice(microservice)}>Edit</button>
                 <button className="delete-button" onClick={() => deleteMicroservice(microservice.id as number)}>Delete</button>
+                <button className="assign-to-button" onClick={onAssignToClick}>Assign To</button>
             </div>
         </div>
     );

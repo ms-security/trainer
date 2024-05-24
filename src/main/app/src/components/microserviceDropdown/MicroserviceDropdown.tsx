@@ -3,18 +3,39 @@ import { Microservice } from "../../interfaces/Microservice";
 import './MicroserviceDropdown.css';
 import {Relevance} from "../../interfaces/QualityAttribute";
 import MicroserviceDetailsCard from "../cards/MicroserviceDetailCard";
+import Box from "@mui/material/Box";
+import HelpContent from "../helpContent/HelpContent";
+import Modal from "@mui/material/Modal";
 
 interface MicroserviceDropdownProps {
     microservices: Microservice[];
     onSelect: (microservice: Microservice) => void;
     onEditMicroservice: (microservice: Microservice) => void;
     deleteMicroservice: (microserviceId: number) => void;
+    filenames: string[];
+    onAssignMicroservice: (microserviceId: number, selectedFileNames: string[]) => void;
 }
 
-const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservices, onSelect, onEditMicroservice, deleteMicroservice }) => {
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500, // Set the width of the modal or use a percentage
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 3, // Padding inside the modal
+};
+
+const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservices, onSelect, onEditMicroservice, deleteMicroservice, filenames, onAssignMicroservice}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedMicroservice, setSelectedMicroservice] = useState<Microservice | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const modalRef = useRef<HTMLDivElement>(null);
+    const [isAssignToModalOpen, setIsAssignToModalOpen] = useState(false);
+    const [selectedFilenames, setSelectedFilenames] = useState<string[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const toggleDropdown = () => {
         setIsOpen(prevIsOpen => {
@@ -36,7 +57,11 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
     };
 
     const handleClickOutside = (event: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target as Node) &&
+            (!modalRef.current || !modalRef.current.contains(event.target as Node))
+        ) {
             setIsOpen(false);
             setSelectedMicroservice(null);
         }
@@ -53,6 +78,35 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        if (selectedMicroservice) {
+            setSelectedFilenames(filenames.filter(filename => filename.toLowerCase().includes(selectedMicroservice.name.toLowerCase())));
+        }
+    }, [selectedMicroservice, filenames]);
+
+    const handleConfirm = () => {
+        if (selectedMicroservice) {
+            onAssignMicroservice(selectedMicroservice.id as number, selectedFilenames);
+            closeModal();
+        }
+    };
+
+    const handleFilenameChange = (filename: string) => {
+        setSelectedFilenames(prevSelected => {
+            if (prevSelected.includes(filename)) {
+                return prevSelected.filter(name => name !== filename);
+            } else {
+                return [...prevSelected, filename];
+            }
+        });
+    };
+
+    const closeModal = () => {
+        setIsAssignToModalOpen(false);
+    };
+
+    const filteredFilenames = filenames.filter(filename => filename.toLowerCase().includes(searchTerm.toLowerCase()));
 
 
     return (
@@ -84,9 +138,49 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
                         microservice={selectedMicroservice}
                         onEditMicroservice={onEditMicroservice}
                         deleteMicroservice={handleDelete}
+                        onAssignToClick={() => setIsAssignToModalOpen(true)}
                     />
                 </div>
             )}
+            <div ref={modalRef}>
+                <Modal
+                    open={isAssignToModalOpen}
+                    onClose={closeModal}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style} ref={modalRef}>
+                        <h2 className="modal-title">Assign the microservice to the smells related to these files:</h2>
+                        <input
+                            type="text"
+                            placeholder="Search filenames..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="search-bar"
+                        />
+                        <div className="filenames-list">
+                            {filteredFilenames.length > 0 ? (
+                                filteredFilenames.map((filename, index) => (
+                                    <div key={index} className="filename-item">
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                value={filename}
+                                                checked={selectedFilenames.includes(filename)}
+                                                onChange={() => handleFilenameChange(filename)}
+                                            />
+                                            {filename}
+                                        </label>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="no-results">No results found</div>
+                            )}
+                        </div>
+                        <button className="confirm-button-assign-to" onClick={handleConfirm}>Confirm</button>
+                    </Box>
+                </Modal>
+            </div>
         </div>
     );
 };

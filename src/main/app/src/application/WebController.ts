@@ -141,6 +141,20 @@ export default class WebController{
         console.log('Microservice added to smell');
     }
 
+    static async multipleMicroserviceAssignment(analysisId: string, microserviceId: number, smellIds: number[]): Promise<void> {
+        const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceId}/smells`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(smellIds)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to assign microservice to multiple smells')
+        }
+        console.log('Multiple assignments successfully')
+    }
+
     static async addEffortTime(analysisId: string, smellId: number, effortTime: EffortTime): Promise<void> {
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}/smell/${smellId}/effortTime`, {
             method: 'PUT',

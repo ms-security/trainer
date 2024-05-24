@@ -62,7 +62,7 @@
     color: white;
 }
 
-.edit-button, .delete-button {
+.edit-button, .delete-button, .assign-to-button {
     flex: 1; /* Occupa metà dello spazio disponibile ciascuno */
     margin: 5px; /* Mantiene una piccola distanza tra i bottoni */
     padding: 8px 16px;
@@ -79,4 +79,9 @@
 .delete-button {
     color: white;
     background-color: #DC3545; /* Rosso per il bottone Delete */
+}
+
+.assign-to-button {
+    color: white;
+    background-color: #28A745; /* Verde per il bottone Assign */
 }

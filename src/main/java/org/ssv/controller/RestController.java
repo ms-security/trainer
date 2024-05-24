@@ -117,6 +117,30 @@ public class RestController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/microservices/{analysisId}/{microserviceId}/smells")
+    public ResponseEntity<Void> assignMicroservicesToMultipleSmells(@PathVariable String analysisId, @PathVariable int microserviceId, @RequestBody ArrayList<Integer> smellsIds) {
+        Analysis analysis = facadeService.findAnalysisById(analysisId);
+        if (analysis == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceId);
+        if (microservice == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        TriageService triageService = new TriageService();
+        for (int smellId : smellsIds) {
+            Smell smell = facadeService.findSmellById(analysisId, smellId);
+            if (smell != null) {
+                smell.setUrgencyCode(triageService.urgencyCodeCalculator(microservice, smell));
+                smell.setMicroservice(microservice);
+                facadeService.saveSmell(smell);
+            }
+        }
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping("/microservices/{analysisId}")
     public ResponseEntity<Void> updateMicroservice(@PathVariable String analysisId, @RequestBody Microservice microserviceTmp) {
         Analysis analysis = facadeService.findAnalysisById(analysisId);
