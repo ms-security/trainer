@@ -1,30 +1,40 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './MicroserviceBanner.css';
+import {Microservice} from "../../interfaces/Microservice";
 
 interface MicroserviceBannerProps {
-    microserviceName: string | undefined;
-    microservices: string[];
-    onMicroserviceChange: (newMicroserviceName: string) => void;
+    microservice: Microservice |  undefined;
+    microservices: Microservice[];
+    onMicroserviceChange: (microserviceId: number) => void;
 }
 
 const MicroserviceBanner: React.FC<MicroserviceBannerProps> = ({
-                                                                   microserviceName,
+                                                                   microservice,
                                                                    microservices,
                                                                    onMicroserviceChange
                                                                }) => {
+    const [selectedMicroserviceId, setSelectedMicroserviceId] = useState(
+        microservice ? microservice.id : -1);
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        onMicroserviceChange(event.target.value);
+        const selectedId = parseInt(event.target.value, 10);
+        onMicroserviceChange(selectedId)
     };
+
+    useEffect(() => {
+        setSelectedMicroserviceId(microservice ? microservice.id : -1);
+    }, [microservice]);
 
     return (
         <select
-            className={`microservice-select ${!microserviceName ? 'no-association' : 'associated'}`}
-            value={microserviceName || ''}
+            className={`microservice-select ${!microservice ? 'no-association' : 'associated'}`}
+            value={selectedMicroserviceId}
             onChange={handleSelectChange}
         >
-            <option value="">{microserviceName || 'Select a MicroService'}</option>
+            <option value="-1">Select a Microservice</option>
             {microservices.map(ms => (
-                ms !== microserviceName && <option key={ms} value={ms}>{ms}</option>
+                <option key={ms.id} value={ms.id}>
+                    {ms.name}
+                </option>
             ))}
         </select>
     );

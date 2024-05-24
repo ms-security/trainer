@@ -93,15 +93,22 @@ public class RestController {
         }
     }
 
-    @PutMapping("/microservices/{analysisId}/{microserviceName}/{smellId}")
-    public ResponseEntity<Void> assignMicroserviceToSmell(@PathVariable String analysisId, @PathVariable String microserviceName, @PathVariable int smellId) {
+    @PutMapping("/microservices/{analysisId}/{microserviceId}/{smellId}")
+    public ResponseEntity<Void> assignMicroserviceToSmell(@PathVariable String analysisId, @PathVariable int microserviceId, @PathVariable int smellId) {
         if (facadeService.findAnalysisById(analysisId) == null) { return ResponseEntity.notFound().build(); }
-
-        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceName);
-        if (microservice == null) {return ResponseEntity.notFound().build();}
 
         Smell smell = facadeService.findSmellById(analysisId, smellId);
         if (smell == null) {return ResponseEntity.notFound().build();}
+
+        if(microserviceId == -1){
+            smell.setMicroservice(null);
+            smell.setUrgencyCode(null);
+            facadeService.saveSmell(smell);
+            return ResponseEntity.ok().build();
+        }
+
+        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceId);
+        if (microservice == null) {return ResponseEntity.notFound().build();}
 
         TriageService triageService = new TriageService();
         smell.setUrgencyCode(triageService.urgencyCodeCalculator(microservice, smell));
@@ -115,7 +122,7 @@ public class RestController {
         Analysis analysis = facadeService.findAnalysisById(analysisId);
         if (analysis == null) { return ResponseEntity.notFound().build();}
 
-        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceTmp.getName());
+        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceTmp.getId());
         if (microservice == null) {return ResponseEntity.notFound().build();}
 
         facadeService.updateMicroservice(microservice, microserviceTmp);
@@ -129,12 +136,13 @@ public class RestController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/microservices/{analysisId}/{microserviceName}")
-    public ResponseEntity<Void> deleteMicroservice(@PathVariable String analysisId, @PathVariable String microserviceName) {
+    @DeleteMapping("/microservices/{analysisId}/{microserviceId}")
+    public ResponseEntity<Void> deleteMicroservice(@PathVariable String analysisId, @PathVariable int microserviceId) {
+        System.out.println("deleteMicroservice: " + microserviceId);
         Analysis analysis = facadeService.findAnalysisById(analysisId);
         if (analysis == null) { return ResponseEntity.notFound().build();}
 
-        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceName);
+        Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceId);
         if (microservice == null) {return ResponseEntity.notFound().build();}
 
         boolean removed = facadeService.deleteMicroservice(microservice);

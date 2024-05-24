@@ -47,7 +47,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
             setNameError('Microservice name cannot be empty.');
         } else if (name.length > 20) {
             setNameError('Microservice name cannot be longer than 20 characters.');
-        } else if (microservicesList?.some(ms => ms.name === name)) {
+        } else if (microservicesList?.some(ms => ms.name.toLowerCase() === name.toLowerCase())) {
             setNameError('Microservice name already exists.');
         } else {
             setNameError('');
@@ -69,6 +69,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
             });
 
             setNewMicroservice({
+                id: initialData.id,
                 name: initialData.name,
                 relevance: initialData.relevance,
                 qualityAttributes: updatedQualityAttributes,
@@ -93,6 +94,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
         }
         const trimmedName = newMicroservice.name.trim();
         const dataToSend = {
+            id: initialData?.id,
             name: trimmedName,
             relevance: newMicroservice.relevance,
             qualityAttributes: newMicroservice.qualityAttributes
@@ -148,7 +150,6 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
                     type="text"
                     value={newMicroservice.name}
                     onChange={handleInputChange}
-                    readOnly={!!initialData}
                     className={nameError ? 'input-error-form' : 'input-form'}
                 />
 

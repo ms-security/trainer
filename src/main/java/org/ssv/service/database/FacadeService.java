@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class FacadeService {
+
     @Autowired
     private AnalysisService analysisService;
 
@@ -55,8 +56,8 @@ public class FacadeService {
         microserviceService.saveMicroservice(microservice);
     }
 
-    public Microservice findMicroserviceById(String analysisId, String microserviceName) {
-        return microserviceService.findMicroserviceById(analysisId, microserviceName);
+    public Microservice findMicroserviceById(String analysisId, int microserviceId) {
+        return microserviceService.findMicroserviceById(analysisId, microserviceId);
     }
 
     public boolean deleteMicroservice(Microservice microservice) {
@@ -67,10 +68,11 @@ public class FacadeService {
             smellService.saveSmell(smell);
         }
         qualityAttributeService.deleteQualityAttributeByMicroservice(microservice);
-        return microserviceService.deleteMicroservice(microservice.getName());
+        return microserviceService.deleteMicroservice(microservice.getId());
     }
 
     public void updateMicroservice(Microservice microservice, Microservice microserviceTmp) {
+        microservice.setName(microserviceTmp.getName());
         microservice.setRelevance(microserviceTmp.getRelevance());
         qualityAttributeService.deleteQualityAttributeByMicroservice(microservice);
         microservice.getQualityAttributes().clear();

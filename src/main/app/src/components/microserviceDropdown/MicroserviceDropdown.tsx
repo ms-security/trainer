@@ -8,7 +8,7 @@ interface MicroserviceDropdownProps {
     microservices: Microservice[];
     onSelect: (microservice: Microservice) => void;
     onEditMicroservice: (microservice: Microservice) => void;
-    deleteMicroservice: (microserviceName: string) => void;
+    deleteMicroservice: (microserviceId: number) => void;
 }
 
 const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservices, onSelect, onEditMicroservice, deleteMicroservice }) => {
@@ -42,8 +42,8 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
         }
     };
 
-    const handleDelete = (microserviceName: string) => {
-        deleteMicroservice(microserviceName);
+    const handleDelete = (microserviceId: number) => {
+        deleteMicroservice(microserviceId);
         setSelectedMicroservice(null);
     };
 

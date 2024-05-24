@@ -26,15 +26,14 @@ public class MicroserviceService {
     }
 
     // Find microservice by ID
-    public Microservice findMicroserviceById(String analysisId, String microserviceId) {
-        // Assuming Microservice has a composite key or similar logic
-        // Implement the logic to find the microservice by analysisId and microserviceId
+    public Microservice findMicroserviceById(String analysisId, int microserviceId) {
+
         Optional<Microservice> microservice = microserviceRepository.findById(microserviceId);
         return microservice.orElse(null);
     }
 
     @Transactional
-    public boolean deleteMicroservice(String microserviceId) {
+    public boolean deleteMicroservice(int microserviceId) {
         Optional<Microservice> microserviceOpt = microserviceRepository.findById(microserviceId);
         if (microserviceOpt.isPresent()) {
             Microservice microservice = microserviceOpt.get();

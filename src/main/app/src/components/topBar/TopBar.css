@@ -7,7 +7,7 @@
     top: 0;
     left: 0;
     position: fixed;
-    background-color: #c4f1dd;
+    background-color: #c6e4ee;
     border: 1px solid black;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     z-index: 100;
@@ -20,7 +20,8 @@
 
 .top-bar_title h1 {
     margin-left: 20px;
-    color: #088d55;
+    color: dodgerblue;
+    font-style: oblique;
 }
 
 .home-button {

@@ -84,10 +84,10 @@ const SmellPage = () => {
         );
     };
 
-    const handleMicroserviceAssignment = async (newMicroserviceName: string) => {
-        console.log("Nuovo microservizio selezionato:", newMicroserviceName);
+    const handleMicroserviceAssignment = async (microserviceId: number) => {
+        console.log("Nuovo microservizio selezionato:", microserviceId);
         if (analysisId && smellId) {
-            await addSmellToMicroservice(analysisId, newMicroserviceName, parseInt(smellId) );
+            await addSmellToMicroservice(analysisId, microserviceId, parseInt(smellId) );
             const updatedAnalysis = await fetchAnalysisById(analysisId);
             setAnalysis(updatedAnalysis);
             const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
@@ -138,8 +138,8 @@ const SmellPage = () => {
                     <div className="smellPage-urgencyCode-text">{urgencyCodeToName(smell?.urgencyCode)}</div>
                 </div>
                 <MicroserviceBanner
-                    microserviceName={smell?.microservice?.name}
-                    microservices={analysis?.microservices.map(ms => ms.name) || []}
+                    microservice={smell?.microservice}
+                    microservices={analysis?.microservices || []}
                     onMicroserviceChange={handleMicroserviceAssignment}/>
                 <EffortTimeBanner
                     key={smell?.id}

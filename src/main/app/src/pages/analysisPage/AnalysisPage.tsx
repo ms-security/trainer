@@ -83,11 +83,11 @@ const AnalysisPage = () => {
         console.log('Update microservice:', data);
     };
 
-    const handleAssignMicroserviceToSmell = async (smellId: number, microserviceName: string) => {
+    const handleAssignMicroserviceToSmell = async (smellId: number, microserviceId: number) => {
         if (analysis) {
             try {
-                console.log('Assigning microservice to smell: ', microserviceName, smellId);
-                await addSmellToMicroservice(analysis.id, microserviceName, smellId);
+                console.log('Assigning microservice to smell: ', microserviceId, smellId);
+                await addSmellToMicroservice(analysis.id, microserviceId, smellId);
                 const updatedAnalysis = await fetchAnalysisById(analysis.id);
                 setAnalysis(updatedAnalysis);
             } catch (error) {
@@ -96,9 +96,9 @@ const AnalysisPage = () => {
         }
     };
 
-    const handleDeleteMicroservice = async (microserviceName: string) => {
+    const handleDeleteMicroservice = async (microserviceId: number) => {
         if (analysis) {
-            await deleteMicroservice(analysis.id, microserviceName);
+            await deleteMicroservice(analysis.id, microserviceId);
             // Assume that deleteMicroservice updates the analysis context, so refetch it
             const updatedAnalysis = await fetchAnalysisById(analysis.id);
             setAnalysis(updatedAnalysis);

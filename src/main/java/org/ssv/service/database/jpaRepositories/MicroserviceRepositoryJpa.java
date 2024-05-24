@@ -6,10 +6,10 @@ import org.ssv.model.Microservice;
 
 import java.util.List;
 
-public interface MicroserviceRepositoryJpa extends JpaRepository<Microservice, String> {
+public interface MicroserviceRepositoryJpa extends JpaRepository<Microservice, Integer> {
     // Fetch microservices by analysis
     List<Microservice> findByAnalysis(Analysis analysis);
 
-    void deleteById(String id);
+    void deleteById(int id);
 }
 

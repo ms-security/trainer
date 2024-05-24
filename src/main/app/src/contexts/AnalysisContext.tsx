@@ -16,8 +16,8 @@ interface AnalysisContextType {
     addMicroservice: (data: any, analysisId: string) => Promise<void>;
     updateMicroservice: (data: any, analysisId: string) => Promise<void>;
     getSmellById: (analysisId: string, smellId: number) => Promise<Smell | undefined>;
-    addSmellToMicroservice: (analysisId: string, microserviceId: string, smellId: number) => Promise<void>;
-    deleteMicroservice: (analysisId: string, microserviceName: string) => Promise<void>;
+    addSmellToMicroservice: (analysisId: string, microserviceId: number, smellId: number) => Promise<void>;
+    deleteMicroservice: (analysisId: string, microserviceId: number) => Promise<void>;
     addEffortTime: (analysisId: string, smellId: number, effortTime: EffortTime) => Promise<void>;
     changeCheckboxValue: (analysisId: string, smellId: number, checkboxValue: boolean) => Promise<void>;
     changeSmellStatus: (analysisId: string, smellId: number, newStatus: string) => Promise<void>;
@@ -106,9 +106,9 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     };
 
-    const deleteMicroservice = async (analysisId: string, microserviceName: string) => {
+    const deleteMicroservice = async (analysisId: string, microserviceId: number) => {
         try {
-            await WebController.deleteMicroservice(analysisId, microserviceName);
+            await WebController.deleteMicroservice(analysisId, microserviceId);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
@@ -117,7 +117,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
     }
 
 
-    const addSmellToMicroservice = async (analysisId: string, microserviceId: string, smellId: number) => {
+    const addSmellToMicroservice = async (analysisId: string, microserviceId: number, smellId: number) => {
         try {
             await WebController.addSmellToMicroservice(analysisId, microserviceId, smellId);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);

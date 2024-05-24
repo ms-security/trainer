@@ -103,6 +103,7 @@ export default class WebController{
     }
 
     static async updateMicroservice(data: any, analysisId: string) {
+        console.log('Updating microservice:', data, analysisId);
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}`, {
             method: 'PUT',
             headers: {
@@ -116,9 +117,9 @@ export default class WebController{
         console.log('Microservice updated');
     }
 
-    static async deleteMicroservice(analysisId: string, microserviceName: string) {
-        const encodedMicroserviceName = encodeURIComponent(microserviceName);
-        const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${encodedMicroserviceName}`, {
+    static async deleteMicroservice(analysisId: string, microserviceId: number) {
+        console.log('Deleting microservice:', analysisId, microserviceId);
+        const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceId}`, {
             method: 'DELETE'
         });
         if (!response.ok) {
@@ -127,7 +128,7 @@ export default class WebController{
         console.log('Microservice deleted');
     }
 
-    static async addSmellToMicroservice(analysisId: string, microserviceId: string, smellId: number): Promise<void> {
+    static async addSmellToMicroservice(analysisId: string, microserviceId: number, smellId: number): Promise<void> {
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceId}/${smellId}`, {
             method: 'PUT',
             headers: {

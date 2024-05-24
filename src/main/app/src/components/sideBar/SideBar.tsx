@@ -194,7 +194,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
                     {openSections['smellCodes'] && (
                         <div className="accordion-content smellCode">
                             {Object.entries(smellCodeDescriptions).map(([code, description]) => (
-                                <div key={code} className={`option ${filters.smellCodes?.includes(code) ? 'selected' : ''}`} onClick={() => toggleSmellCode(code)}>
+                                <div key={code} className={`option ${filters.smellCodes?.includes(code) ? 'selected' : 'not-selected'}`} onClick={() => toggleSmellCode(code)}>
                                     <span>{description}</span>
                                     <span>({code})</span>
                                 </div>
@@ -221,7 +221,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
                         <div className="accordion-content smellCode">
                             {microservices.length > 0 ? (
                                 microservices.map(microservice => (
-                                    <div key={microservice.name} className={`option ${filters.microservice?.includes(microservice.name) ? 'selected' : ''}`} onClick={() => toggleMicroservice(microservice.name)}>
+                                    <div key={microservice.name} className={`option ${filters.microservice?.includes(microservice.name) ? 'selected' : 'not-selected'}`} onClick={() => toggleMicroservice(microservice.name)}>
                                         <span>{microservice.name}</span>
                                     </div>
                                 ))
@@ -251,7 +251,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
                             {Object.values(SmellStatus).map(status => (
                                 <div
                                     key={status}
-                                    className={`option ${filters.smellStatus?.includes(status) ? 'selected' : ''}`}
+                                    className={`option ${filters.smellStatus?.includes(status) ? 'selected' : 'not-selected'}`}
                                     onClick={() => toggleSmellStatus(status)}
                                 >
                                     <span>{formatSmellStatus(status)}</span>

@@ -5,7 +5,7 @@ import './MicroserviceDetailCard.css';
 interface MicroserviceDetailsCardProps {
     microservice: Microservice;
     onEditMicroservice: (microservice: Microservice) => void;
-    deleteMicroservice: (microserviceName: string) => void;
+    deleteMicroservice: (microserviceId: number) => void;
 }
 
 const MicroserviceDetailsCard: React.FC<MicroserviceDetailsCardProps> = ({ microservice , onEditMicroservice, deleteMicroservice}) => {
@@ -38,7 +38,7 @@ const MicroserviceDetailsCard: React.FC<MicroserviceDetailsCardProps> = ({ micro
             )}
             <div className="action-buttons">
                 <button className="edit-button" onClick={() => onEditMicroservice(microservice)}>Edit</button>
-                <button className="delete-button" onClick={() => deleteMicroservice(microservice.name)}>Delete</button>
+                <button className="delete-button" onClick={() => deleteMicroservice(microservice.id as number)}>Delete</button>
             </div>
         </div>
     );

@@ -16,12 +16,16 @@ import java.util.List;
 @NoArgsConstructor
 public class Microservice {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private int id;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "analysis_id", nullable = false)
     private Analysis analysis;
 
-    @Id
     @Column(name = "name", nullable = false)
     private String name;
 

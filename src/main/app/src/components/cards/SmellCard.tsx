@@ -10,7 +10,7 @@ interface SmellCardProps {
     isChecked: boolean,
     onClick: () => void,
     microservices: Microservice[],
-    onAssignMicroservice: (smellId: number, microserviceName: string) => void,
+    onAssignMicroservice: (smellId: number, microserviceId: number) => void,
     onCheckboxChange?: (smellId: number, checkboxValue: boolean) => void,
     onStatusChange: (smellId: number, newStatus: string) => Promise<void>,
     currentFilterStatus?: SmellStatus[]
@@ -27,8 +27,8 @@ const SmellCard: React.FC<SmellCardProps> = ({
                                                  currentFilterStatus
                                              }) => {
 
-    const [selectedMicroservice, setSelectedMicroservice] = useState(
-        smell.microservice ? smell.microservice.name : '');
+    const [selectedMicroserviceId, setSelectedMicroserviceId] = useState(
+        smell.microservice ? smell.microservice.id : -1);
     const [isRemoving, setIsRemoving] = useState(false);
 
 
@@ -59,11 +59,9 @@ const SmellCard: React.FC<SmellCardProps> = ({
 
     // Function to call when a microservice is selected from the dropdown
     const handleMicroserviceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const microserviceName = e.target.value;
-        setSelectedMicroservice(microserviceName);
-        if (microserviceName !== '') {
-            onAssignMicroservice(smell.id, microserviceName);
-        }
+        const microserviceId = parseInt(e.target.value, 10);
+        setSelectedMicroserviceId(microserviceId);
+        onAssignMicroservice(smell.id, microserviceId);
     };
 
     //Function to call when the checkbox is clicked
@@ -88,7 +86,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
     };
 
     useEffect(() => {
-        setSelectedMicroservice(smell.microservice ? smell.microservice.name : '');
+        setSelectedMicroserviceId(smell.microservice ? smell.microservice.id : -1);
     }, [smell.microservice]);
 
     return (
@@ -127,13 +125,13 @@ const SmellCard: React.FC<SmellCardProps> = ({
                             </div>
 
                             <div className="microservice-dropdown">
-                                <select value={selectedMicroservice} onClick={(e) => {
+                                <select value={selectedMicroserviceId} onClick={(e) => {
                                     e.stopPropagation();
                                 }}
                                         onChange={handleMicroserviceChange}>
-                                    <option value="">Select Microservice</option>
+                                    <option value="-1">Select Microservice</option>
                                     {microservices.map(microservice => (
-                                        <option key={microservice.name} value={microservice.name}>
+                                        <option key={microservice.id} value={microservice.id}>
                                             {microservice.name}
                                         </option>
                                     ))}
