@@ -7,7 +7,7 @@
     margin-left: 30px;
     padding: 10px;
     background: white;
-    border-radius: 8px;
+    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: black 1px solid;
     cursor: pointer;
@@ -95,8 +95,7 @@
 .analysisCard-smellNumber{
     margin: 0 5px 0 20px;
     padding: 3px;
-    border: 1px solid black;
-    border-radius: 10px;
+    border-bottom: 1px solid lightgrey;
 }
 
 .delete-icon {

@@ -31,9 +31,6 @@ const TopBar: React.FC<TopBarProps> = ({ onHomeClick }) => {
             <Tooltip title="Home" arrow>
                 <FontAwesomeIcon icon={faHome} size="2x" className="home-button" onClick={handleHomeLogoClick} />
             </Tooltip>
-            <Tooltip title="Help" arrow>
-                <FontAwesomeIcon icon={faQuestionCircle} size="2x" className="help-icon" />
-            </Tooltip>
         </div>
     );
 };
