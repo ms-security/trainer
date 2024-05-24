@@ -57,7 +57,7 @@ const EffortTimeBanner: React.FC<EffortTimeBannerProps> = ({ effortTime, onEffor
                         type="number"
                         value={value}
                         onChange={e => setValue(e.target.value)}
-                        placeholder="Enter effort time value"
+                        placeholder="Enter value"
                         min="1"
                     />
                     <select value={unitOfTime} onChange={e => setUnitOfTime(e.target.value)}>
