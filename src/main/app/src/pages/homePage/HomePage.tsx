@@ -73,7 +73,7 @@ function HomePage() {
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
-        p: 4,
+        padding: '20px 40px 20px 40px'
     };
 
     return (
@@ -95,10 +95,10 @@ function HomePage() {
                             <FontAwesomeIcon icon={isFavoriteFilterActive ? faStarSolid : faStarRegular} className={`star-filter ${isFavoriteFilterActive ? 'active' : ''}`}/>
                         </Tooltip>
                     </button>
-                    <Tooltip title="Help" arrow>
-                        <FontAwesomeIcon icon={faQuestionCircle} className="help-icon" onClick={handleHelpIconClick} />
-                    </Tooltip>
                 </div>
+                <Tooltip title="Help" arrow>
+                    <FontAwesomeIcon icon={faQuestionCircle} className="help-icon" onClick={handleHelpIconClick} />
+                </Tooltip>
             </div>
             {isUploadVisible && (<Upload onClose={() => setIsUploadVisible(false)} onNewAnalysis={handleNewAnalysis} />)}
             <div className={`analysis-grid ${filteredAnalyses.length === 0 ? 'center-content' : ''}`}>

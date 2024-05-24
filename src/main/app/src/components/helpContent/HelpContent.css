@@ -1,5 +1,14 @@
 .helpContent-title{
     margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.helpContent-firstLine{
+    margin: 5px 0 5px 0;
+}
+
+.help-section-format{
+    margin: 15px 0 10px 0;
 }
 
 .example-box {
