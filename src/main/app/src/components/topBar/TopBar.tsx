@@ -1,9 +1,9 @@
 import React from 'react';
 import './TopBar.css';
-import logoImage from './SSV_LOGO_BLU.jpg';
+import logoImage from '../../resources/SSV_LOGO_BLU.jpg';
 import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHome, faQuestionCircle} from "@fortawesome/free-solid-svg-icons";
+import {faHome} from "@fortawesome/free-solid-svg-icons";
 import Tooltip from "@mui/material/Tooltip";
 
 

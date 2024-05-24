@@ -18,9 +18,13 @@ const HelpContent = () => {
   {
     "analysis": "KubeSec analysis",
     "smells": ["UPM"],
-    "description": "Kubesec.io found potential problems in deployment_file.yaml selector: .metadata.annotations.'container.apparmor.security.beta.kubernetes.io/nginx' reason: Well defined AppArmor policies may provide greater protection."
+    "description": "Kubesec.io found potential problems in deployment_file.yaml\n\tselector: .metadata.annotations.'container.apparmor.security.beta.kubernetes.io/nginx'\n\treason: Well defined AppArmor policies may provide greater protection."
   },
-  ...
+  {
+    "analysis": "KubeSec analysis",
+    "smells": ["UPM"],
+    "description": "Kubesec.io found potential problems in deployment_file.yaml\n\tselector: .metadata .annotations .\\"container.seccomp.security.alpha.kubernetes.io/pod\\"\n\treason: Seccomp profiles set minimum privilege and secure against unknown threats"
+    }
 ]`;
 
     const txtExample = `Analysis results:
@@ -39,9 +43,9 @@ KubeSec analysis - detected smells {UPM}
     return (
         <div>
             <h2 className="helpContent-title">File Format Guide</h2>
-            <p>Our system supports <strong>.txt</strong> and <strong>.json</strong> files. Below are the format guidelines:</p>
+            <p className="helpContent-firstLine">Our system supports <strong>.txt</strong> and <strong>.json</strong> files. Below are the format guidelines:</p>
             <div className="help-section">
-                <h3>JSON Format:</h3>
+                <h3 className="help-section-format">JSON Format:</h3>
                 <div className="example-box">
                     <pre>{jsonExample}</pre>
                     <button className="copy-button" onClick={() => handleCopy(jsonExample, setCopiedJSON)}>
@@ -50,7 +54,7 @@ KubeSec analysis - detected smells {UPM}
                 </div>
             </div>
             <div className="help-section">
-                <h3>Txt Format:</h3>
+                <h3 className="help-section-format">Txt Format:</h3>
                 <div className="example-box">
                     <pre>{txtExample}</pre>
                     <button className="copy-button" onClick={() => handleCopy(txtExample, setCopiedTxt)}>
