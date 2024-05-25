@@ -128,43 +128,61 @@ const SmellPage = () => {
     };
 
     const renderPropertiesSections = () => {
+        if (!smell || !smell.refactoring) {
+            return null; // Assicura che non ci siano tentativi di rendering se i dati sono undefined
+        }
+
         return (
             <>
                 <div className="smellPage-smellImpact">
                     <h3 className="smellPage-propertiesSmellImpact">Smell Impact</h3>
-                    {Object.values(Category).map(category => (
-                        <div key={category}>
-                            <h4 className="smellPage-propertyCategory">{category}</h4>
-                            {smell?.propertiesAffected.filter(attr => attr.category === category).map(attribute => (
-                                <div key={attribute.name} className="smellPage-property">
-                                    <span className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}>
-                                        {attribute.impactsPositively ? '+' : '-'}
-                                    </span>
-                                    <span className="smellPage-propertyName">{attribute.name}</span>
+                    {Object.values(Category).map(category => {
+                        const filteredAttributes = smell.propertiesAffected.filter(attr => attr.category === category);
+                        if (filteredAttributes.length > 0) {
+                            return (
+                                <div key={category}>
+                                    <h4 className="smellPage-propertyCategory">{category}</h4>
+                                    {filteredAttributes.map(attribute => (
+                                        <div key={attribute.name} className="smellPage-property">
+                                        <span className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}>
+                                            {attribute.impactsPositively ? '+' : '-'}
+                                        </span>
+                                            <span className="smellPage-propertyName">{attribute.name}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    ))}
+                            );
+                        }
+                        return null; // Non renderizzare nulla se non ci sono attributi
+                    })}
                 </div>
                 <div className="smellPage-refactoringImpact">
                     <h3 className="smellPage-propertiesRefactoringImpact">Refactoring Impact</h3>
-                    {Object.values(Category).map(category => (
-                        <div key={category}>
-                            <h4 className="smellPage-propertyCategory">{category}</h4>
-                            {smell?.refactoring.propertiesAffected.filter(attr => attr.category === category).map(attribute => (
-                                <div key={attribute.name} className="smellPage-property">
-                                    <span className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}>
-                                        {attribute.impactsPositively ? '+' : '-'}
-                                    </span>
-                                    <span className="smellPage-propertyName">{attribute.name}</span>
+                    {Object.values(Category).map(category => {
+                        const filteredRefactoringAttributes = smell.refactoring.propertiesAffected.filter(attr => attr.category === category);
+                        if (filteredRefactoringAttributes.length > 0) {
+                            return (
+                                <div key={category}>
+                                    <h4 className="smellPage-propertyCategory">{category}</h4>
+                                    {filteredRefactoringAttributes.map(attribute => (
+                                        <div key={attribute.name} className="smellPage-property">
+                                        <span className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}>
+                                            {attribute.impactsPositively ? '+' : '-'}
+                                        </span>
+                                            <span className="smellPage-propertyName">{attribute.name}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    ))}
+                            );
+                        }
+                        return null; // Non renderizzare nulla se non ci sono attributi
+                    })}
                 </div>
             </>
         );
     };
+
+
 
     const renderMicroserviceSection = (microservice: Microservice) => {
         return (
@@ -175,22 +193,27 @@ const SmellPage = () => {
                         {microservice.relevance}
                     </span>
                 </h4>
-                {Object.values(Category).map(category => (
-                    <div key={category}>
-                        <h4 className="smellPage-propertyCategory">{category}</h4>
-                        {microservice.qualityAttributes.filter(attr => attr.category === category).map(attribute => (
-                            <div key={attribute.name} className="smellPage-microservice-property">
-                                <span className="smellPage-msAttribute">{attribute.name}</span>
-                                <span className={`smellPage-relevanceIndicator ${getRelevanceIndicator(attribute.relevance)}`}>
+                {Object.values(Category).map(category => {
+                    const filteredQualityAttributes = microservice.qualityAttributes.filter(attr => attr.category === category);
+                    return filteredQualityAttributes.length > 0 && (
+                        <div key={category}>
+                            <h4 className="smellPage-propertyCategory">{category}</h4>
+                            {filteredQualityAttributes.map(attribute => (
+                                <div key={attribute.name} className="smellPage-microservice-property">
+                                    <span className="smellPage-msAttribute">{attribute.name}</span>
+                                    <span
+                                        className={`smellPage-relevanceIndicator ${getRelevanceIndicator(attribute.relevance)}`}>
                                     {attribute.relevance}
                                 </span>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+                                </div>
+                            ))}
+                        </div>
+                    );
+                })}
             </div>
         );
     };
+
 
     return (
         <div className="smellPage">
@@ -257,7 +280,7 @@ const SmellPage = () => {
                         <h3 className="smellPage-refactorName">Refactoring - {smell?.refactoring.name}</h3>
                         <p className="smellPage-refactorDescription">{replaceFileNamesWithSpans(smell?.refactoring.refactor, smell?.refactoring.relatedFileName)}</p>
                     </div>
-                    <div id="impact-smell-refactoring" className="smellPage-properties">
+                    <div id="impact-smell-refactoring" className={`smellPage-properties-${smell?.microservice ? 'with-microservice' : 'without-microservice'}`}>
                         {renderPropertiesSections()}
                         {smell?.microservice && renderMicroserviceSection(smell.microservice)}
                     </div>

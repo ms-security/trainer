@@ -245,9 +245,17 @@
 }
 /************************************************/
 
-.smellPage-properties {
+.smellPage-properties-with-microservice{
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Two columns of equal width */
+    column-gap: 20px;
+    row-gap: 20px;
+    margin: 20px 30px 20px 30px;
+}
+
+.smellPage-properties-without-microservice{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     column-gap: 20px;
     row-gap: 20px;
     margin: 20px 30px 20px 30px;
@@ -263,7 +271,7 @@
 }
 
 .smellPage-propertiesSmellImpact, .smellPage-propertiesRefactoringImpact {
-    margin-top: 5px;
+    margin-top: 0;
     margin-bottom: 5px;
     font-size: 20px;
     font-weight: bold;
@@ -272,7 +280,7 @@
 
 .smellPage-propertyCategory {
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 0;
     padding: 0;
     text-align: left;
     font-size: 16px;
@@ -312,7 +320,7 @@
 }
 
 .smellPage-propertiesQualityAttributes{
-    margin-top: 5px;
+    margin-top: 0;
     margin-bottom: 5px;
     font-size: 20px;
     font-weight: bold;
@@ -342,7 +350,7 @@
 
 .smellPage-relevanceIndicator {
     margin-right: 10px;
-    font-size: 10px;
+    font-size: 14px;
 }
 
 .smellPage-msAttribute {
