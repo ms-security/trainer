@@ -90,10 +90,18 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
                     <FontAwesomeIcon icon={faFolderOpen} /> Upload from files
                 </button>
 
-                <div className="upload-content"
-                     onDrop={handleDrop}
-                     onDragOver={handleDragOver}>
-                    Drag and drop your file here or use the button above to select a file.
+                <div
+                    className="upload-content"
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                >
+                    {!isFilePicked ? (
+                        <div className="upload-message">
+                            Drag and drop your file here or use the button above to select a file.
+                        </div>
+                    ) : (
+                        <div className="file-info">Selected file: {selectedFile!.name}</div>
+                    )}
                     <input
                         ref={fileInputRef}
                         type="file"
@@ -102,7 +110,6 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
                         id="file-input"
                         style={{ display: 'none' }}
                     />
-                    {selectedFile && <div className="file-info">Selected file: {selectedFile.name}</div>}
                 </div>
                 <input
                     type="text"

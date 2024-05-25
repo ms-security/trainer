@@ -18,13 +18,13 @@ const HelpContent = () => {
   {
     "analysis": "KubeSec analysis",
     "smells": ["UPM"],
-    "description": "Kubesec.io found potential problems in deployment_file.yaml\n\tselector: .metadata.annotations.'container.apparmor.security.beta.kubernetes.io/nginx'\n\treason: Well defined AppArmor policies may provide greater protection."
+    "description": "Kubesec.io found potential problems in deployment_file.yaml\\nselector: .metadata.annotations.'container.apparmor.security.beta.kubernetes.io/nginx'\\nreason: Well defined AppArmor policies may provide greater protection."
   },
   {
     "analysis": "KubeSec analysis",
     "smells": ["UPM"],
-    "description": "Kubesec.io found potential problems in deployment_file.yaml\n\tselector: .metadata .annotations .\\"container.seccomp.security.alpha.kubernetes.io/pod\\"\n\treason: Seccomp profiles set minimum privilege and secure against unknown threats"
-    }
+    "description": "Kubesec.io found potential problems in deployment_file.yaml\\nselector: .metadata .annotations .\\"container.seccomp.security.alpha.kubernetes.io/pod\\"\\nreason: Seccomp profiles set minimum privilege and secure against unknown threats"
+  }
 ]`;
 
     const txtExample = `Analysis results:

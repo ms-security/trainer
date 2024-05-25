@@ -39,10 +39,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* Center content vertically */
+    height: 100px; /* Set a fixed height */
     margin: 20px 20px 10px;
     text-align: center;
     position: relative;
     border: 2px dashed #ccc;
+    background: #f9f9f9;
+    box-sizing: border-box;
 }
 
 .close-button {
@@ -71,6 +75,7 @@
     background: #e1e1e1;
     border-radius: 5px;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .upload-header {
@@ -102,10 +107,13 @@
     cursor: not-allowed;
 }
 
-.upload-button {
+.upload-button{
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: lightgrey;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    align-self: start;
-    background-color:lightgrey;
 }
 
 
@@ -122,4 +130,15 @@
 .analysis-name-input:disabled {
     background: #e9e9e9;
     cursor: not-allowed;
+}
+
+.upload-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.hidden {
+    display: none;
 }
