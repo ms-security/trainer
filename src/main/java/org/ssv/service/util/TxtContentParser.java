@@ -28,7 +28,7 @@ public class TxtContentParser extends ContentParser {
         content = content.replaceAll("^Analysis results:\\s*\n", "");
         List<Smell> smells = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("^(.*?) - detected smells \\{(.*?)\\}\\n([\\s\\S]*?)(?=\\n\\w|\\n\\Z)", Pattern.MULTILINE);
+        Pattern pattern = Pattern.compile("^(.*?) - detected smells \\{(.*?)\\}\\n([\\s\\S]*?)(?=\\n\\w|\\Z)", Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(content);
 
         int i = 0;

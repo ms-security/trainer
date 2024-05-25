@@ -164,6 +164,7 @@ const AnalysisPage = () => {
     const extractUniqueFilenames = (analysis: Analysis) => {
         const filenamesSet = new Set<string>();
         analysis.smells.forEach(smell => {
+            if(smell.refactoring.relatedFileName)
             filenamesSet.add(smell.refactoring.relatedFileName);
         });
         return Array.from(filenamesSet);
