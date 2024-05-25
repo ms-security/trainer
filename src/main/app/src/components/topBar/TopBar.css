@@ -34,8 +34,9 @@
     margin-right: 40px;
     cursor: pointer;
     color: dodgerblue;
+    border-radius: 30px;
 }
 
 .home-button:hover {
-    color: lightblue; /* Darker shade when hovered */
+    background: lightblue; /* Darker shade when hovered */
 }

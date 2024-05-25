@@ -1,7 +1,7 @@
 import {Microservice} from "./Microservice";
-import {Refactoring} from "./Refactoring";
 import {QualityAttributeSR} from "./QualityAttribute";
 import {EffortTime} from "./EffortTime";
+import {Refactoring} from "./Refactoring";
 
 export interface Smell {
     id: number,

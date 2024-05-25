@@ -88,6 +88,8 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
     const handleConfirm = () => {
         if (selectedMicroservice) {
             onAssignMicroservice(selectedMicroservice.id as number, selectedFilenames);
+            setIsOpen(false)
+            setSelectedMicroservice(null)
             closeModal();
         }
     };

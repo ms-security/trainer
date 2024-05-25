@@ -20,13 +20,15 @@ public class TxtContentParser extends ContentParser {
 
     @Override
     public List<Smell> parseContent(String content, Analysis analysis) throws InvalidContentException {
-        if (!Pattern.compile("^Analysis results:\\s*\n").matcher(content).find())
+        if (!Pattern.compile("^Analysis results:\\s*\n", Pattern.MULTILINE).matcher(content).find())
             throw new InvalidContentException("Invalid content");
+
+        content = content.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
 
         content = content.replaceAll("^Analysis results:\\s*\n", "");
         List<Smell> smells = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("(.*?)\\s*-\\s*detected smells \\{(.*?)\\}\\n(.*?)(?=\\n\\n|\\Z)", Pattern.DOTALL);
+        Pattern pattern = Pattern.compile("^(.*?) - detected smells \\{(.*?)\\}\\n([\\s\\S]*?)(?=\\n\\w|\\n\\Z)", Pattern.MULTILINE);
         Matcher matcher = pattern.matcher(content);
 
         int i = 0;
