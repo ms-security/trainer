@@ -32,7 +32,6 @@ export default class WebController{
             throw new Error(errorData || 'Failed to fetch analyses from the server');
         }
         const analyses: Analysis[] = await response.json();
-        console.log('Analyses fetched successfully:', analyses);
         return analyses;
     }
 
@@ -89,7 +88,6 @@ export default class WebController{
     }
 
     static async updateMicroservice(data: any, analysisId: string) {
-        console.log('Updating microservice:', data, analysisId);
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}`, {
             method: 'PUT',
             headers: {
@@ -104,7 +102,6 @@ export default class WebController{
     }
 
     static async deleteMicroservice(analysisId: string, microserviceId: number) {
-        console.log('Deleting microservice:', analysisId, microserviceId);
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceId}`, {
             method: 'DELETE'
         });
@@ -112,7 +109,6 @@ export default class WebController{
             const errorData = await response.text();
             throw new Error(errorData || 'Failed to delete microservice');
         }
-        console.log('Microservice deleted');
     }
 
     static async addSmellToMicroservice(analysisId: string, microserviceId: number, smellId: number): Promise<void> {
