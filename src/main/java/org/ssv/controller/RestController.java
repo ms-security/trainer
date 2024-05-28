@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.ssv.exception.ResourceNotFoundException;
 import org.ssv.model.*;
 import org.ssv.service.*;
 import org.ssv.service.database.FacadeService;
