@@ -4,7 +4,7 @@ import {EffortTime} from "../interfaces/EffortTime";
 import {Smell} from "../interfaces/Smell";
 
 export default class WebController{
-    static async newAnalysis(file: File, name: string, date: string, extension: string): Promise<Analysis> {
+    static async newAnalysis(file: File, name: string, date: string, extension: string) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("name", name);
@@ -14,12 +14,9 @@ export default class WebController{
             method: 'POST',
             body: formData
         });
-        if (response.ok) {
-            const analysis: Analysis = await response.json();
-            return analysis;
-        } else {
+        if (!response.ok) {
             const errorData = await response.text();
-            throw new Error(errorData || "An unknown error occurred.");
+            throw new Error(errorData || 'Failed to add new analysis');
         }
     }
 

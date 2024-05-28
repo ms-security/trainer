@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import WebController from '../application/WebController';
 import { Analysis } from "../interfaces/Analysis";
 import {Smell} from "../interfaces/Smell";
@@ -6,15 +6,14 @@ import {EffortTime} from "../interfaces/EffortTime";
 
 
 interface AnalysisContextType {
-    analyses: Analysis[];
-    fetchAnalyses: () => Promise<void>;
-    fetchAnalysisById: (id: string) => Promise<Analysis | undefined>;
+    fetchAnalyses: () => Promise<Analysis[]>;
+    fetchAnalysisById: (id: string) => Promise<Analysis>;
     addAnalysis: (file: File, name: string, date: string, extension: string) => Promise<void>;
     deleteAnalysis: (analysisId: string) => Promise<void>;
     toggleFavoriteStatus: (analysisId: string) => Promise<void>;
     addMicroservice: (data: any, analysisId: string) => Promise<void>;
     updateMicroservice: (data: any, analysisId: string) => Promise<void>;
-    getSmellById: (analysisId: string, smellId: number) => Promise<Smell | undefined>;
+    getSmellById: (analysisId: string, smellId: number) => Promise<Smell>;
     addSmellToMicroservice: (analysisId: string, microserviceId: number, smellId: number) => Promise<void>;
     multipleAssignments: (analysisId: string, microserviceId: number, smellsId: number[]) => Promise<void>;
     deleteMicroservice: (analysisId: string, microserviceId: number) => Promise<void>;
@@ -33,166 +32,140 @@ export const useAnalysis = () => {
 
 
 export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
-    const [analyses, setAnalyses] = useState<Analysis[]>([]);
 
     const handleError = (error: any) => {
         console.error(error);
     };
 
-    const fetchAnalyses = useCallback(async () => {
+    const fetchAnalyses = useCallback(async (): Promise<Analysis[]> => {
         try {
-            const data = await WebController.fetchAllAnalyses();
-            setAnalyses(data);
+            return await WebController.fetchAllAnalyses();
         } catch (error) {
             handleError(error);
+            return [];
         }
     }, []);
 
-    const addAnalysis = async (file: File, name: string, date: string, extension: string) => {
+    const addAnalysis = useCallback(async (file: File, name: string, date: string, extension: string): Promise<void> => {
         try {
-            const analysis = await WebController.newAnalysis(file, name, date, extension);
-            setAnalyses(prev => [...prev, analysis]);
+            return await WebController.newAnalysis(file, name, date, extension);
         } catch (error) {
             handleError(error);
-        }
-    };
-
-    const fetchAnalysisById = useCallback(async (id: string): Promise<Analysis | undefined> => {
-        try {
-            const analysis = await WebController.fetchAnalysis(id);
-            setAnalyses(prev => {
-                const index = prev.findIndex(a => a.id === id);
-                if (index !== -1) {
-                    const updatedAnalyses = [...prev];
-                    updatedAnalyses[index] = analysis;
-                    return updatedAnalyses;
-                }
-                return prev;
-            });
-            return analysis;
-        } catch (error) {
-            handleError(error);
-            return undefined;
+            throw error;
         }
     }, []);
 
-    const deleteAnalysis = async (analysisId: string) => {
+    const fetchAnalysisById = useCallback(async (id: string): Promise<Analysis> => {
+        try {
+            return await WebController.fetchAnalysis(id);
+        } catch (error) {
+            handleError(error);
+            throw error;
+        }
+    }, []);
+
+    const deleteAnalysis = useCallback(async (analysisId: string): Promise<void> => {
         try {
             await WebController.deleteAnalysis(analysisId);
-            setAnalyses(prev => prev.filter(a => a.id !== analysisId));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
+    }, []);
 
-    const toggleFavoriteStatus = async (analysisId: string) => {
+    const toggleFavoriteStatus = useCallback(async (analysisId: string): Promise<void> => {
         try {
             await WebController.toggleFavoriteStatus(analysisId);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
+    }, []);
 
-    const addMicroservice = async (data: any, analysisId: string) => {
+    const addMicroservice = useCallback(async (data: any, analysisId: string): Promise<void> => {
         try {
             await WebController.newMicroservice(data, analysisId);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
+    }, []);
 
-    const updateMicroservice = async (data: any, analysisId: string) => {
+    const updateMicroservice = useCallback(async (data: any, analysisId: string): Promise<void> => {
         try {
             await WebController.updateMicroservice(data, analysisId);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
+    }, []);
 
-    const deleteMicroservice = async (analysisId: string, microserviceId: number) => {
+    const deleteMicroservice = useCallback(async (analysisId: string, microserviceId: number): Promise<void> => {
         try {
             await WebController.deleteMicroservice(analysisId, microserviceId);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
+    }, []);
 
 
-    const addSmellToMicroservice = async (analysisId: string, microserviceId: number, smellId: number) => {
+    const addSmellToMicroservice = useCallback(async (analysisId: string, microserviceId: number, smellId: number): Promise<void> => {
         try {
             await WebController.addSmellToMicroservice(analysisId, microserviceId, smellId);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
+    }, []);
 
-    const multipleAssignments = async (analysisId: string, microserviceId: number, smellsIds: number[]) => {
+    const multipleAssignments = useCallback(async (analysisId: string, microserviceId: number, smellsIds: number[]): Promise<void> => {
         try {
             await WebController.multipleMicroserviceAssignment(analysisId, microserviceId, smellsIds);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
-    const getSmellById = async (analysisId: string, smellId: number): Promise<Smell | undefined> => {
-        try {
-            const analysis = await WebController.fetchAnalysis(analysisId);
-            return analysis.smells.find(smell => smell.id === smellId);
-        } catch (error) {
-            handleError(error);
-            return undefined;
-        }
-    };
+    }, []);
 
-    const addEffortTime = async (analysisId: string, smellId: number, effortTime: EffortTime) => {
+    const getSmellById = useCallback(async (analysisId: string, smellId: number): Promise<Smell> => {
         try {
-            console.log("Adding effort time:", effortTime);
+            return await WebController.fetchSmellById(analysisId, smellId);
+        } catch (error) {
+            handleError(error);
+            throw error;
+        }
+    }, []);
+
+    const addEffortTime = useCallback(async (analysisId: string, smellId: number, effortTime: EffortTime): Promise<void> => {
+        try {
             await WebController.addEffortTime(analysisId, smellId, effortTime);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
+    }, []);
 
-    const changeCheckboxValue = async (analysisId: string, smellId: number, checkboxValue: boolean) => {
+    const changeCheckboxValue = useCallback(async (analysisId: string, smellId: number, checkboxValue: boolean): Promise<void> => {
         try {
             await WebController.changeCheckboxValue(analysisId, smellId, checkboxValue);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
+    }, []);
 
-    const changeSmellStatus = async (analysisId: string, smellId: number, newStatus: string) => {
+    const changeSmellStatus = useCallback(async (analysisId: string, smellId: number, newStatus: string): Promise<void> => {
         try {
             await WebController.changeSmellStatus(analysisId, smellId, newStatus);
-            const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
-            setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
             handleError(error);
+            throw error;
         }
-    };
-
-    useEffect(() => {
-        fetchAnalyses();
-    }, [fetchAnalyses]);
+    }, []);
 
     return (
         <AnalysisContext.Provider value={{
-            analyses,
             fetchAnalyses,
             addAnalysis,
             fetchAnalysisById,
