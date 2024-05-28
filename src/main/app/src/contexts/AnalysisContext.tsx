@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useCallback } from 'react';
 import WebController from '../application/WebController';
 import { Analysis } from "../interfaces/Analysis";
 import {Smell} from "../interfaces/Smell";
