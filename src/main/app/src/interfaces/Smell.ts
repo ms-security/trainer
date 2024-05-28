@@ -29,7 +29,7 @@ export enum UrgencyCode {
 }
 
 export enum SmellStatus {
-    UNFIXED = "UNFIXED",
+    NOT_FIXED = "NOT_FIXED",
     FIXED = "FIXED",
     FALSE_POSITIVE = "FALSE_POSITIVE",
     NOT_GOING_TO_FIX = "NOT_GOING_TO_FIX"

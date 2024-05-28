@@ -32,11 +32,11 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
     const formattedDate = date.slice(0, 10);
 
     const countSmellsByUrgency = (urgency?: UrgencyCode | null) => {
-        return smells.filter(smell => smell.urgencyCode === urgency && smell.status === "UNFIXED").length;
+        return smells.filter(smell => smell.urgencyCode === urgency && smell.status === "NOT_FIXED").length;
     };
 
     const countNotFixedSmells = () => {
-        return smells.filter(smell => smell.status === "UNFIXED").length;
+        return smells.filter(smell => smell.status === "NOT_FIXED").length;
     };
 
     const smellCounts = {

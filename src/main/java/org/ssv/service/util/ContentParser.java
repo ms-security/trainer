@@ -2,19 +2,15 @@ package org.ssv.service.util;
 
 import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
-import org.ssv.model.Microservice;
 import org.ssv.model.Refactoring;
 import org.ssv.model.Smell;
-import org.ssv.service.TriageService;
-
-import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class ContentParser {
 
-    abstract public List<Smell> parseContent(String content, Analysis analysis) throws InvalidContentException, SQLException;
+    abstract public List<Smell> parseContent(String content, Analysis analysis);
 
     public Refactoring assignTemplateValues(String code, String description, Refactoring refactoring){
         String fileName = null;
@@ -45,7 +41,7 @@ public abstract class ContentParser {
             case "UT":
                 break;
             default:
-                throw new IllegalArgumentException("Invalid smell code: " + code);
+                throw new InvalidContentException("Invalid smell code: " + code);
         }
 
         return updateRefactor(refactoring, fileName);
@@ -138,15 +134,5 @@ public abstract class ContentParser {
         return null;
     }
 
-    public Microservice assignMicroserviceByFileName(String smellCode, String fileName) {
-        if(smellCode.equals("UPM") || smellCode.equals("NSC") || smellCode.equals("UT") || smellCode.equals("CA") ||
-                smellCode.equals("IAC") || smellCode.equals("NEDE") || smellCode.equals("MUA")) {
-
-            return Microservice.builder()
-                .name(fileName)
-                .build();
-        }
-        return null;
-    }
 
 }

@@ -37,7 +37,7 @@ export const filterSmells = (smells: Smell[], filters: SmellFilter): Smell[] => 
             return false;
         }
 
-        const isVisibleBasedOnStatus = smell.status === 'UNFIXED' ||
+        const isVisibleBasedOnStatus = smell.status === 'NOT_FIXED' ||
             ((filters.smellStatus ?? []).length > 0 && filters.smellStatus?.includes(smell.status));
 
         const matchUrgency =

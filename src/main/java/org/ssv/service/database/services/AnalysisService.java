@@ -17,12 +17,7 @@ public class AnalysisService {
 
     @Transactional
     public void saveAnalysis(Analysis analysis) {
-        try {
-            analysisRepository.save(analysis);
-        } catch (Exception e) {
-            System.out.println("Error saving analysis: service problem -- " + e.getMessage());
-            throw e;
-        }
+        analysisRepository.save(analysis);
     }
 
     // Get all analyses

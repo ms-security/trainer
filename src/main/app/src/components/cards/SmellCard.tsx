@@ -116,7 +116,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
                                             onChange={(e) => {
                                                 handleSmellStatusChange(e)
                                             }}>
-                                        <option value="UNFIXED">Not fixed</option>
+                                        <option value="NOT_FIXED">Not fixed</option>
                                         <option value="FIXED">Fixed</option>
                                         <option value="FALSE_POSITIVE">False positive</option>
                                         <option value="NOT_GOING_TO_FIX">Not going to fix</option>

@@ -47,7 +47,7 @@
     justify-content: center; /* Horizontally center the icon */
     border: none;
     background-color: transparent;
-    color: dodgerblue;
+    color: #1e92c3;
     font-size: 50px;
     cursor: pointer;
     transition: color 0.3s;
@@ -78,7 +78,7 @@
 }
 
 .star-filter {
-    color: dodgerblue;
+    color: #1e92c3;
 }
 
 .star-filter.active {
@@ -97,7 +97,7 @@
     padding-left: 2px;
     padding-right: 2px;
     cursor: pointer;
-    color: dodgerblue;
+    color: #1e92c3;
 }
 
 .help-icon:hover {

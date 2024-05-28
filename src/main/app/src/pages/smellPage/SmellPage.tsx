@@ -226,7 +226,7 @@ const SmellPage = () => {
                 <div className="smellPage-statusDropdown">
                     <select value={localStatus} onClick={(e) => { e.stopPropagation(); }}
                             onChange={handleSmellStatusChange}>
-                        <option value="UNFIXED">Not fixed</option>
+                        <option value="NOT_FIXED">Not fixed</option>
                         <option value="FIXED">Fixed</option>
                         <option value="FALSE_POSITIVE">False positive</option>
                         <option value="NOT_GOING_TO_FIX">Not going to fix</option>

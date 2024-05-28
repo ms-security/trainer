@@ -2,7 +2,7 @@ package org.ssv.service.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ssv.exception.InvalidContentException;
+import org.ssv.exception.FileProcessingException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Refactoring;
 import org.ssv.model.Smell;
@@ -18,14 +18,13 @@ import java.util.Map;
 public class JsonContentParser extends ContentParser {
 
     @Override
-    public List<Smell> parseContent(String content, Analysis analysis) throws InvalidContentException {
+    public List<Smell> parseContent(String content, Analysis analysis) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> jsonList;
-
         try {
             jsonList = objectMapper.readValue(content, new TypeReference<>() { });
         } catch (IOException e) {
-            throw new InvalidContentException("Invalid JSON content");
+            throw new FileProcessingException("Unable to parse JSON content");
         }
         int i = 0;
         List<Smell> smells = new ArrayList<>();
@@ -47,7 +46,7 @@ public class JsonContentParser extends ContentParser {
                         .analysisId(analysis.getId())
                         .propertiesAffected(detail.getPropertiesAffected())
                         .refactoring(refactoring)
-                        .status(SmellStatus.UNFIXED)
+                        .status(SmellStatus.NOT_FIXED)
                         .extendedName(detail.getExtendedName())
                         .build();
 

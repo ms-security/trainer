@@ -2,7 +2,6 @@ package org.ssv.service.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Refactoring;
 import org.ssv.model.Smell;
@@ -16,12 +15,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TxtContentParser extends ContentParser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TxtContentParser.class);
 
     @Override
-    public List<Smell> parseContent(String content, Analysis analysis) throws InvalidContentException {
-        if (!Pattern.compile("^Analysis results:\\s*\n", Pattern.MULTILINE).matcher(content).find())
-            throw new InvalidContentException("Invalid content");
+    public List<Smell> parseContent(String content, Analysis analysis) {
+        /*if (!Pattern.compile("^Analysis results:\\s*\n", Pattern.MULTILINE).matcher(content).find())
+            throw new InvalidContentException("Invalid content");*/
 
         content = content.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
 
@@ -37,7 +35,7 @@ public class TxtContentParser extends ContentParser {
             String codes = matcher.group(2).trim();
             String description = matcher.group(3).trim();
 
-            // Gestire i codici smell concatenati
+
             for (String code : codes.split(",")) {
                 code = code.trim();
                 SmellDetail detail = FactoryAnalysis.getInstance().findSmellDetailByCode(code);
@@ -50,7 +48,7 @@ public class TxtContentParser extends ContentParser {
                         .extendedName(detail.getExtendedName())
                         .propertiesAffected(detail.getPropertiesAffected())
                         .refactoring(refactoring)
-                        .status(SmellStatus.UNFIXED)
+                        .status(SmellStatus.NOT_FIXED)
                         .analysis(analysis)
                         .analysisId(analysis.getId())
                         .outputAnalysis(analysisValue)

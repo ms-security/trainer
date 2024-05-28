@@ -16,20 +16,10 @@ export default class WebController{
         });
         if (response.ok) {
             const analysis: Analysis = await response.json();
-            console.log('File sent successfully');
-            console.log("Analysis received:", analysis);
             return analysis;
         } else {
-            // Handle different errors based on the response
-            const errorData = await response.json();
-            switch (errorData.id) {
-                case -1:
-                    throw new Error("The file is empty!");
-                    case -2:
-                        throw new Error("The file content is not valid!");
-                    default:
-                        throw new Error("An unknown error occurred.");
-                }
+            const errorData = await response.text();
+            throw new Error(errorData || "An unknown error occurred.");
         }
     }
 
@@ -41,9 +31,9 @@ export default class WebController{
             }
         });
         if (!response.ok) {
-            throw new Error('Failed to fetch analyses from the server');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to fetch analyses from the server');
         }
-        // Parse the JSON response and return it
         const analyses: Analysis[] = await response.json();
         console.log('Analyses fetched successfully:', analyses);
         return analyses;
@@ -57,7 +47,8 @@ export default class WebController{
             }
         });
         if (!response.ok) {
-            throw new Error('Failed to fetch analysis from the server');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to fetch analysis from the server');
         }
         const analysis: Analysis = await response.json();
         return analysis;
@@ -67,10 +58,9 @@ export default class WebController{
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}`, {
             method: 'DELETE'
         });
-
         if (!response.ok) {
-            // Handle failure
-            throw new Error('Failed to delete analysis');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to delete analysis');
         }
     }
 
@@ -78,14 +68,13 @@ export default class WebController{
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}/favorite`, {
             method: 'PUT'
         });
-        console.log('Favorite status updated');
         if (!response.ok) {
-            throw new Error('Failed to update favorite status');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to update favorite status');
         }
     }
 
     static async newMicroservice(data: any, analysisId: string): Promise<Microservice> {
-        console.log('Adding microservice:', data, analysisId)
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}`, {
             method: 'POST',
             headers: {
@@ -97,8 +86,8 @@ export default class WebController{
             const microservice: Microservice = await response.json();
             return microservice;
         } else {
-            const errorData = await response.json();
-            throw new Error('Failed to add microservice: ' + errorData.message);
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to add microservice');
         }
     }
 
@@ -112,9 +101,9 @@ export default class WebController{
             body: JSON.stringify(data)
         });
         if (!response.ok) {
-            throw new Error('Failed to update microservice');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to update microservice');
         }
-        console.log('Microservice updated');
     }
 
     static async deleteMicroservice(analysisId: string, microserviceId: number) {
@@ -123,7 +112,8 @@ export default class WebController{
             method: 'DELETE'
         });
         if (!response.ok) {
-            throw new Error('Failed to delete microservice');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to delete microservice');
         }
         console.log('Microservice deleted');
     }
@@ -136,9 +126,9 @@ export default class WebController{
             }
         });
         if (!response.ok) {
-            throw new Error('Failed to add microservice to smell');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to add microservice to smell');
         }
-        console.log('Microservice added to smell');
     }
 
     static async multipleMicroserviceAssignment(analysisId: string, microserviceId: number, smellIds: number[]): Promise<void> {
@@ -150,9 +140,9 @@ export default class WebController{
             body: JSON.stringify(smellIds)
         });
         if (!response.ok) {
-            throw new Error('Failed to assign microservice to multiple smells')
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to assign microservice to multiple smells');
         }
-        console.log('Multiple assignments successfully')
     }
 
     static async addEffortTime(analysisId: string, smellId: number, effortTime: EffortTime): Promise<void> {
@@ -164,7 +154,8 @@ export default class WebController{
             body: JSON.stringify(effortTime)
         });
         if (!response.ok) {
-            throw new Error('Failed to add effort time');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to add effort time');
         }
     }
 
@@ -177,9 +168,9 @@ export default class WebController{
             body: JSON.stringify(checkboxValue)
         });
         if (!response.ok) {
-            throw new Error('Failed to change checkbox value');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to change checkbox value');
         }
-        console.log('Checkbox value changed successfully');
     }
 
     static async changeSmellStatus(analysisId: string, smellId: number, newStatus: string): Promise<void> {
@@ -191,9 +182,9 @@ export default class WebController{
             body: JSON.stringify(newStatus)
         });
         if (!response.ok) {
-            throw new Error('Failed to change smell status');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to change smell status');
         }
-        console.log('Smell status changed successfully');
     }
 
     static async fetchSmellById(analysisId: string, smellId: number): Promise<Smell> {
@@ -204,7 +195,8 @@ export default class WebController{
             }
         });
         if (!response.ok) {
-            throw new Error('Failed to fetch smell from the server');
+            const errorData = await response.text();
+            throw new Error(errorData || 'Failed to fetch smell from the server');
         }
         const smell: Smell = await response.json();
         return smell;

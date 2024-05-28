@@ -32,21 +32,30 @@ export const useAnalysis = () => {
     return context;
 };
 
+
 export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const [analyses, setAnalyses] = useState<Analysis[]>([]);
+
+    const handleError = (error: any) => {
+        console.error(error);
+    };
 
     const fetchAnalyses = useCallback(async () => {
         try {
             const data = await WebController.fetchAllAnalyses();
             setAnalyses(data);
         } catch (error) {
-            console.error('Failed to fetch analyses:', error);
+            handleError(error);
         }
     }, []);
 
     const addAnalysis = async (file: File, name: string, date: string, extension: string) => {
-        const analysis = await WebController.newAnalysis(file, name, date, extension);
-        setAnalyses(prev => [...prev, analysis]);
+        try {
+            const analysis = await WebController.newAnalysis(file, name, date, extension);
+            setAnalyses(prev => [...prev, analysis]);
+        } catch (error) {
+            handleError(error);
+        }
     };
 
     const fetchAnalysisById = useCallback(async (id: string): Promise<Analysis | undefined> => {
@@ -63,7 +72,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             });
             return analysis;
         } catch (error) {
-            console.error('Failed to fetch analysis:', error);
+            handleError(error);
             return undefined;
         }
     }, []);
@@ -73,7 +82,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             await WebController.deleteAnalysis(analysisId);
             setAnalyses(prev => prev.filter(a => a.id !== analysisId));
         } catch (error) {
-            console.error('Failed to delete analysis:', error);
+            handleError(error);
         }
     };
 
@@ -83,7 +92,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
-            console.error('Failed to update favorite status:', error);
+            handleError(error);
         }
     };
 
@@ -93,7 +102,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
-            console.error('Failed to add microservice:', error);
+            handleError(error);
         }
     };
 
@@ -103,7 +112,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
-            console.error('Failed to update microservice:', error);
+            handleError(error);
         }
     };
 
@@ -113,9 +122,9 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
-            console.error('Failed to delete microservice:', error);
+            handleError(error);
         }
-    }
+    };
 
 
     const addSmellToMicroservice = async (analysisId: string, microserviceId: number, smellId: number) => {
@@ -124,28 +133,28 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
-            console.error('Failed to add smell to microservice:', error);
+            handleError(error);
         }
     };
 
     const multipleAssignments = async (analysisId: string, microserviceId: number, smellsIds: number[]) => {
-        try{
+        try {
             await WebController.multipleMicroserviceAssignment(analysisId, microserviceId, smellsIds);
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
-        }catch (error) {
-            console.log('Failed to assign microservice to smells');
+        } catch (error) {
+            handleError(error);
         }
-    }
+    };
     const getSmellById = async (analysisId: string, smellId: number): Promise<Smell | undefined> => {
         try {
             const analysis = await WebController.fetchAnalysis(analysisId);
             return analysis.smells.find(smell => smell.id === smellId);
         } catch (error) {
-            console.error('Failed to get smell by ID:', error);
+            handleError(error);
             return undefined;
         }
-    }
+    };
 
     const addEffortTime = async (analysisId: string, smellId: number, effortTime: EffortTime) => {
         try {
@@ -154,7 +163,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
-            console.error('Failed to add effort time:', error);
+            handleError(error);
         }
     };
 
@@ -164,7 +173,7 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
-            console.error('Failed to change checkbox value:', error);
+            handleError(error);
         }
     };
 
@@ -174,9 +183,9 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
             const updatedAnalysis = await WebController.fetchAnalysis(analysisId);
             setAnalyses(prev => prev.map(a => a.id === analysisId ? updatedAnalysis : a));
         } catch (error) {
-            console.error('Failed to change smell status:', error);
+            handleError(error);
         }
-    }
+    };
 
     useEffect(() => {
         fetchAnalyses();
