@@ -2,7 +2,7 @@ package org.ssv.service.database.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.ssv.service.database.jpaRepositories.EffortTimeRepositoryJpa;
+import org.ssv.service.database.jparepositories.EffortTimeRepositoryJpa;
 import org.ssv.model.EffortTime;
 
 @Service

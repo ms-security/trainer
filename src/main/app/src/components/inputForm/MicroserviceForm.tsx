@@ -26,7 +26,7 @@ const qualityAttributes: QualityAttributeMS[] = [
 ];
 
 const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, onUpdateMicroservice, initialData, microservicesList }) => {
-    const [newMicroservice, setNewMicroservice] = useState<Microservice>(initialData || {
+    const [newMicroservice, setNewMicroservice] = useState<Microservice>(initialData ?? {
         name: '',
         relevance: Relevance.NONE,
         qualityAttributes: [...qualityAttributes]
@@ -65,7 +65,7 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
         if (initialData) {
             const updatedQualityAttributes = qualityAttributes.map(defaultAttr => {
                 const existingAttr = initialData.qualityAttributes.find(attr => attr.name === defaultAttr.name);
-                return existingAttr || defaultAttr;
+                return existingAttr ?? defaultAttr;
             });
 
             setNewMicroservice({

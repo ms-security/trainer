@@ -3,7 +3,7 @@ package org.ssv.service.database.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.ssv.service.database.jpaRepositories.MicroserviceRepositoryJpa;
+import org.ssv.service.database.jparepositories.MicroserviceRepositoryJpa;
 import org.ssv.model.Microservice;
 
 import java.util.Optional;

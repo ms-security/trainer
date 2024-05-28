@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public abstract class ContentParser {
 
-    abstract public List<Smell> parseContent(String content, Analysis analysis);
+    public abstract List<Smell> parseContent(String content, Analysis analysis);
 
     public Refactoring assignTemplateValues(String code, String description, Refactoring refactoring){
         String fileName = null;

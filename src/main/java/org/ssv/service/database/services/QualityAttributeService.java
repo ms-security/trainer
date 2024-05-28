@@ -3,7 +3,7 @@ package org.ssv.service.database.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.ssv.model.Microservice;
-import org.ssv.service.database.jpaRepositories.QualityAttributeRepositoryJpa;
+import org.ssv.service.database.jparepositories.QualityAttributeRepositoryJpa;
 import org.ssv.model.QualityAttribute;
 
 import java.util.List;

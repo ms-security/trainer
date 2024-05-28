@@ -161,7 +161,7 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
                         <div className="filenames-list">
                             {filteredFilenames.length > 0 ? (
                                 filteredFilenames.map((filename, index) => (
-                                    <div key={index} className="filename-item">
+                                    <div key={filename} className="filename-item">
                                         <label>
                                             <input
                                                 type="checkbox"

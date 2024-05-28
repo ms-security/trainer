@@ -62,7 +62,7 @@ const Upload: React.FC<UploadProps> = ({ onClose, onNewAnalysis }) => {
     const handleSubmission = () =>{
         if (selectedFile && analysisName) {
             const currentDate = new Date().toISOString(); // Get the current date
-            const fileExtension = selectedFile.name.split('.').pop() || '';
+            const fileExtension = selectedFile.name.split('.').pop() ?? '';
             onNewAnalysis(selectedFile, analysisName, currentDate, fileExtension);
         } else {
             alert('Please select a file and enter a name for the analysis.');

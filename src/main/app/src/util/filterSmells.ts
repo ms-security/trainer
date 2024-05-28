@@ -106,7 +106,7 @@ export const filterSmells = (smells: Smell[], filters: SmellFilter): Smell[] => 
 export const useParsedFiltersFromUrl = (): SmellFilter => {
     const location = useLocation();
     const queryParams = queryString.parse(location.search, { arrayFormat: 'bracket' }) as Partial<SmellFilter>;
-    const safeHasOwnProperty = (obj: Record<string, any>, prop: string) => Object.prototype.hasOwnProperty.call(obj, prop);
+    const safeHasOwnProperty = (obj: Record<string, any>, prop: string) => Object.hasOwn(obj, prop);
     if (safeHasOwnProperty(queryParams, 'isChecked') && typeof queryParams.isChecked === 'string') {
         queryParams.isChecked = queryParams.isChecked === 'true';
     }

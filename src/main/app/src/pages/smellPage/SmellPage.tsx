@@ -238,7 +238,7 @@ const SmellPage = () => {
                 </div>
                 <MicroserviceBanner
                     microservice={smell?.microservice}
-                    microservices={analysis?.microservices || []}
+                    microservices={analysis?.microservices ?? []}
                     onMicroserviceChange={handleMicroserviceAssignment}/>
                 <EffortTimeBanner
                     key={smell?.id}

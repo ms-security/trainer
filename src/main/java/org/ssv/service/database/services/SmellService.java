@@ -3,7 +3,7 @@ package org.ssv.service.database.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.ssv.service.SmellId;
-import org.ssv.service.database.jpaRepositories.SmellRepositoryJpa;
+import org.ssv.service.database.jparepositories.SmellRepositoryJpa;
 import org.ssv.model.Microservice;
 import org.ssv.model.Smell;
 

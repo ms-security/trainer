@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.ssv.model.Analysis;
-import org.ssv.service.database.jpaRepositories.AnalysisRepositoryJpa;
+import org.ssv.service.database.jparepositories.AnalysisRepositoryJpa;
 
 import java.util.List;
 import java.util.Optional;

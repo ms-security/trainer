@@ -201,7 +201,7 @@ const AnalysisPage = () => {
                         )}
                         <div className="controls">
                             <span className="sort-by-label">Sort By:</span>
-                            <select className="sort-by-select" value={filters.sortBy || 'none'} onChange={handleSortChange}>
+                            <select className="sort-by-select" value={filters.sortBy ?? 'none'} onChange={handleSortChange}>
                                 <option value="none">None</option>
                                 <option value="urgencyTop">Highest urgency</option>
                                 <option value="urgencyBottom">Lowest urgency</option>
@@ -242,7 +242,7 @@ const AnalysisPage = () => {
                         onAddMicroservice={handleAddMicroservice}
                         onUpdateMicroservice={handleUpdateMicroservice}
                         initialData={currentMicroservice}
-                        microservicesList={analysis?.microservices || []}
+                        microservicesList={analysis?.microservices ?? []}
                     />
                 </Box>
             </Modal>

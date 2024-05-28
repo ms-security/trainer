@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
 
     useEffect(() => {
         const currentMicroserviceNames = new Set(microservices.map(m => m.name));
-        const validMicroservices = (filters.microservice || []).filter(name => currentMicroserviceNames.has(name));
+        const validMicroservices = (filters.microservice ?? []).filter(name => currentMicroserviceNames.has(name));
         if (validMicroservices.length !== (filters.microservice || []).length) {
             updateFilters({ ...filters, microservice: validMicroservices });
         }
@@ -74,7 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
     };
 
     const toggleUrgencyCode = (code: UrgencyCode | 'undefined') => {
-        const newUrgencyCodes = new Set(filters.urgencyCode || []);
+        const newUrgencyCodes = new Set(filters.urgencyCode ?? []);
         if (code === 'undefined') {
             if (newUrgencyCodes.has(undefined)) {
                 newUrgencyCodes.delete(undefined);
@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
     };
 
     const toggleSmellCode = (code: string) => {
-        const newSmellCodes = new Set(filters.smellCodes || []);
+        const newSmellCodes = new Set(filters.smellCodes ?? []);
         if (newSmellCodes.has(code)) {
             newSmellCodes.delete(code);
         } else {
@@ -104,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
     const clearFilters = () => {
         updateFilters({
             ...filters,
-            isChecked: filters.isChecked !== undefined ? filters.isChecked : false,
+            isChecked: filters.isChecked ?? false,
             smellStatus: [],
             urgencyCode: [],
             microservice: [],
@@ -120,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
     };
 
     const toggleMicroservice = (microserviceName: string) => {
-        const newMicroservices = new Set(filters.microservice || []);
+        const newMicroservices = new Set(filters.microservice ?? []);
         if (newMicroservices.has(microserviceName)) {
             newMicroservices.delete(microserviceName);
         } else {
@@ -130,7 +130,7 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
     };
 
     const toggleSmellStatus = (status: SmellStatus) => {
-        const newSmellStatus = new Set(filters.smellStatus || []);
+        const newSmellStatus = new Set(filters.smellStatus ?? []);
         if (newSmellStatus.has(status)) {
             newSmellStatus.delete(status);
         } else {
