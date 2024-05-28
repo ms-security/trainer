@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react';
 import './SmellCard.css';
 import {Microservice} from "../../interfaces/Microservice";
 import {Smell, SmellStatus, UrgencyCode} from "../../interfaces/Smell";
-import {EffortTime} from "../../interfaces/EffortTime";
-import EffortTimeBanner from "../effortTimeBanner/EffortTimeBanner";
 
 interface SmellCardProps {
     smell: Smell,

@@ -3,7 +3,6 @@ import './AnalysisCard.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tooltip from '@mui/material/Tooltip';
 import {
-    faExclamationCircle,
     faStar as faStarRegular,
     faStar as faStarSolid,
     faTrash

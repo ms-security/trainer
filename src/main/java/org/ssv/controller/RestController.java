@@ -89,7 +89,7 @@ public class RestController {
 
     @PutMapping("/microservices/{analysisId}/{microserviceId}/smells")
     public ResponseEntity<Void> assignMicroservicesToMultipleSmells(@PathVariable String analysisId, @PathVariable int microserviceId, @RequestBody ArrayList<Integer> smellsIds) {
-        Analysis analysis = facadeService.findAnalysisById(analysisId);
+        facadeService.findAnalysisById(analysisId);
         Microservice microservice = facadeService.findMicroserviceById(analysisId, microserviceId);
         TriageService triageService = new TriageService();
         for (int smellId : smellsIds) {

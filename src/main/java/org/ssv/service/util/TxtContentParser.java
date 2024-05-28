@@ -1,7 +1,5 @@
 package org.ssv.service.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.ssv.model.Analysis;
 import org.ssv.model.Refactoring;
 import org.ssv.model.Smell;
@@ -18,12 +16,10 @@ public class TxtContentParser extends ContentParser {
 
     @Override
     public List<Smell> parseContent(String content, Analysis analysis) {
-        /*if (!Pattern.compile("^Analysis results:\\s*\n", Pattern.MULTILINE).matcher(content).find())
-            throw new InvalidContentException("Invalid content");*/
 
-        content = content.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+        content = content.replace("\r\n", "\n").replace("\r", "\n");
 
-        content = content.replaceAll("^Analysis results:\\s*\n", "");
+        content = content.replace("^Analysis results:\\s*\n", "");
         List<Smell> smells = new ArrayList<>();
 
         Pattern pattern = Pattern.compile("^(.*?) - detected smells \\{(.*?)\\}\\n([\\s\\S]*?)(?=\\n\\w|\\Z)", Pattern.MULTILINE);

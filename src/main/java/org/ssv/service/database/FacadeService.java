@@ -25,9 +25,6 @@ public class FacadeService {
     private MicroserviceService microserviceService;
 
     @Autowired
-    private RefactoringService refactoringService;
-
-    @Autowired
     private SmellService smellService;
 
     @Autowired
@@ -47,8 +44,6 @@ public class FacadeService {
         try {
             return analysisService.getAllAnalyses();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error  " + e.getMessage());
             throw new DatabaseException("Error getting all analyses from database");
         }
     }
@@ -93,7 +88,7 @@ public class FacadeService {
 
     public Microservice findMicroserviceById(String analysisId, int microserviceId) {
         try {
-            Microservice microservice = microserviceService.findMicroserviceById(analysisId, microserviceId);
+            Microservice microservice = microserviceService.findMicroserviceById(microserviceId);
             if (microservice == null) {
                 throw new ResourceNotFoundException("Microservice not found with id " + microserviceId + " in analysis " + analysisId);
             }

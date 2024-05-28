@@ -1,10 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { Microservice } from "../../interfaces/Microservice";
 import './MicroserviceDropdown.css';
-import {Relevance} from "../../interfaces/QualityAttribute";
 import MicroserviceDetailsCard from "../cards/MicroserviceDetailCard";
 import Box from "@mui/material/Box";
-import HelpContent from "../helpContent/HelpContent";
 import Modal from "@mui/material/Modal";
 
 interface MicroserviceDropdownProps {

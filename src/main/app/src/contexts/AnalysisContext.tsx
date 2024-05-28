@@ -3,7 +3,6 @@ import WebController from '../application/WebController';
 import { Analysis } from "../interfaces/Analysis";
 import {Smell} from "../interfaces/Smell";
 import {EffortTime} from "../interfaces/EffortTime";
-import {SmellFilter} from "../interfaces/SmellFilter";
 
 
 interface AnalysisContextType {
