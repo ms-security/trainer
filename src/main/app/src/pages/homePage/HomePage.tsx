@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import './HomePage.css';
@@ -14,13 +14,28 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import HelpContent from "../../components/helpContent/HelpContent";
 import '../../components/helpContent/HelpContent.css';
+import {Analysis} from "../../interfaces/Analysis";
 
 function HomePage() {
     const [isUploadVisible, setIsUploadVisible] = useState(false);
     const [isFavoriteFilterActive, setIsFavoriteFilterActive] = useState(false);
     const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
     const navigate = useNavigate();
-    const { analyses, deleteAnalysis, toggleFavoriteStatus, addAnalysis } = useAnalysis();
+    const [analyses, setAnalyses] = useState<Analysis[]>([]);
+    const { fetchAnalyses, deleteAnalysis, toggleFavoriteStatus, addAnalysis } = useAnalysis();
+
+    const loadAnalyses = useCallback(async () => {
+        try {
+            const data = await fetchAnalyses();
+            setAnalyses(data);
+        } catch (error) {
+            console.error('Failed to fetch analyses:', error);
+        }
+    }, [fetchAnalyses]);
+
+    useEffect(() => {
+        loadAnalyses();
+    }, [loadAnalyses]);
 
     const handleUploadButtonClick = () => {
         setIsUploadVisible(!isUploadVisible);
@@ -34,9 +49,9 @@ function HomePage() {
         try {
             await addAnalysis(file, name, date, extension);
             setIsUploadVisible(!isUploadVisible);
+            await loadAnalyses();
         } catch (error) {
-            if (error instanceof Error)
-                alert(error.message || 'An error occurred while uploading the file.');
+            alert(error || 'An error occurred while uploading the file.');
         }
     };
 
@@ -46,11 +61,17 @@ function HomePage() {
 
     const handleFavoriteChange = async (analysisId: string) => {
         await toggleFavoriteStatus(analysisId);
+        await loadAnalyses();
     };
 
     const handleDeleteAnalysis = async (analysisId: string) => {
         if (window.confirm("Are you sure you want to delete this analysis?")) {
-            await deleteAnalysis(analysisId);
+            try {
+                await deleteAnalysis(analysisId);
+                await loadAnalyses();
+            }catch (error){
+                alert(error);
+            }
         }
     };
 

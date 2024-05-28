@@ -40,7 +40,7 @@ public class RestController {
         return ResponseEntity.ok().body(analysis);
     }
 
-    @GetMapping("/analysis/{analysisId}/smells/{smellId}")
+    @GetMapping("/analysis/{analysisId}/smell/{smellId}")
     public ResponseEntity<?> getSmell(@PathVariable String analysisId, @PathVariable int smellId) {
         Smell smell = facadeService.findSmellById(analysisId, smellId);
         return ResponseEntity.ok().body(smell);

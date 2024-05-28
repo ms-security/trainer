@@ -27,9 +27,7 @@ const HelpContent = () => {
   }
 ]`;
 
-    const txtExample = `Analysis results:
-
-KubeSec analysis - detected smells {UPM}
+    const txtExample = `KubeSec analysis - detected smells {UPM}
 \tKubesec.io found potential problems in cartservice.yaml
 \tselector: .metadata.annotations."container.apparmor.security.beta.kubernetes.io/nginx"
 \treason: Well defined AppArmor policies may provide greater protection.

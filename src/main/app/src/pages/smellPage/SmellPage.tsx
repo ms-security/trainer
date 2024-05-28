@@ -28,7 +28,7 @@ const SmellPage = () => {
             getSmellById(analysisId, parseInt(smellId)).then(smell => {
                 setSmell(smell);
                 setLocalStatus(smell?.status);  // Initialize local status
-            });
+            }).catch(error => alert(error));
         }
     }, [analysisId, smellId]);
 
@@ -46,11 +46,15 @@ const SmellPage = () => {
 
     const handleEffortTimeChange = async (newEffortTime: EffortTime) => {
         if (analysisId && smellId) {
-            await addEffortTime(analysisId, parseInt(smellId), newEffortTime);
-            const updatedAnalysis = await fetchAnalysisById(analysisId);
-            setAnalysis(updatedAnalysis);
-            const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
-            setSmell(updatedSmell);
+            try {
+                await addEffortTime(analysisId, parseInt(smellId), newEffortTime);
+                const updatedAnalysis = await fetchAnalysisById(analysisId);
+                setAnalysis(updatedAnalysis);
+                const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
+                setSmell(updatedSmell);
+            } catch (error) {
+                alert(error);
+            }
         }
     };
 
@@ -68,11 +72,15 @@ const SmellPage = () => {
 
     const syncStatusWithBackend = async () => {
         if (analysis && smell && localStatus && localStatus !== smell.status) {
-            await changeSmellStatus(analysis.id, smell.id, localStatus);
-            const updatedAnalysis = await fetchAnalysisById(analysis.id);
-            setAnalysis(updatedAnalysis);
-            const updatedSmell = await getSmellById(analysis.id, smell.id);
-            setSmell(updatedSmell);
+            try {
+                await changeSmellStatus(analysis.id, smell.id, localStatus);
+                const updatedAnalysis = await fetchAnalysisById(analysis.id);
+                setAnalysis(updatedAnalysis);
+                const updatedSmell = await getSmellById(analysis.id, smell.id);
+                setSmell(updatedSmell);
+            } catch (error) {
+                alert(error);
+            }
         }
     };
 
@@ -86,13 +94,16 @@ const SmellPage = () => {
     };
 
     const handleMicroserviceAssignment = async (microserviceId: number) => {
-        console.log("Nuovo microservizio selezionato:", microserviceId);
         if (analysisId && smellId) {
-            await addSmellToMicroservice(analysisId, microserviceId, parseInt(smellId) );
-            const updatedAnalysis = await fetchAnalysisById(analysisId);
-            setAnalysis(updatedAnalysis);
-            const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
-            setSmell(updatedSmell);
+            try {
+                await addSmellToMicroservice(analysisId, microserviceId, parseInt(smellId));
+                const updatedAnalysis = await fetchAnalysisById(analysisId);
+                setAnalysis(updatedAnalysis);
+                const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
+                setSmell(updatedSmell);
+            } catch (error) {
+                alert(error);
+            }
         }
     }
 

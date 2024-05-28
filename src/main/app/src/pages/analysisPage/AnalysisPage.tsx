@@ -38,12 +38,13 @@ const AnalysisPage = () => {
 
     useEffect(() => {
         if (id) {
-            fetchAnalysisById(id).then(setAnalysis);
+            fetchAnalysisById(id)
+                .then(setAnalysis)
+                .catch(error => alert(error));
         }
     }, [id, fetchAnalysisById]);
 
     const handleSmellClick = (smellId: number) => {
-        console.log("check params:", id, smellId);
         const queryStringified = queryString.stringify(filters, { arrayFormat: 'bracket' });
         navigate(`/analysis/${id}/smell/${smellId}?${queryStringified}`);
     };
@@ -59,12 +60,11 @@ const AnalysisPage = () => {
         if (analysis) {
             try {
                 await addMicroservice(data, analysis.id);
-                // Assume that addMicroservice updates the analysis context, so refetch it
                 const updatedAnalysis = await fetchAnalysisById(analysis.id);
                 setAnalysis(updatedAnalysis);
                 toggleModal();
             } catch (error) {
-                console.error('Error adding microservice:', error);
+                alert(error);
             }
         }
     };
@@ -77,21 +77,19 @@ const AnalysisPage = () => {
                 setAnalysis(updatedAnalysis);
                 toggleModal();
             } catch (error) {
-                console.error('Error updating microservice:', error);
+                alert(error);
             }
         }
-        console.log('Update microservice:', data);
     };
 
     const handleAssignMicroserviceToSmell = async (smellId: number, microserviceId: number) => {
         if (analysis) {
             try {
-                console.log('Assigning microservice to smell: ', microserviceId, smellId);
                 await addSmellToMicroservice(analysis.id, microserviceId, smellId);
                 const updatedAnalysis = await fetchAnalysisById(analysis.id);
                 setAnalysis(updatedAnalysis);
             } catch (error) {
-                console.error('Error assigning microservice to smell:', error);
+                alert(error);
             }
         }
     };
@@ -102,24 +100,26 @@ const AnalysisPage = () => {
                 const smellIds = analysis.smells
                     .filter(smell => resultFileNames.includes(smell.refactoring.relatedFileName))
                     .map(smell => smell.id);
-
                 await multipleAssignments(analysis.id, microserviceId, smellIds);
                 const updatedAnalysis = await fetchAnalysisById(analysis.id);
                 setAnalysis(updatedAnalysis);
             } catch (error){
-                console.log("Error assigning microservice to multiple smells");
+                alert(error);
             }
         }
     }
 
     const handleDeleteMicroservice = async (microserviceId: number) => {
         if (analysis) {
-            await deleteMicroservice(analysis.id, microserviceId);
-            // Assume that deleteMicroservice updates the analysis context, so refetch it
-            const updatedAnalysis = await fetchAnalysisById(analysis.id);
-            setAnalysis(updatedAnalysis);
+            try {
+                await deleteMicroservice(analysis.id, microserviceId);
+                const updatedAnalysis = await fetchAnalysisById(analysis.id);
+                setAnalysis(updatedAnalysis);
+            } catch (error) {
+                alert(error);
+            }
         }
-    }
+    };
 
     const openEditModal = (microservice: Microservice) => {
         setCurrentMicroservice(microservice);
@@ -134,20 +134,26 @@ const AnalysisPage = () => {
 
 
     const handleCheckboxChange = async (smellId: number, checkboxValue: boolean) => {
-        console.log('Checkbox changed:', smellId, checkboxValue);
-        if(analysis){
-            await changeCheckboxValue(analysis?.id, smellId, checkboxValue);
-            const updatedAnalysis = await fetchAnalysisById(analysis.id);
-            setAnalysis(updatedAnalysis);
+        if (analysis) {
+            try {
+                await changeCheckboxValue(analysis.id, smellId, checkboxValue);
+                const updatedAnalysis = await fetchAnalysisById(analysis.id);
+                setAnalysis(updatedAnalysis);
+            } catch (error) {
+                alert(error)
+            }
         }
     }
 
     const handleSmellStatusChange = async (smellId: number, newStatus: string) => {
-        console.log('Status changed:', smellId, newStatus);
-        if(analysis){
-            await changeSmellStatus(analysis?.id, smellId, newStatus);
-            const updatedAnalysis = await fetchAnalysisById(analysis.id);
-            setAnalysis(updatedAnalysis);
+        if (analysis) {
+            try {
+                await changeSmellStatus(analysis.id, smellId, newStatus);
+                const updatedAnalysis = await fetchAnalysisById(analysis.id);
+                setAnalysis(updatedAnalysis);
+            } catch (error) {
+                alert(error)
+            }
         }
     }
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
