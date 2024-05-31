@@ -38,6 +38,8 @@ public abstract class ContentParser {
                 fileName = extractIacCaFileName(description);
                 break;
             case "PAM":
+                fileName = extractPAMFileName(description);
+                break;
             case "UT":
                 break;
             default:
@@ -134,5 +136,13 @@ public abstract class ContentParser {
         return null;
     }
 
+    private String extractPAMFileName(String description) {
+        Pattern pattern = Pattern.compile("External service detected: (\\S+)");
+        Matcher matcher = pattern.matcher(description);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
+    }
 
 }
