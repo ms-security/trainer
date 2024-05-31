@@ -1,4 +1,4 @@
-package org.ssv.service;
+package org.ssv.service.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
