@@ -123,16 +123,21 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
                     <div key={attr.name} className="quality-attribute-form">
                         <span className="attribute-name-form">{attr.name}:</span>
                         <div className="relevance-buttons-form">
-                            {Object.values(Relevance).map(level => (
-                                <button
-                                    key={level}
-                                    type="button"
-                                    className={`relevance-button-form ${attr.relevance === level ? `${level.toLowerCase()}-form selected-form` : ''}`}
-                                    onClick={() => handleQualityChange(attr.name, level)}
-                                >
-                                    {level}
-                                </button>
-                            ))}
+                            {Object.values(Relevance).map(level => {
+                                const isSelected = attr.relevance === level;
+                                const levelClass = `${level.toLowerCase()}-form`;
+                                const selectedClass = isSelected ? 'selected-form' : '';
+                                return (
+                                    <button
+                                        key={level}
+                                        type="button"
+                                        className={`relevance-button-form ${levelClass} ${selectedClass}`}
+                                        onClick={() => handleQualityChange(attr.name, level)}
+                                    >
+                                        {level}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
                 ))}
@@ -163,16 +168,21 @@ const MicroserviceForm: React.FC<MicroserviceFormProps> = ({ onAddMicroservice, 
                 <div className="relevance-section-form">
                     <label className="Microservice-relevance-label">Microservice's Relevance:</label>
                     <div className="relevance-buttons-form">
-                        {Object.values(Relevance).map(level => (
-                            <button
-                                key={level}
-                                type="button"
-                                className={`relevance-button-form ${newMicroservice.relevance === level ? `${level.toLowerCase()}-form selected-form` : ''}`}
-                                onClick={() => handleRelevanceChange(level)}
-                            >
-                                {level}
-                            </button>
-                        ))}
+                        {Object.values(Relevance).map(level => {
+                            const isSelected = newMicroservice.relevance === level;
+                            const levelClass = `${level.toLowerCase()}-form`;
+                            const selectedClass = isSelected ? 'selected-form' : '';
+                            return (
+                                <button
+                                    key={level}
+                                    type="button"
+                                    className={`relevance-button-form ${levelClass} ${selectedClass}`}
+                                    onClick={() => handleRelevanceChange(level)}
+                                >
+                                    {level}
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback } from 'react';
+import React, {createContext, useContext, useCallback, useMemo} from 'react';
 import WebController from '../application/WebController';
 import { Analysis } from "../interfaces/Analysis";
 import {Smell} from "../interfaces/Smell";
@@ -164,23 +164,40 @@ export const AnalysisProvider: React.FC<{children: React.ReactNode}> = ({ childr
         }
     }, []);
 
+    const contextValue = useMemo(() => ({
+        fetchAnalyses,
+        addAnalysis,
+        fetchAnalysisById,
+        deleteAnalysis,
+        getSmellById,
+        addSmellToMicroservice,
+        multipleAssignments,
+        toggleFavoriteStatus,
+        addMicroservice,
+        updateMicroservice,
+        deleteMicroservice,
+        addEffortTime,
+        changeCheckboxValue,
+        changeSmellStatus
+    }), [
+        fetchAnalyses,
+        addAnalysis,
+        fetchAnalysisById,
+        deleteAnalysis,
+        getSmellById,
+        addSmellToMicroservice,
+        multipleAssignments,
+        toggleFavoriteStatus,
+        addMicroservice,
+        updateMicroservice,
+        deleteMicroservice,
+        addEffortTime,
+        changeCheckboxValue,
+        changeSmellStatus
+    ]);
+
     return (
-        <AnalysisContext.Provider value={{
-            fetchAnalyses,
-            addAnalysis,
-            fetchAnalysisById,
-            deleteAnalysis,
-            getSmellById,
-            addSmellToMicroservice,
-            multipleAssignments,
-            toggleFavoriteStatus,
-            addMicroservice,
-            updateMicroservice,
-            deleteMicroservice,
-            addEffortTime,
-            changeCheckboxValue,
-            changeSmellStatus
-        }}>
+        <AnalysisContext.Provider value={contextValue}>
             {children}
         </AnalysisContext.Provider>
     );
