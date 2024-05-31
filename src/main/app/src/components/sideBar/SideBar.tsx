@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './SideBar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faAngleDown, faAngleRight, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleRight, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Microservice } from "../../interfaces/Microservice";
-import {SmellStatus, UrgencyCode } from "../../interfaces/Smell";
-import {SmellFilter} from "../../interfaces/SmellFilter";
-
+import { SmellStatus, UrgencyCode } from "../../interfaces/Smell";
+import { SmellFilter } from "../../interfaces/SmellFilter";
 
 interface SidebarProps {
     microservices: Microservice[];
@@ -38,14 +37,50 @@ const smellCodeDescriptions: Record<string, string> = {
 };
 
 // Helper function to format the SmellStatus enum values into a more readable format
-const formatSmellStatus = (status : SmellStatus) => {
+const formatSmellStatus = (status: SmellStatus) => {
     return status
         .toLowerCase() // Convert all to lower case
         .replaceAll('_', ' ') // Replace underscores with spaces
         .replace(/\b(\w)/g, char => char.toUpperCase()); // Capitalize the first letter of each word
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }) => {
+const FilterButton = ({ label, active, onClick }: { label: string, active: boolean, onClick: () => void }) => (
+    <button className={active ? "active" : "not-active"} onClick={onClick}>{label}</button>
+);
+
+const AccordionSection = ({
+                              title,
+                              isOpen,
+                              onToggle,
+                              children,
+                              filterCount,
+                              onClearFilters
+                          }: {
+    title: string,
+    isOpen: boolean,
+    onToggle: () => void,
+    children: React.ReactNode,
+    filterCount: number,
+    onClearFilters: (e: React.MouseEvent) => void
+}) => (
+    <div className="accordion-item">
+        <div className="accordion-title" onClick={onToggle}>
+            <FontAwesomeIcon icon={isOpen ? faAngleDown : faAngleRight} className="icon-arrow" />
+            <span>{title}</span>
+            <div className="filter-controls-right">
+                <span className={`filter-counter ${filterCount > 0 ? 'visible' : ''}`}>{filterCount}</span>
+                <FontAwesomeIcon
+                    icon={faTimesCircle}
+                    onClick={onClearFilters}
+                    className={`remove-filter-icon ${filterCount > 0 ? 'visible' : ''}`}
+                />
+            </div>
+        </div>
+        {isOpen && <div className="accordion-content">{children}</div>}
+    </div>
+);
+
+const Sidebar: React.FC<SidebarProps> = ({ microservices, filters, updateFilters }) => {
     const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({ urgencyCodes: true });
 
     const toggleSection = (section: string) => {
@@ -65,12 +100,9 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
         return Array.isArray(filterArray) ? filterArray.length : 0;
     };
 
-
-    const removeSectionFilters = (filterKey: keyof SmellFilter) => {
-        updateFilters({
-            ...filters,
-            [filterKey]: []
-        });
+    const removeSectionFilters = (filterKey: keyof SmellFilter, e: React.MouseEvent) => {
+        e.stopPropagation();
+        updateFilters({ ...filters, [filterKey]: [] });
     };
 
     const toggleUrgencyCode = (code: UrgencyCode | 'undefined') => {
@@ -81,11 +113,9 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
             } else {
                 newUrgencyCodes.add(undefined);
             }
-        }
-        else if (newUrgencyCodes.has(code)){
+        } else if (newUrgencyCodes.has(code)) {
             newUrgencyCodes.delete(code);
-        }
-        else {
+        } else {
             newUrgencyCodes.add(code);
         }
         updateFilters({ ...filters, urgencyCode: Array.from(newUrgencyCodes) });
@@ -139,127 +169,103 @@ const Sidebar: React.FC<SidebarProps> = ({ microservices,filters,updateFilters }
         updateFilters({ ...filters, smellStatus: Array.from(newSmellStatus) });
     };
 
-
     return (
         <div className="sidebar-wrapper">
             <div className="filter-controls">
-                <button className={!filters.isChecked ? "active" : "not-active"} onClick={() => updateFilters({ ...filters, isChecked: false })}>All smells</button>
-                <button className={filters.isChecked ? "active" : "not-active   "} onClick={() => updateFilters({ ...filters, isChecked: true })}>Checked</button>
+                <FilterButton
+                    label="All smells"
+                    active={!filters.isChecked}
+                    onClick={() => updateFilters({ ...filters, isChecked: false })}
+                />
+                <FilterButton
+                    label="Checked"
+                    active={filters.isChecked as boolean}
+                    onClick={() => updateFilters({ ...filters, isChecked: true })}
+                />
             </div>
             <div className="filters-header">
                 <h2>Filters</h2>
-                <button onClick={clearFilters} className={`clear-filters ${hasAnyActiveFilters() ? 'visible' : ''}`}>Clear all</button>
+                <button onClick={clearFilters} className={`clear-filters ${hasAnyActiveFilters() ? 'visible' : ''}`}>
+                    Clear all
+                </button>
             </div>
             <div className="accordion">
-                <div className="accordion-item">
-                    <div className="accordion-title" onClick={() => toggleSection('urgencyCodes')}>
-                        <FontAwesomeIcon icon={openSections['urgencyCodes'] ? faAngleDown : faAngleRight} className="icon-arrow" />
-                        <span>Urgency Code</span>
-                        <div className="filter-controls-right">
-                            <span className={`filter-counter ${countActiveFilters('urgencyCode') > 0 ? 'visible' : ''}`}>
-                                {countActiveFilters('urgencyCode')}
-                            </span>
-                            <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => {
-                                e.stopPropagation();  // Impedisce il clic dall'attivazione del toggleSection
-                                removeSectionFilters('urgencyCode');
-                            }} className={`remove-filter-icon ${countActiveFilters('urgencyCode') > 0 ? 'visible' : ''}`} />
+                <AccordionSection
+                    title="Urgency Code"
+                    isOpen={openSections['urgencyCodes']}
+                    onToggle={() => toggleSection('urgencyCodes')}
+                    filterCount={countActiveFilters('urgencyCode')}
+                    onClearFilters={(e) => removeSectionFilters('urgencyCode', e)}
+                >
+                    {Object.entries(urgencyCodeDescriptions).map(([code, { color, description }]) => (
+                        <div
+                            key={code}
+                            className={`option ${filters.urgencyCode?.includes(code as UrgencyCode) || (code === 'undefined' && filters.urgencyCode?.includes(undefined)) ? 'selected' : 'not-selected'}`}
+                            onClick={() => toggleUrgencyCode(code as UrgencyCode)}
+                        >
+                            <span className={`color-dot ${color}`}></span>
+                            <span>{description}</span>
                         </div>
+                    ))}
+                </AccordionSection>
+                <AccordionSection
+                    title="Smell Code"
+                    isOpen={openSections['smellCodes']}
+                    onToggle={() => toggleSection('smellCodes')}
+                    filterCount={countActiveFilters('smellCodes')}
+                    onClearFilters={(e) => removeSectionFilters('smellCodes', e)}
+                >
+                    <div className="accordion-content smellCode">
+                        {Object.entries(smellCodeDescriptions).map(([code, description]) => (
+                            <div
+                                key={code}
+                                className={`option ${filters.smellCodes?.includes(code) ? 'selected' : 'not-selected'}`}
+                                onClick={() => toggleSmellCode(code)}
+                            >
+                                <span>{description}</span>
+                                <span className="smell-code">{code}</span>
+                            </div>
+                        ))}
                     </div>
-                    {openSections['urgencyCodes'] && (
-                        <div className="accordion-content">
-                            {Object.entries(urgencyCodeDescriptions).map(([code, { color, description }]) => (
-                                <div key={code} className={`option ${filters.urgencyCode?.includes(code as UrgencyCode) || (code === 'undefined' && filters.urgencyCode?.includes(undefined)) ? 'selected' : 'not-selected'}`} onClick={() => toggleUrgencyCode(code as UrgencyCode)}>
-                                    <span className={`color-dot ${color}`}></span>
-                                    <span>{description}</span>
-                                </div>
-                            ))}
-                        </div>
+                </AccordionSection>
+                <AccordionSection
+                    title="Microservice"
+                    isOpen={openSections['microservice']}
+                    onToggle={() => toggleSection('microservice')}
+                    filterCount={countActiveFilters('microservice')}
+                    onClearFilters={(e) => removeSectionFilters('microservice', e)}
+                >
+                    {microservices.length > 0 ? (
+                        microservices.map(microservice => (
+                            <div
+                                key={microservice.name}
+                                className={`option ${filters.microservice?.includes(microservice.name) ? 'selected' : 'not-selected'}`}
+                                onClick={() => toggleMicroservice(microservice.name)}
+                            >
+                                <span>{microservice.name}</span>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="no-microservice">No microservices found</div>
                     )}
-                </div>
-                {/* Sezione Smell Code */}
-                <div className="accordion-item">
-                    <div className="accordion-title" onClick={() => toggleSection('smellCodes')}>
-                        <FontAwesomeIcon icon={openSections['smellCodes'] ? faAngleDown : faAngleRight} className="icon-arrow" />
-                        <span>Smell Code</span>
-                        <div className="filter-controls-right">
-                        <span className={`filter-counter ${countActiveFilters('smellCodes') > 0 ? 'visible' : ''}`}>
-                            {countActiveFilters('smellCodes')}
-                        </span>
-                            <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => {
-                                e.stopPropagation();
-                                removeSectionFilters('smellCodes');
-                            }} className={`remove-filter-icon ${countActiveFilters('smellCodes') > 0 ? 'visible' : ''}`} />
+                </AccordionSection>
+                <AccordionSection
+                    title="Smell Status"
+                    isOpen={openSections['smellStatus']}
+                    onToggle={() => toggleSection('smellStatus')}
+                    filterCount={countActiveFilters('smellStatus')}
+                    onClearFilters={(e) => removeSectionFilters('smellStatus', e)}
+                >
+                    {Object.values(SmellStatus).map(status => (
+                        <div
+                            key={status}
+                            className={`option ${filters.smellStatus?.includes(status) ? 'selected' : 'not-selected'}`}
+                            onClick={() => toggleSmellStatus(status)}
+                        >
+                            <span>{formatSmellStatus(status)}</span>
                         </div>
-                    </div>
-                    {openSections['smellCodes'] && (
-                        <div className="accordion-content smellCode">
-                            {Object.entries(smellCodeDescriptions).map(([code, description]) => (
-                                <div key={code} className={`option ${filters.smellCodes?.includes(code) ? 'selected' : 'not-selected'}`} onClick={() => toggleSmellCode(code)}>
-                                    <span>{description}</span>
-                                    <span>({code})</span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-                {/* Sezione Microservice*/}
-                <div className="accordion-item">
-                    <div className="accordion-title" onClick={() => toggleSection('microservice')}>
-                        <FontAwesomeIcon icon={openSections['microservice'] ? faAngleDown : faAngleRight} className="icon-arrow" />
-                        <span>Microservice</span>
-                        <div className="filter-controls-right">
-                        <span className={`filter-counter ${countActiveFilters('microservice') > 0 ? 'visible' : ''}`}>
-                            {countActiveFilters('microservice')}
-                        </span>
-                            <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => {
-                                e.stopPropagation();
-                                removeSectionFilters('microservice');
-                            }} className={`remove-filter-icon ${countActiveFilters('microservice') > 0 ? 'visible' : ''}`} />
-                        </div>
-                    </div>
-                    {openSections['microservice'] && (
-                        <div className="accordion-content smellCode">
-                            {microservices.length > 0 ? (
-                                microservices.map(microservice => (
-                                    <div key={microservice.name} className={`option ${filters.microservice?.includes(microservice.name) ? 'selected' : 'not-selected'}`} onClick={() => toggleMicroservice(microservice.name)}>
-                                        <span>{microservice.name}</span>
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="no-microservice">No microservices found</div>
-                            )}
-                        </div>
-                    )}
-                </div>
-                {/* Sezione Status*/}
-                <div className="accordion-item">
-                    <div className="accordion-title" onClick={() => toggleSection('smellStatus')}>
-                        <FontAwesomeIcon icon={openSections['smellStatus'] ? faAngleDown : faAngleRight} className="icon-arrow" />
-                        <span>Smell Status</span>
-                        <div className="filter-controls-right">
-                        <span className={`filter-counter ${countActiveFilters('smellStatus') > 0 ? 'visible' : ''}`}>
-                            {countActiveFilters('smellStatus')}
-                        </span>
-                            <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => {
-                                e.stopPropagation();
-                                removeSectionFilters('smellStatus');
-                            }} className={`remove-filter-icon ${countActiveFilters('smellStatus') > 0 ? 'visible' : ''}`} />
-                        </div>
-                    </div>
-                    {openSections['smellStatus'] && (
-                        <div className="accordion-content smellStatus"> {/* Aggiunto smellStatus come classe */}
-                            {Object.values(SmellStatus).map(status => (
-                                <div
-                                    key={status}
-                                    className={`option ${filters.smellStatus?.includes(status) ? 'selected' : 'not-selected'}`}
-                                    onClick={() => toggleSmellStatus(status)}
-                                >
-                                    <span>{formatSmellStatus(status)}</span>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
+                    ))}
+                </AccordionSection>
             </div>
         </div>
     );
