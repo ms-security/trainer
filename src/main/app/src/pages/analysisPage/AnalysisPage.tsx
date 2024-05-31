@@ -59,10 +59,10 @@ const AnalysisPage = () => {
     const handleAddMicroservice = async (data: any) => {
         if (analysis) {
             try {
+                toggleModal();
                 await addMicroservice(data, analysis.id);
                 const updatedAnalysis = await fetchAnalysisById(analysis.id);
                 setAnalysis(updatedAnalysis);
-                toggleModal();
             } catch (error) {
                 alert(error);
             }
@@ -72,10 +72,10 @@ const AnalysisPage = () => {
     const handleUpdateMicroservice = async (data: any) => {
         if (analysis && currentMicroservice) {
             try {
+                toggleModal();
                 await updateMicroservice(data, analysis.id); // Assuming updateMicroservice method exists and accepts an ID
                 const updatedAnalysis = await fetchAnalysisById(analysis.id);
                 setAnalysis(updatedAnalysis);
-                toggleModal();
             } catch (error) {
                 alert(error);
             }
