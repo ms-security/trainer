@@ -1,9 +1,9 @@
-import {Analysis} from "../interfaces/Analysis";
-import {Microservice} from "../interfaces/Microservice";
-import {EffortTime} from "../interfaces/EffortTime";
-import {Smell} from "../interfaces/Smell";
+import { Analysis } from "../interfaces/Analysis";
+import { Microservice } from "../interfaces/Microservice";
+import { EffortTime } from "../interfaces/EffortTime";
+import { Smell } from "../interfaces/Smell";
 
-export default class WebController{
+export default class WebController {
     static async newAnalysis(file: File, name: string, date: string, extension: string) {
         const formData = new FormData();
         formData.append("file", file);
@@ -14,7 +14,7 @@ export default class WebController{
             method: 'POST',
             body: formData
         });
-        if (!response.ok) {
+        if (response.status !== 201) {
             const errorData = await response.text();
             throw new Error(errorData || 'Failed to add new analysis');
         }
@@ -54,7 +54,7 @@ export default class WebController{
         const response = await fetch(`http://localhost:8080/analysis/${analysisId}`, {
             method: 'DELETE'
         });
-        if (!response.ok) {
+        if (response.status !== 204) {
             const errorData = await response.text();
             throw new Error(errorData || 'Failed to delete analysis');
         }
@@ -78,13 +78,12 @@ export default class WebController{
             },
             body: JSON.stringify(data)
         });
-        if (response.ok) {
-            const microservice: Microservice = await response.json();
-            return microservice;
-        } else {
+        if (response.status !== 201) {
             const errorData = await response.text();
             throw new Error(errorData || 'Failed to add microservice');
         }
+        const microservice: Microservice = await response.json();
+        return microservice;
     }
 
     static async updateMicroservice(data: any, analysisId: string) {
@@ -105,7 +104,7 @@ export default class WebController{
         const response = await fetch(`http://localhost:8080/microservices/${analysisId}/${microserviceId}`, {
             method: 'DELETE'
         });
-        if (!response.ok) {
+        if (response.status !== 204) {
             const errorData = await response.text();
             throw new Error(errorData || 'Failed to delete microservice');
         }
@@ -194,5 +193,4 @@ export default class WebController{
         const smell: Smell = await response.json();
         return smell;
     }
-
 }

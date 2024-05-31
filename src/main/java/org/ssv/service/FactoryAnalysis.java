@@ -75,6 +75,8 @@ public class FactoryAnalysis {
                 String json = new String(data, StandardCharsets.UTF_8);
                 smellDetails = objectMapper.readValue(json, new TypeReference<List<SmellDetail>>() {});
             } catch (IOException e) {
+                System.out.println("Unable to read smell details");
+                e.printStackTrace();
                 throw new FileProcessingException("Unable to read smell details");
             }
 
