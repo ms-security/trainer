@@ -58,7 +58,7 @@ const MicroserviceDropdown: React.FC<MicroserviceDropdownProps> = ({ microservic
         if (
             dropdownRef.current &&
             !dropdownRef.current.contains(event.target as Node) &&
-            (!modalRef.current || !modalRef.current.contains(event.target as Node))
+            (!modalRef.current?.contains(event.target as Node))
         ) {
             setIsOpen(false);
             setSelectedMicroservice(null);

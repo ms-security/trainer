@@ -89,7 +89,7 @@ const SmellPage = () => {
         const regex = /<([^>]+)>/g;
         const parts = text.split(regex);
         return parts.map((part, index) =>
-            index % 2 === 1 ? <span className="file-name-box" key={index}>{fileName}</span> : part
+            index % 2 === 1 ? <span className="file-name-box" key={fileName}>{fileName}</span> : part
         );
     };
 
@@ -139,7 +139,7 @@ const SmellPage = () => {
     };
 
     const renderPropertiesSections = () => {
-        if (!smell || !smell.refactoring) {
+        if (!smell?.refactoring) {
             return null; // Assicura che non ci siano tentativi di rendering se i dati sono undefined
         }
 
