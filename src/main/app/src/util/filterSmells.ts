@@ -42,7 +42,7 @@ const filterByStatus = (smell: Smell, filters: SmellFilter) => {
 };
 
 const filterByUrgency = (smell: Smell, filters: SmellFilter) => {
-    return !(filters.urgencyCode && filters.urgencyCode.length) ||
+    return !filters.urgencyCode?.length ||
         (!smell.urgencyCode && filters.urgencyCode.includes(undefined)) ||
         (smell.urgencyCode && filters.urgencyCode.includes(smell.urgencyCode));
 };

@@ -1,4 +1,3 @@
-import {ReactNode} from "react";
 import {UrgencyCode} from "../interfaces/Smell";
 
 export const urgencyCodeToName = (code: UrgencyCode | undefined): string => {

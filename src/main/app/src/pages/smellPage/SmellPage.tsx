@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import TopBar from '../../components/topBar/TopBar';
 import './SmellPage.css';
-import { Smell, UrgencyCode } from "../../interfaces/Smell";
+import { Smell } from "../../interfaces/Smell";
 import { useAnalysis } from '../../contexts/AnalysisContext';
 import { Analysis } from "../../interfaces/Analysis";
 import MicroserviceBanner from "../../components/microserviceBanner/MicroserviceBanner";

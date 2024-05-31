@@ -1,5 +1,5 @@
 import React from 'react';
-import { Category, QualityAttribute } from "../../interfaces/QualityAttribute";
+import { Category } from "../../interfaces/QualityAttribute";
 import { Microservice } from "../../interfaces/Microservice";
 import {getRelevanceIndicator} from "../../util/utilityFunctions";
 
