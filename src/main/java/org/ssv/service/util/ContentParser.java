@@ -137,9 +137,11 @@ public abstract class ContentParser {
     }
 
     private String extractPAMFileName(String description) {
+        System.out.println(description);
         Pattern pattern = Pattern.compile("External service detected: (\\S+)");
         Matcher matcher = pattern.matcher(description);
         if (matcher.find()) {
+            System.out.println(matcher.group(1));
             return matcher.group(1);
         }
         return null;
