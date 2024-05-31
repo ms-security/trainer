@@ -5,15 +5,16 @@ import './SmellPage.css';
 import { Smell, UrgencyCode } from "../../interfaces/Smell";
 import { useAnalysis } from '../../contexts/AnalysisContext';
 import { Analysis } from "../../interfaces/Analysis";
-import {Category, Relevance} from "../../interfaces/QualityAttribute";
 import MicroserviceBanner from "../../components/microserviceBanner/MicroserviceBanner";
 import EffortTimeBanner from "../../components/effortTimeBanner/EffortTimeBanner";
-import { EffortTime } from "../../interfaces/EffortTime";
 import queryString from "query-string";
 import { filterSmells, useParsedFiltersFromUrl } from "../../util/filterSmells";
-import {Microservice} from "../../interfaces/Microservice";
+import PropertySections from './PropertySections';
+import MicroserviceSection from './MicroserviceSection';
+import { urgencyCodeToName, getUrgencyClass} from "../../util/utilityFunctions";
+import {EffortTime} from "../../interfaces/EffortTime";
 
-const SmellPage = () => {
+const SmellPage: React.FC = () => {
     const { analysisId, smellId } = useParams<{ analysisId: string, smellId: string }>();
     const [smell, setSmell] = useState<Smell | undefined>();
     const [analysis, setAnalysis] = useState<Analysis | undefined>();
@@ -24,60 +25,63 @@ const SmellPage = () => {
 
     useEffect(() => {
         if (analysisId && smellId) {
-            fetchAnalysisById(analysisId).then(setAnalysis);
-            getSmellById(analysisId, parseInt(smellId)).then(smell => {
-                setSmell(smell);
-                setLocalStatus(smell?.status);  // Initialize local status
-            }).catch(error => alert(error));
+            fetchData(analysisId, smellId);
         }
     }, [analysisId, smellId]);
 
-
-    const getUrgencyClass = (code: UrgencyCode | undefined) => {
-        return code ? `smellPage-urgency-indicator ${code}` : 'smellPage-urgency-indicator';
+    const fetchData = async (analysisId: string, smellId: string) => {
+        try {
+            const analysisData = await fetchAnalysisById(analysisId);
+            setAnalysis(analysisData);
+            const smellData = await getSmellById(analysisId, parseInt(smellId));
+            setSmell(smellData);
+            setLocalStatus(smellData?.status);
+        } catch (error) {
+            alert(error);
+        }
     };
 
-    const handleSmellClick = (analysisId: string, smellId: number) => {
-        syncStatusWithBackend().then(() => {
-            const queryStringified = queryString.stringify(filters, {arrayFormat: 'bracket'});
-            navigate(`/analysis/${analysisId}/smell/${smellId}?${queryStringified}`);
-        });  // Sync status before navigating
+    const handleSmellClick = async (analysisId: string, smellId: number) => {
+        await syncStatusWithBackend();
+        navigate(`/analysis/${analysisId}/smell/${smellId}?${queryString.stringify(filters, {arrayFormat: 'bracket'})}`);
     };
 
     const handleEffortTimeChange = async (newEffortTime: EffortTime) => {
         if (analysisId && smellId) {
             try {
                 await addEffortTime(analysisId, parseInt(smellId), newEffortTime);
-                const updatedAnalysis = await fetchAnalysisById(analysisId);
-                setAnalysis(updatedAnalysis);
-                const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
-                setSmell(updatedSmell);
+                await fetchData(analysisId, smellId);
             } catch (error) {
                 alert(error);
             }
         }
     };
 
-    const handleBackClick = (analysisId: string | undefined) => {
-        syncStatusWithBackend().then(() => {
-            const queryStringified = queryString.stringify(filters, { arrayFormat: 'bracket' });
-            navigate(`/analysis/${analysisId}?${queryStringified}`);
-        });  // Sync status before navigating
+    const handleBackClick = async (analysisId: string | undefined) => {
+        await syncStatusWithBackend();
+        navigate(`/analysis/${analysisId}?${queryString.stringify(filters, { arrayFormat: 'bracket' })}`);
     };
 
     const handleSmellStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newStatus = event.target.value;
-        setLocalStatus(newStatus);  // Update local status
+        setLocalStatus(event.target.value);
     };
 
     const syncStatusWithBackend = async () => {
         if (analysis && smell && localStatus && localStatus !== smell.status) {
             try {
                 await changeSmellStatus(analysis.id, smell.id, localStatus);
-                const updatedAnalysis = await fetchAnalysisById(analysis.id);
-                setAnalysis(updatedAnalysis);
-                const updatedSmell = await getSmellById(analysis.id, smell.id);
-                setSmell(updatedSmell);
+                await fetchData(analysis.id, String(smell.id));
+            } catch (error) {
+                alert(error);
+            }
+        }
+    };
+
+    const handleMicroserviceAssignment = async (microserviceId: number) => {
+        if (analysisId && smellId) {
+            try {
+                await addSmellToMicroservice(analysisId, microserviceId, parseInt(smellId));
+                await fetchData(analysisId, smellId);
             } catch (error) {
                 alert(error);
             }
@@ -93,150 +97,14 @@ const SmellPage = () => {
         );
     };
 
-    const handleMicroserviceAssignment = async (microserviceId: number) => {
-        if (analysisId && smellId) {
-            try {
-                await addSmellToMicroservice(analysisId, microserviceId, parseInt(smellId));
-                const updatedAnalysis = await fetchAnalysisById(analysisId);
-                setAnalysis(updatedAnalysis);
-                const updatedSmell = await getSmellById(analysisId, parseInt(smellId));
-                setSmell(updatedSmell);
-            } catch (error) {
-                alert(error);
-            }
-        }
-    }
-
-    const urgencyCodeToName = (code: UrgencyCode | undefined) => {
-        switch (code) {
-            case 'HH':
-                return 'High';
-            case 'HM':
-                return 'Medium to High';
-            case 'MM':
-                return 'Medium';
-            case 'ML':
-                return 'Low to Medium';
-            case 'LL':
-                return 'Low';
-            case 'LN':
-                return 'None to Low';
-            case 'Ø':
-                return 'None';
-            default:
-                return 'Undefined';
-        }
-    };
-
-    const getRelevanceIndicator = (relevance: Relevance | undefined) => {
-        switch (relevance) {
-            case 'HIGH': return 'high-relevance';
-            case 'MEDIUM': return 'medium-relevance';
-            case 'LOW': return 'low-relevance';
-            case 'NONE': return 'no-relevance';
-            default: return '';
-        }
-    };
-
-    const renderPropertiesSections = () => {
-        if (!smell?.refactoring) {
-            return null; // Assicura che non ci siano tentativi di rendering se i dati sono undefined
-        }
-
-        return (
-            <>
-                <div className="smellPage-smellImpact">
-                    <h3 className="smellPage-propertiesSmellImpact">Smell Impact</h3>
-                    {Object.values(Category).map(category => {
-                        const filteredAttributes = smell.propertiesAffected.filter(attr => attr.category === category);
-                        if (filteredAttributes.length > 0) {
-                            return (
-                                <div key={category}>
-                                    <h4 className="smellPage-propertyCategory">{category}</h4>
-                                    {filteredAttributes.map(attribute => (
-                                        <div key={attribute.name} className="smellPage-property">
-                                        <span className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}>
-                                            {attribute.impactsPositively ? '+' : '-'}
-                                        </span>
-                                            <span className="smellPage-propertyName">{attribute.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            );
-                        }
-                        return null; // Non renderizzare nulla se non ci sono attributi
-                    })}
-                </div>
-                <div className="smellPage-refactoringImpact">
-                    <h3 className="smellPage-propertiesRefactoringImpact">Refactoring Impact</h3>
-                    {Object.values(Category).map(category => {
-                        const filteredRefactoringAttributes = smell.refactoring.propertiesAffected.filter(attr => attr.category === category);
-                        if (filteredRefactoringAttributes.length > 0) {
-                            return (
-                                <div key={category}>
-                                    <h4 className="smellPage-propertyCategory">{category}</h4>
-                                    {filteredRefactoringAttributes.map(attribute => (
-                                        <div key={attribute.name} className="smellPage-property">
-                                        <span className={`smellPage-impactIndicator ${attribute.impactsPositively ? 'positive' : 'negative'}`}>
-                                            {attribute.impactsPositively ? '+' : '-'}
-                                        </span>
-                                            <span className="smellPage-propertyName">{attribute.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            );
-                        }
-                        return null; // Non renderizzare nulla se non ci sono attributi
-                    })}
-                </div>
-            </>
-        );
-    };
-
-
-
-    const renderMicroserviceSection = (microservice: Microservice) => {
-        return (
-            <div className="smellPage-microservice-properties">
-                <h3 className="smellPage-propertiesQualityAttributes">{microservice.name}</h3>
-                <h4 className="smellPage-microservice-generalRelevance">RELEVANCE
-                    <span className={`smellPage-relevanceIndicator ${getRelevanceIndicator(microservice.relevance)}`}>
-                        {microservice.relevance}
-                    </span>
-                </h4>
-                {Object.values(Category).map(category => {
-                    const filteredQualityAttributes = microservice.qualityAttributes.filter(attr => attr.category === category);
-                    return filteredQualityAttributes.length > 0 && (
-                        <div key={category}>
-                            <h4 className="smellPage-propertyCategory">{category}</h4>
-                            {filteredQualityAttributes.map(attribute => (
-                                <div key={attribute.name} className="smellPage-microservice-property">
-                                    <span className="smellPage-msAttribute">{attribute.name}</span>
-                                    <span
-                                        className={`smellPage-relevanceIndicator ${getRelevanceIndicator(attribute.relevance)}`}>
-                                    {attribute.relevance}
-                                </span>
-                                </div>
-                            ))}
-                        </div>
-                    );
-                })}
-            </div>
-        );
-    };
-
-
     return (
         <div className="smellPage">
-            <TopBar
-                onHomeClick={syncStatusWithBackend}
-            />
+            <TopBar onHomeClick={syncStatusWithBackend} />
             <div className="smellPage-header">
                 <h1 className="smellPage-backButton" onClick={() => handleBackClick(analysis?.id)}> ← </h1>
                 <h1 className="smellPage-analysisName">Analysis - {analysis?.name}</h1>
                 <div className="smellPage-statusDropdown">
-                    <select value={localStatus} onClick={(e) => { e.stopPropagation(); }}
-                            onChange={handleSmellStatusChange}>
+                    <select value={localStatus} onClick={(e) => { e.stopPropagation(); }} onChange={handleSmellStatusChange}>
                         <option value="NOT_FIXED">Not fixed</option>
                         <option value="FIXED">Fixed</option>
                         <option value="FALSE_POSITIVE">False positive</option>
@@ -250,37 +118,35 @@ const SmellPage = () => {
                 <MicroserviceBanner
                     microservice={smell?.microservice}
                     microservices={analysis?.microservices ?? []}
-                    onMicroserviceChange={handleMicroserviceAssignment}/>
+                    onMicroserviceChange={handleMicroserviceAssignment} />
                 <EffortTimeBanner
                     key={smell?.id}
                     effortTime={smell?.effortTime}
                     onEffortTimeChange={handleEffortTimeChange} />
             </div>
             <hr className="smellPage-headerSeparator" />
-
             <div className="smellPage-layout">
                 <aside className="smellPage-sidebar">
                     <div className="smellPage-sidebarContent">
                         <div className="smellPage-smellIndex-fixed">
                             <h3 className="smellPage-smellIndex">Smell: {smell?.id} / {analysis?.smells.length}</h3>
                         </div> {analysis && filterSmells(analysis.smells, filters).map(smellItem => (
-                            <div
-                                key={smellItem.id}
-                                className={`smellPage-smellListCard ${smellItem.id === smell?.id ? 'active' : ''}`}
-                                onClick={() => handleSmellClick(analysis?.id, smellItem.id)}>
-                                <div className="smellPage-smellList-scripts">
-                                    <h3 className="smellPage-smellCardTitle">{smellItem.name}</h3>
-                                    <p className="smellPage-smellCardMicroservice">{"Microservice: " + smellItem.microservice?.name || ''}</p>
-                                </div>
-                                <p className="smellPage-smellList-effortTime">
-                                    {smellItem.effortTime ? `${smellItem.effortTime.value} ${smellItem.effortTime.unitOfTime}` : ''}
-                                </p>
-                                <div className={getUrgencyClass(smellItem?.urgencyCode)}></div>
+                        <div
+                            key={smellItem.id}
+                            className={`smellPage-smellListCard ${smellItem.id === smell?.id ? 'active' : ''}`}
+                            onClick={() => handleSmellClick(analysis?.id, smellItem.id)}>
+                            <div className="smellPage-smellList-scripts">
+                                <h3 className="smellPage-smellCardTitle">{smellItem.name}</h3>
+                                <p className="smellPage-smellCardMicroservice">{"Microservice: " + smellItem.microservice?.name || ''}</p>
                             </div>
-                        ))}
+                            <p className="smellPage-smellList-effortTime">
+                                {smellItem.effortTime ? `${smellItem.effortTime.value} ${smellItem.effortTime.unitOfTime}` : ''}
+                            </p>
+                            <div className={getUrgencyClass(smellItem?.urgencyCode)}></div>
+                        </div>
+                    ))}
                     </div>
                 </aside>
-
                 <main className="smellPage-mainContent">
                     <h1 className="smellPage-smellTitle">{smell?.name} - {smell?.extendedName}</h1>
                     <div id="analysis-output" className="smellPage-smellK">
@@ -292,8 +158,8 @@ const SmellPage = () => {
                         <p className="smellPage-refactorDescription">{replaceFileNamesWithSpans(smell?.refactoring.refactor, smell?.refactoring.relatedFileName)}</p>
                     </div>
                     <div id="impact-smell-refactoring" className={`smellPage-properties-${smell?.microservice ? 'with-microservice' : 'without-microservice'}`}>
-                        {renderPropertiesSections()}
-                        {smell?.microservice && renderMicroserviceSection(smell.microservice)}
+                        <PropertySections smell={smell} />
+                        {smell?.microservice && <MicroserviceSection microservice={smell.microservice} />}
                     </div>
                 </main>
             </div>
