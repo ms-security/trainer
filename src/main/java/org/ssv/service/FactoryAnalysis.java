@@ -64,6 +64,8 @@ public class FactoryAnalysis {
      * @param name the name of the analysis
      * @param dateString the date of the analysis
      * @param extension the extension of the file
+     * @throws InvalidContentException if the file is empty, the content is invalid or the extension is invalid
+     * @throws FileProcessingException if the file cannot be read
      * @return the Analysis object created from the uploaded file
      */
     public Analysis createAnalysis(MultipartFile file, String name, String dateString, String extension) {

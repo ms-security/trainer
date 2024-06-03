@@ -3,6 +3,7 @@ package org.ssv.service.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ssv.exception.FileProcessingException;
+import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Refactoring;
 import org.ssv.model.Smell;
@@ -35,6 +36,9 @@ public class JsonContentParser extends ContentParser {
 
             for (String smellCode : smellCodes) {
                 SmellDetail detail = FactoryAnalysis.getInstance().findSmellDetailByCode(smellCode);
+                if (detail == null) {
+                    throw new InvalidContentException("Unsupported smell code: " + smellCode);
+                }
                 Refactoring refactoring = assignTemplateValues(smellCode, description, detail.getRefactoring());
 
                 Smell smell = Smell.builder()

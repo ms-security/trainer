@@ -1,5 +1,6 @@
 package org.ssv.service.util;
 
+import org.ssv.exception.InvalidContentException;
 import org.ssv.model.Analysis;
 import org.ssv.model.Refactoring;
 import org.ssv.model.Smell;
@@ -35,6 +36,9 @@ public class TxtContentParser extends ContentParser {
             for (String code : codes.split(",")) {
                 code = code.trim();
                 SmellDetail detail = FactoryAnalysis.getInstance().findSmellDetailByCode(code);
+                if (detail == null) {
+                    throw new InvalidContentException("Unsupported smell code: " + code);
+                }
                 Refactoring refactoring = assignTemplateValues(code, description, detail.getRefactoring());
 
                 Smell newSmell = Smell.builder()
