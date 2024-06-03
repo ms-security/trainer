@@ -230,4 +230,10 @@ sketch
 .scannerwork
 sonar-project.properties
 
+### Doc###
+doc
+docs
+unifiedDoc
+generate_unified_docs.sh
+typedoc.json
 Doxyfile
