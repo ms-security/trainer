@@ -27,8 +27,6 @@ const SmellCard: React.FC<SmellCardProps> = ({
 
     const [selectedMicroserviceId, setSelectedMicroserviceId] = useState(
         smell.microservice ? smell.microservice.id : -1);
-    const [isRemoving, setIsRemoving] = useState(false);
-
 
     const getUrgencyClass = (code: UrgencyCode | undefined) => {
         return code ? `smellCard-urgency-indicator ${code}` : 'smellCard-urgency-indicator'; // Append the urgency code as a class
@@ -73,14 +71,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
     //Function to call when the status of a smell is changed
     const handleSmellStatusChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newStatus = e.target.value;
-        const shouldRemove = !currentFilterStatus?.includes(smell.status) || !currentFilterStatus?.includes(newStatus as SmellStatus);
-        if (shouldRemove) {
-            setIsRemoving(true);
-            await new Promise(resolve => setTimeout(resolve, 500)); // Wait for the transition to complete
-            await onStatusChange(smell.id, newStatus);
-        } else {
-            await onStatusChange(smell.id, newStatus);
-        }
+        await onStatusChange(smell.id, newStatus);
     };
 
     useEffect(() => {
@@ -88,7 +79,7 @@ const SmellCard: React.FC<SmellCardProps> = ({
     }, [smell.microservice]);
 
     return (
-        <div className={`smellCard-container ${isRemoving ? 'removing' : ''}`} onClick={onClick}>
+        <div className="smellCard-container" onClick={onClick}>
             <div className="smellCard-checkBox-text-container">
                 <div className="checkbox-container" onClick={(e) => {
                     e.stopPropagation();

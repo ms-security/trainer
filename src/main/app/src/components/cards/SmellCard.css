@@ -9,11 +9,6 @@
     border-radius: 5px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     overflow: hidden; /* Ensure content is hidden if it overflows */
-    transition: opacity 0.3s ease-out;
-}
-
-.smellCard-container.removing {
-    opacity: 0;
 }
 
 .smellCard-container:hover {

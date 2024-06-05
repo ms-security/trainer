@@ -1,6 +1,6 @@
 import React from 'react';
 import './TopBar.css';
-import logoImage from '../../resources/SSV_LOGO_BLU.jpg';
+import logoImage from '../../resources/Logo_SST.webp';
 import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHome} from "@fortawesome/free-solid-svg-icons";
@@ -26,7 +26,7 @@ const TopBar: React.FC<TopBarProps> = ({ onHomeClick }) => {
                 <img src={logoImage} alt="Logo" />
             </div>
             <div className="top-bar_title">
-                <h1>SECURITY SMELLS VISUALIZER</h1>
+                <h1>SECURITY SMELL TRIAGE</h1>
             </div>
             <Tooltip title="Home" arrow>
                 <FontAwesomeIcon icon={faHome} size="2x" className="home-button" onClick={handleHomeLogoClick} />

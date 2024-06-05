@@ -209,10 +209,10 @@ const AnalysisPage = () => {
                             <span className="sort-by-label">Sort By:</span>
                             <select className="sort-by-select" value={filters.sortBy ?? 'none'} onChange={handleSortChange}>
                                 <option value="none">None</option>
-                                <option value="urgencyTop">Highest urgency</option>
-                                <option value="urgencyBottom">Lowest urgency</option>
-                                <option value="effortTop">Highest effort</option>
-                                <option value="effortBottom">Lowest effort</option>
+                                <option value="urgencyTop">Decreasing urgency</option>
+                                <option value="urgencyBottom">Increasing urgency</option>
+                                <option value="effortTop">Decreasing effort</option>
+                                <option value="effortBottom">Increasing effort</option>
                             </select>
                             <span className="total-effort-time">Total effort:</span>
                             {totalEffortTime}

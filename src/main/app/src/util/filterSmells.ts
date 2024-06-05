@@ -38,10 +38,7 @@ const filterByChecked = (smell: Smell, filters: SmellFilter) => {
 
 const filterByStatus = (smell: Smell, filters: SmellFilter) => {
     const smellStatusFilters = filters.smellStatus ?? [];
-    if (smellStatusFilters.length === 0) {
-        return smell.status === 'NOT_FIXED';
-    }
-    return smellStatusFilters.includes(smell.status);
+    return smellStatusFilters.length === 0 || smellStatusFilters.includes(smell.status);
 };
 
 const filterByUrgency = (smell: Smell, filters: SmellFilter) => {
