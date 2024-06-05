@@ -34,10 +34,6 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
         return smells.filter(smell => smell.urgencyCode === urgency && smell.status === "NOT_FIXED").length;
     };
 
-    const countNotFixedSmells = () => {
-        return smells.filter(smell => smell.status === "NOT_FIXED").length;
-    };
-
     const smellCounts = {
         'High': countSmellsByUrgency(UrgencyCode.HH),
         'Medium-to-High': countSmellsByUrgency(UrgencyCode.HM),
@@ -48,8 +44,6 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
         'None': countSmellsByUrgency(UrgencyCode.Ø),
         'undefined': countSmellsByUrgency(null)
     };
-
-    const totalNotFixedSmells = countNotFixedSmells();
 
     return (
         <div className="analysis-card" onClick={onClick}>
@@ -75,8 +69,8 @@ const AnalysisCard: React.FC<AnalysisCardProps> = ({
                             <span className={`smell ${urgencyClass}`}>{count}</span>
                         </Tooltip>
                     ))}
-                    <Tooltip title="Not Fixed Smells" arrow>
-                        <div className="analysisCard-smellNumber">{totalNotFixedSmells} Smells</div>
+                    <Tooltip title="Total smells" arrow>
+                        <div className="analysisCard-smellNumber">{smells.length} Smells</div>
                     </Tooltip>
                 </div>
             </div>
