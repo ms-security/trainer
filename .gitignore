@@ -237,3 +237,6 @@ unifiedDoc
 generate_unified_docs.sh
 typedoc.json
 Doxyfile
+
+### Docker Deployment ###
+/Dockerfile
