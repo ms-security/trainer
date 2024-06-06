@@ -11,8 +11,8 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.ssv</groupId>
-    <artifactId>SSV</artifactId>
+    <groupId>org.sst</groupId>
+    <artifactId>SST</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
