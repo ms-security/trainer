@@ -1,4 +1,4 @@
-# SSV (Security Smells Visualizer)
+# SST (Security Smells Triage)
 
 ![License](https://img.shields.io/github/license/UnimibSoftEngCourse2022/riskgame-malnati-negro-persico-romano-radaelli-mvc-guru-1)
 ![Stars](https://img.shields.io/github/stars/UnimibSoftEngCourse2022/riskgame-malnati-negro-persico-romano-radaelli-mvc-guru-1)
@@ -13,7 +13,7 @@
 
 ### Import and Installation
 
-- `git clone https://github.com/AndreaMalnati/SSV.git`: to clone the repository locally.
+- `git clone https://github.com/AndreaMalnati/SST.git`: to clone the repository locally.
 
 *The following commands should be executed inside the root directory of the repository*
 
@@ -22,7 +22,7 @@
   into target/static, where target/ is the folder containing the server's compiled files.
   Finally, it creates the complete .jar package.
 
-- `java -jar target\SSV-1.0-SNAPSHOT.jar`: Runs the previously generated .jar file.
+- `java -jar target\SST-1.0-SNAPSHOT.jar`: Runs the previously generated .jar file.
 
 - The server is now accessible at `localhost:8080`.
 
