@@ -12,6 +12,9 @@ import org.sst.service.database.FacadeService;
 
 import java.util.List;
 
+/**
+ * REST controller for managing microservices.
+ */
 @RestController
 @Api(tags = "Microservices")
 @RequestMapping("/microservices")
@@ -20,6 +23,13 @@ public class MicroserviceController {
     @Autowired
     private FacadeService facadeService;
 
+    /**
+     * Adds a new microservice to an analysis.
+     *
+     * @param analysisId the ID of the analysis
+     * @param microservice the details of the microservice to add
+     * @return a ResponseEntity containing the added microservice
+     */
     @ApiOperation(value = "Add a new microservice to an analysis", notes = "Provide an analysis ID and microservice details to add a new microservice")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Successfully added microservice", response = Microservice.class),
@@ -37,6 +47,14 @@ public class MicroserviceController {
         return ResponseEntity.status(201).body(microservice);
     }
 
+    /**
+     * Assigns a microservice to a smell.
+     *
+     * @param analysisId the ID of the analysis
+     * @param microserviceId the ID of the microservice
+     * @param smellId the ID of the smell
+     * @return a ResponseEntity with no content
+     */
     @ApiOperation(value = "Assign a microservice to a smell", notes = "Provide analysis ID, microservice ID, and smell ID to assign a microservice to a smell")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully assigned microservice to smell"),
@@ -66,6 +84,14 @@ public class MicroserviceController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Assigns a microservice to multiple smells.
+     *
+     * @param analysisId the ID of the analysis
+     * @param microserviceId the ID of the microservice
+     * @param smellsIds the list of smell IDs
+     * @return a ResponseEntity with no content
+     */
     @ApiOperation(value = "Assign a microservice to multiple smells", notes = "Provide analysis ID, microservice ID, and list of smell IDs to assign a microservice to multiple smells")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully assigned microservice to multiple smells"),
@@ -92,6 +118,13 @@ public class MicroserviceController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Updates a microservice.
+     *
+     * @param analysisId the ID of the analysis
+     * @param microserviceTmp the updated microservice details
+     * @return a ResponseEntity with no content
+     */
     @ApiOperation(value = "Update a microservice", notes = "Provide analysis ID and microservice details to update a microservice")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully updated microservice"),
@@ -117,6 +150,13 @@ public class MicroserviceController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Deletes a microservice by ID.
+     *
+     * @param analysisId the ID of the analysis
+     * @param microserviceId the ID of the microservice to delete
+     * @return a ResponseEntity with no content
+     */
     @ApiOperation(value = "Delete a microservice by ID", notes = "Provide analysis ID and microservice ID to delete a specific microservice")
     @ApiResponses({
             @ApiResponse(code = 204, message = "Successfully deleted microservice"),

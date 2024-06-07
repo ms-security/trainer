@@ -6,8 +6,11 @@ import org.sst.model.Microservice;
 
 import java.util.List;
 
+/**
+ * JPA Repository for Microservice entity
+ * Extends JpaRepository
+ */
 public interface MicroserviceRepositoryJpa extends JpaRepository<Microservice, Integer> {
-    // Fetch microservices by analysis
     List<Microservice> findByAnalysis(Analysis analysis);
 
     void deleteById(int id);

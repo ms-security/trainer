@@ -8,10 +8,27 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Abstract class representing a content parser.
+ * Provides methods to parse content and extract and assign filenames to smells.
+ */
 public abstract class ContentParser {
 
+    /**
+     * Parses the content which comes from an analysis and returns a list of smells.
+     * @param content the content to parse
+     * @param analysis the analysis object
+     * @return the list of smells
+     */
     public abstract List<Smell> parseContent(String content, Analysis analysis);
 
+    /**
+     * Assigns the filename to the smell based on the description and the smell code.
+     * @param code the smell code
+     * @param description the description of the smell
+     * @param refactoring the refactoring object
+     * @return the refactoring object with the filename assigned
+     */
     public Refactoring assignTemplateValues(String code, String description, Refactoring refactoring){
         String fileName = null;
         switch (code){
@@ -49,6 +66,12 @@ public abstract class ContentParser {
         return updateRefactor(refactoring, fileName);
     }
 
+    /**
+     * Updates the refactoring object with the filename.
+     * @param refactoring the refactoring object
+     * @param fileName the filename
+     * @return the refactoring object with the filename assigned
+     */
     private Refactoring updateRefactor(Refactoring refactoring, String fileName) {
         String refactor = refactoring.getRefactor();
         if (fileName != null) {
@@ -62,6 +85,11 @@ public abstract class ContentParser {
             .build();
     }
 
+    /**
+     * Extracts the filename from the description for the UPM smell.
+     * @param description the description of the smell
+     * @return the filename
+     */
     private String extractUPMFileName(String description) {
         Pattern pattern = Pattern.compile("found potential problems in (\\S+)");
         Matcher matcher = pattern.matcher(description);
@@ -71,6 +99,11 @@ public abstract class ContentParser {
         return null;
     }
 
+    /**
+     * Extracts the filename from the description for the HS smell.
+     * @param description the description of the smell
+     * @return the filename
+     */
     private String extractHSFileName(String description) {
         Pattern podPattern = Pattern.compile("Detected secret in pod (\\S+),"); // First pattern: "Detected secret in pod"
         Matcher matcher = podPattern.matcher(description);
@@ -85,7 +118,11 @@ public abstract class ContentParser {
         return null;
     }
 
-
+    /**
+     * Extracts the filename from the description for the IAC and CA smells.
+     * @param description the description of the smell
+     * @return the filename
+     */
     private String extractIacCaFileName(String description) {
         Pattern pattern = Pattern.compile("specified in (\\S+)");
         Matcher matcher = pattern.matcher(description);
@@ -95,6 +132,11 @@ public abstract class ContentParser {
         return null;
     }
 
+    /**
+     * Extracts the filename from the description for the NSC smell.
+     * @param description the description of the smell
+     * @return the filename
+     */
     private String extractNSCFileName(String description) {
         Pattern pattern = Pattern.compile("Unencrypted traffic detected in pod (\\S+)");
         Matcher matcher = pattern.matcher(description);
@@ -104,6 +146,11 @@ public abstract class ContentParser {
         return null;
     }
 
+    /**
+     * Extracts the filename from the description for the OCC smell.
+     * @param description the description of the smell
+     * @return the filename
+     */
     private String extractOCCFileName(String description) {
         Pattern pattern = Pattern.compile("Potential usage of custom crypto code in (\\S+)");
         Matcher matcher = pattern.matcher(description);
@@ -118,6 +165,11 @@ public abstract class ContentParser {
         return null;
     }
 
+    /**
+     * Extracts the filename from the description for the MUA smell.
+     * @param description the description of the smell
+     * @return the filename
+     */
     private String extractMUAFileName(String description) {
         Pattern pattern = Pattern.compile("Basic http authorization in (\\S+),");
         Matcher matcher = pattern.matcher(description);
@@ -127,6 +179,11 @@ public abstract class ContentParser {
         return null;
     }
 
+    /**
+     * Extracts the filename from the description for the NEDE smell.
+     * @param description the description of the smell
+     * @return the filename
+     */
     private String extractNEDEFileName(String description) {
         Pattern pattern = Pattern.compile("File: (\\S+):");
         Matcher matcher = pattern.matcher(description);
@@ -136,6 +193,11 @@ public abstract class ContentParser {
         return null;
     }
 
+    /**
+     * Extracts the filename from the description for the PAM smell.
+     * @param description the description of the smell
+     * @return the filename
+     */
     private String extractPAMFileName(String description) {
         Pattern pattern = Pattern.compile("External service detected: (\\S+)");
         Matcher matcher = pattern.matcher(description);

@@ -9,6 +9,9 @@ import org.sst.model.Smell;
 import org.sst.model.SmellStatus;
 import org.sst.service.database.FacadeService;
 
+/**
+ * REST controller for managing smells.
+ */
 @RestController
 @Api(tags = "Smells")
 @RequestMapping("/analysis/{analysisId}/smell")
@@ -17,6 +20,13 @@ public class SmellController {
     @Autowired
     private FacadeService facadeService;
 
+    /**
+     * Retrieves a smell by analysis ID and smell ID.
+     *
+     * @param analysisId the ID of the analysis
+     * @param smellId the ID of the smell
+     * @return a ResponseEntity containing the retrieved smell
+     */
     @ApiOperation(value = "Get a smell by analysis ID and smell ID", notes = "Provide analysis ID and smell ID to look up a specific smell")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully retrieved smell", response = Smell.class),
@@ -32,6 +42,14 @@ public class SmellController {
         return ResponseEntity.ok().body(smell);
     }
 
+    /**
+     * Sets the effort time for a smell.
+     *
+     * @param analysisId the ID of the analysis
+     * @param smellId the ID of the smell
+     * @param effortTime the effort time details
+     * @return a ResponseEntity with no content
+     */
     @ApiOperation(value = "Set effort time for a smell", notes = "Provide analysis ID, smell ID, and effort time details to set effort time for a smell")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully set effort time"),
@@ -51,6 +69,14 @@ public class SmellController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Sets the checkbox value for a smell.
+     *
+     * @param analysisId the ID of the analysis
+     * @param smellId the ID of the smell
+     * @param checkbox the checkbox value
+     * @return a ResponseEntity with no content
+     */
     @ApiOperation(value = "Set checkbox for a smell", notes = "Provide analysis ID, smell ID, and checkbox value to set checkbox for a smell")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully set checkbox"),
@@ -69,6 +95,14 @@ public class SmellController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Sets the status for a smell.
+     *
+     * @param analysisId the ID of the analysis
+     * @param smellId the ID of the smell
+     * @param smellStatus the status value
+     * @return a ResponseEntity with no content
+     */
     @ApiOperation(value = "Set status for a smell", notes = "Provide analysis ID, smell ID, and status details to set status for a smell")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully set status"),

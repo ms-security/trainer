@@ -16,8 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class representing a JSON content parser.
+ * Parses content from JSON format.
+ */
 public class JsonContentParser extends ContentParser {
 
+    /**
+     * Parses the given JSON content and returns a list of smells.
+     *
+     * @param content the JSON content to parse
+     * @param analysis the analysis context
+     * @return a list of smells found in the content
+     * @throws FileProcessingException if the JSON content cannot be parsed
+     * @throws InvalidContentException if an unsupported smell code is encountered
+     */
     @Override
     public List<Smell> parseContent(String content, Analysis analysis) {
         ObjectMapper objectMapper = new ObjectMapper();

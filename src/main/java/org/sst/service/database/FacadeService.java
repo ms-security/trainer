@@ -12,6 +12,12 @@ import org.sst.service.database.services.*;
 
 import java.util.List;
 
+
+/**
+ * Service class acting as a facade for various database operations.
+ * Provides methods to manage database access for analyses, microservices, smells,
+ * quality attributes and effort times.
+ */
 @Service
 public class FacadeService {
 
@@ -31,7 +37,12 @@ public class FacadeService {
     private QualityAttributeService qualityAttributeService;
 
     //----------------Analysis----------------
-
+    /**
+     * Saves the given analysis in the persistent db.
+     *
+     * @param analysis the analysis to save
+     * @throws DatabaseException if an error occurs while saving the analysis
+     */
     public void saveAnalysis(Analysis analysis) {
         try {
             analysisService.saveAnalysis(analysis);
@@ -40,6 +51,12 @@ public class FacadeService {
         }
     }
 
+    /**
+     * Retrieves all analyses from the persistent db.
+     *
+     * @return a list of all analyses
+     * @throws DatabaseException if an error occurs while retrieving the analyses
+     */
     public List<Analysis> getAllAnalyses() {
         try {
             return analysisService.getAllAnalyses();
@@ -48,6 +65,14 @@ public class FacadeService {
         }
     }
 
+    /**
+     * Retrieves the analysis with the given id from the persistent db.
+     *
+     * @param analysisId the id of the analysis to retrieve
+     * @return the analysis with the given id
+     * @throws ResourceNotFoundException if no analysis with the given id is found
+     * @throws DatabaseException if an error occurs while retrieving the analysis
+     */
     public Analysis findAnalysisById(String analysisId) {
         try {
             Analysis analysis = analysisService.findById(analysisId);
@@ -62,6 +87,14 @@ public class FacadeService {
         }
     }
 
+    /**
+     * Deletes the analysis with the given id from the persistent db.
+     *
+     * @param analysisId the id of the analysis to delete
+     * @return true if the analysis was successfully deleted, false otherwise
+     * @throws ResourceNotFoundException if no analysis with the given id is found
+     * @throws DatabaseException if an error occurs while deleting the analysis
+     */
     public boolean deleteAnalysisById(String analysisId) {
         try {
             if (!analysisService.deleteById(analysisId)) {
@@ -76,7 +109,12 @@ public class FacadeService {
     }
 
     //----------------Microservice----------------
-
+    /**
+     * Saves the given microservice in the persistent db.
+     *
+     * @param microservice the microservice to save
+     * @throws DatabaseException if an error occurs while saving the microservice
+     */
     public void saveMicroservice(Microservice microservice) {
         try {
             qualityAttributeService.saveQualityAttributes(microservice.getQualityAttributes());
@@ -86,6 +124,15 @@ public class FacadeService {
         }
     }
 
+    /**
+     * Finds a microservice by its ID within a specific analysis.
+     *
+     * @param analysisId the ID of the analysis
+     * @param microserviceId the ID of the microservice to find
+     * @return the found microservice
+     * @throws ResourceNotFoundException if the microservice is not found
+     * @throws DatabaseException if an error occurs while finding the microservice
+     */
     public Microservice findMicroserviceById(String analysisId, int microserviceId) {
         try {
             Microservice microservice = microserviceService.findMicroserviceById(microserviceId);
@@ -100,6 +147,14 @@ public class FacadeService {
         }
     }
 
+    /**
+     * Deletes the given microservice.
+     *
+     * @param microservice the microservice to delete
+     * @return true if the microservice was successfully deleted, false otherwise
+     * @throws ResourceNotFoundException if the microservice is not found
+     * @throws DatabaseException if an error occurs while deleting the microservice
+     */
     public boolean deleteMicroservice(Microservice microservice) {
         try {
             List<Smell> smells = smellService.findByMicroservice(microservice);
@@ -120,6 +175,13 @@ public class FacadeService {
         }
     }
 
+    /**
+     * Updates the given microservice with new values.
+     *
+     * @param microservice the microservice to update
+     * @param microserviceTmp the temporary microservice containing new values
+     * @throws DatabaseException if an error occurs while updating the microservice
+     */
     public void updateMicroservice(Microservice microservice, Microservice microserviceTmp) {
         try {
             microservice.setName(microserviceTmp.getName());
@@ -134,7 +196,15 @@ public class FacadeService {
     }
 
     //----------------Smell----------------
-
+    /**
+     * Finds a smell by its ID within a specific analysis.
+     *
+     * @param analysisId the ID of the analysis
+     * @param smellId the ID of the smell to find
+     * @return the found smell
+     * @throws ResourceNotFoundException if the smell is not found
+     * @throws DatabaseException if an error occurs while finding the smell
+     */
     public Smell findSmellById(String analysisId, int smellId) {
         try {
             Smell smell = smellService.findSmellById(analysisId, smellId);
@@ -149,6 +219,12 @@ public class FacadeService {
         }
     }
 
+    /**
+     * Saves the given smell.
+     *
+     * @param smell the smell to save
+     * @throws DatabaseException if an error occurs while saving the smell
+     */
     public void saveSmell(Smell smell) {
         try {
             smellService.saveSmell(smell);
@@ -157,6 +233,13 @@ public class FacadeService {
         }
     }
 
+    /**
+     * Finds all smells associated with the given microservice.
+     *
+     * @param microservice the microservice whose smells are to be found
+     * @return a list of smells associated with the microservice
+     * @throws DatabaseException if an error occurs while finding the smells
+     */
     public List<Smell> findByMicroservice(Microservice microservice) {
         try {
             return smellService.findByMicroservice(microservice);
@@ -166,7 +249,12 @@ public class FacadeService {
     }
 
     //----------------EffortTime----------------
-
+    /**
+     * Saves the given effort time.
+     *
+     * @param effortTime the effort time to save
+     * @throws DatabaseException if an error occurs while saving the effort time
+     */
     public void saveEffortTime(EffortTime effortTime) {
         try {
             effortTimeService.saveEffortTime(effortTime);

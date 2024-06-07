@@ -7,8 +7,12 @@ import org.sst.service.SmellId;
 
 import java.util.List;
 
+/**
+ * JPA Repository for Smell entity
+ * Extends JpaRepository
+ * Uses object SmellId as the primary key
+ */
 public interface SmellRepositoryJpa extends JpaRepository<Smell, SmellId> {
-    // Fetch smells associated with a particular analysis
     List<Smell> findByAnalysisId(String analysisId);
 
     List<Smell> findByMicroservice(Microservice microservice);

@@ -13,8 +13,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class representing a txt content parser.
+ * Parses content from txt format.
+ */
 public class TxtContentParser extends ContentParser {
 
+    /**
+     * Parses the given text content and returns a list of smells.
+     *
+     * @param content the text content to parse
+     * @param analysis the analysis context
+     * @return a list of smells found in the content
+     * @throws InvalidContentException if an unsupported smell code is encountered
+     */
     @Override
     public List<Smell> parseContent(String content, Analysis analysis) {
 
