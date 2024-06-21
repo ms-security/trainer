@@ -26,6 +26,12 @@
 
 - The server is now accessible at `localhost:8080`.
 
+### Running with Docker
+- Ensure [Docker](https://docs.docker.com/get-docker/) is installed and running. 
+- Open a terminal and execute the following command:
+   ```bash
+   docker run -p 8080:8080 poorthebobby/sst:latest
+- The server is now accessible at `localhost:8080`.
 
 
 *made by Andrea Malnati, Roberto Negro*
