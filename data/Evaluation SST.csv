@@ -1,0 +1,21 @@
+How many years of experience do you have with software design?  ;How many years of experience do you have with software development?  ;How many years of experience do you have with microservices?  ;How many years of experience do you have with software security?  ;Task 1;Task 2;Task 3;Task 4;I found it easy to list the microservices forming the application, their relevance, and the importance of quality attributes for the microservices.;I found it easy to link the detected security smells to the microservices of the application.;I found it easy to indentify the urgency of each security smell and to distinguish the most urgent one from the others.;I found the information displayed on a detected security smell’s page useful, particularly for deciding whether to resolve it through refactoring.;I found it useful to be able to specify and visualize the effort time needed to apply a refactoring to resolve a detected security smell.;I found it useful to be able to mark the status of security smells after making a decision about them.;The overall User Experience is good.
+3+;3+;1-3;1-3;Completed;Completed;Completed;Completed;2;3;3;2;3;3;1
+0-1;0-1;0-1;0-1;Completed;Completed;Completed;Completed;4;4;5;3;4;4;4
+0-1;0-1;0-1;0-1;Completed;Completed;Completed;Completed;4;5;5;4;4;5;4
+1-3;1-3;1-3;0-1;Completed;Completed;Completed;Completed;5;4;5;5;4;5;5
+0-1;0-1;0-1;0-1;Completed;Completed;Completed;Completed;3;4;5;5;2;5;3
+3+;3+;3+;1-3;Completed;Completed;Completed;Completed;2;4;5;5;3;5;3
+1-3;3+;1-3;0-1;Completed;Completed;Completed;Completed;4;4;5;4;3;4;4
+3+;3+;3+;1-3;Completed;Completed;Completed;Completed;5;5;5;5;5;5;5
+1-3;1-3;0-1;0-1;Completed;Completed;Completed;Completed;1;5;4;4;3;5;3
+1-3;3+;1-3;0-1;Completed;Completed;Completed;Completed;3;5;5;5;4;5;4
+3+;3+;3+;3+;Completed;Completed;Completed;Completed;4;5;5;4;5;5;4
+1-3;3+;1-3;0-1;Completed;Completed;Completed;Completed;4;5;5;5;4;5;4
+1-3;1-3;1-3;1-3;Completed;Completed;Completed;Completed;3;4;4;5;4;5;3
+1-3;1-3;0-1;0-1;Completed;Completed;Completed;Completed;5;5;5;5;5;5;5
+3+;3+;3+;0-1;Completed;Completed;Completed;Completed;4;4;5;3;3;5;3
+0-1;3+;0-1;0-1;Completed;Completed;Completed;Completed;4;5;5;5;5;5;4
+1-3;1-3;1-3;1-3;Completed;Completed;Completed;Completed;4;4;5;5;2;5;2
+3+;3+;1-3;1-3;Completed;Completed;Completed;Completed;4;4;4;5;5;5;4
+1-3;1-3;0-1;0-1;Completed;Completed;Completed;Completed;4;4;5;4;5;5;4
+1-3;1-3;1-3;0-1;Completed;Completed;Completed;Completed;4;3;5;4;2;5;4
