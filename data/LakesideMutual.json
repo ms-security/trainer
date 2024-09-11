@@ -1,0 +1,166 @@
+[   
+    {
+        "analysis": "Insufficient Access Control in customer-management-backend-1",
+        "smells": ["IAC"],
+        "description": "SecurityScheme not specified in customer-management-backend/src/main/resources/application.properties, potentially leading to unauthorized access."
+    },
+    {
+        "analysis": "Insufficient Access Control in customer-self-service-backend-1",
+        "smells": ["IAC"],
+        "description": "SecurityScheme not specified in customer-self-service-backend/src/main/resources/application.properties, potentially leading to unauthorized access."
+    },
+    {
+        "analysis": "Insufficient Access Control in policy-management-backend-1",
+        "smells": ["IAC"],
+        "description": "SecurityScheme not specified in policy-management-backend/src/main/resources/application.properties, potentially leading to unauthorized access."
+    },
+    {
+        "analysis": "Insufficient Access Control in spring-boot-admin-1",
+        "smells": ["IAC"],
+        "description": "SecurityScheme not specified in spring-boot-admin/src/main/resources/application.properties, potentially leading to unauthorized access."
+    },
+    {
+        "analysis": "Secrets in environment variables analysis",
+        "smells": ["HS"],
+        "description": "Detected secret in pod customer-management-backend-1, container customer-management-backend-0.0.1-SNAPSHOT.\nVariable: apikey.value contains an API key.\nreason: Hardcoded API key in customer-management-backend/src/main/resources/application.properties"
+    },
+    {
+        "analysis": "Secrets in environment variables analysis",
+        "smells": ["HS"],
+        "description": "Detected secret in pod customer-self-service-backend-1, container customer-self-service-backend-0.0.1-SNAPSHOT.\nVariable: apikey.value contains an API key.\nreason: Hardcoded API key in customer-self-service-backend/src/main/resources/application.properties"
+    },
+    {
+        "analysis": "Secrets in environment variables analysis",
+        "smells": ["HS"],
+        "description": "Detected secret in pod policy-management-backend-1, container policy-management-backend-0.0.1-SNAPSHOT.\nVariable: apikey.value contains an API key.\nreason: Hardcoded API key in policy-management-backend/src/main/resources/application.properties"
+    },
+    {
+        "analysis": "Secrets in environment variables analysis",
+        "smells": ["HS"],
+        "description": "Detected secret in pod risk-management-server-1, container risk-management-server-0.0.1.\nVariable: password contains a secret.\nreason: Hardcoded secrets in risk-management-server/config.json"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["NSC"],
+        "description": "Unencrypted traffic detected in pod customer-self-service-backend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["NSC"],
+        "description": "Unencrypted traffic detected in pod customer-self-service-frontend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["NSC"],
+        "description": "Unencrypted traffic detected in pod customer-management-backend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["NSC"],
+        "description": "Unencrypted traffic detected in pod customer-management-frontend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["NSC"],
+        "description": "Unencrypted traffic detected in pod policy-management-backend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["NSC"],
+        "description": "Unencrypted traffic detected in pod policy-management-frontend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["NSC"],
+        "description": "Unencrypted traffic detected in pod customer-core-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["NSC"],
+        "description": "Unencrypted traffic detected in pod spring-boot-admin-1"
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected customer-core-1 exposed through Port 8110."
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected customer-management-backend-1 exposed through Port 8100."
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected customer-management-frontend-1 exposed through Port 3020."
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected customer-self-service-backend-1 exposed through Port 8080."
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected customer-self-service-frontend-1 exposed through Port 3000."
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected policy-management-backend-1 exposed through Port 8090."
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected policy-management-frontend-1 exposed through Port 3010."
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected risk-management-server-1 exposed through Port 50051."
+    },
+    {
+        "analysis": "External-IP analysis",
+        "smells": ["PAM"],
+        "description": "External service detected spring-boot-admin-1 exposed through Port 9000."
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["UT"],
+        "description": "Unauthenticated traffic detected in pod customer-management-backend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["UT"],
+        "description": "Unauthenticated traffic detected in pod customer-management-frontend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["UT"],
+        "description": "Unauthenticated traffic detected in pod customer-self-service-backend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["UT"],
+        "description": "Unauthenticated traffic detected in pod customer-self-service-frontend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["UT"],
+        "description": "Unauthenticated traffic detected in pod policy-management-backend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["UT"],
+        "description": "Unauthenticated traffic detected in pod policy-management-frontend-1"
+    },
+    {
+        "analysis": "Traffic analysis",
+        "smells": ["UT"],
+        "description": "Unauthenticated traffic detected in pod spring-boot-admin-1"
+    }
+]
+
+
+
+
